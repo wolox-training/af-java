@@ -39,6 +39,21 @@ public class Book {
     @Column(nullable = false, unique = true)
     private String isbn;
 
+    public Book() {
+    }
+
+    public Book(String genre, String author, String image, String title, String subtitle, String publisher, String year, Integer page, String isbn) {
+        this.setGenre(genre);
+        this.setAuthor(author);
+        this.setImage(image);
+        this.setTitle(title);
+        this.setSubtitle(subtitle);
+        this.setPublisher(publisher);
+        this.setYear(year);
+        this.setPage(page);
+        this.setIsbn(isbn);
+    }
+
     private long getId() {
         return id;
     }
@@ -117,17 +132,5 @@ public class Book {
 
     private void setIsbn(String isbn) {
         this.isbn = isbn;
-    }
-
-    public Book(String genre, String author, String image, String title, String subtitle, String publisher, String year, Integer page, String isbn) {
-        this.setGenre(genre);
-        this.setAuthor(author);
-        this.setImage(image);
-        this.setTitle(title);
-        this.setSubtitle(subtitle);
-        this.setPublisher(publisher);
-        this.setYear(year);
-        this.setPage(page);
-        this.setIsbn(isbn);
     }
 }
