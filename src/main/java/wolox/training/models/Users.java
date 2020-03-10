@@ -30,8 +30,8 @@ public class Users {
     @Column(nullable = false)
     private LocalDate birthday;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "users_book",
+    @ManyToMany(mappedBy = "users", cascade = CascadeType.ALL)
+    @JoinTable(name = "users",
         joinColumns = @JoinColumn(name = "users_id", referencedColumnName = "id"),
         inverseJoinColumns = @JoinColumn(name = "book_id", referencedColumnName = "id"))
     private List<Book> books;
