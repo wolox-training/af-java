@@ -1,4 +1,5 @@
 package wolox.training.models;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -7,43 +8,45 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.SequenceGenerator;
 
 @Entity
 @Table(name="books")
 public class Book {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "BOOK_SEQ")
+    @SequenceGenerator(name = "BOOK_SEQ", sequenceName = "BOOK_SEQ")
     private long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String genre;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String author;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String image;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String title;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String subtitle;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String publisher;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String year;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private Integer page;
 
     @Column(nullable = false, unique = true)
     private String isbn;
 
     @ManyToMany(mappedBy = "books")
-    private List<Users> users;
+    private List<User> users;
 
     public Book() {
     }
@@ -58,6 +61,11 @@ public class Book {
         this.setYear(year);
         this.setPage(page);
         this.setIsbn(isbn);
+        this.setUsers(new ArrayList<>());
+    }
+
+    private List<User> getUsers() {
+        return users;
     }
 
     private long getId() {
@@ -100,10 +108,6 @@ public class Book {
         return isbn;
     }
 
-    private void setId(long id) {
-        this.id = id;
-    }
-
     private void setGenre(String genre) {
         this.genre = genre;
     }
@@ -138,5 +142,9 @@ public class Book {
 
     private void setIsbn(String isbn) {
         this.isbn = isbn;
+    }
+
+    private void setUsers(List<User> list) {
+        this.users = list;
     }
 }

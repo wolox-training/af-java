@@ -1,4 +1,5 @@
 package wolox.training.models;
+import java.util.ArrayList;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import wolox.training.errors.book.*;
 import java.time.LocalDate;
@@ -16,9 +18,10 @@ import java.util.List;
 
 @Entity
 @Table(name="users")
-public class Users {
+public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USERS_SEQ")
+    @SequenceGenerator(name = "USERS_SEQ", sequenceName = "USERS_SEQ")
     private long id;
 
     @Column(nullable = false, unique = true)
@@ -30,29 +33,27 @@ public class Users {
     @Column(nullable = false)
     private LocalDate birthday;
 
-    @ManyToMany(mappedBy = "users", cascade = CascadeType.ALL)
-    @JoinTable(name = "users",
-        joinColumns = @JoinColumn(name = "users_id", referencedColumnName = "id"),
-        inverseJoinColumns = @JoinColumn(name = "book_id", referencedColumnName = "id"))
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+        name = "books_users",
+        joinColumns = @JoinColumn(name = "book_id", referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id")
+    )
     private List<Book> books;
 
-    public Users() {
+    public User() {
         this.setBooks(null);
     }
 
-    public Users(String username, String name, LocalDate birthday) {
+    public User(String username, String name, LocalDate birthday) {
         this.setUsername(username);
         this.setName(name);
         this.setBirthday(birthday);
-        this.setBooks(null);
+        this.setBooks(new ArrayList<>());
     }
 
     private long getId() {
         return id;
-    }
-
-    private void setId(long id) {
-        this.id = id;
     }
 
     private String getUsername() {
@@ -79,8 +80,12 @@ public class Users {
         this.birthday = birthday;
     }
 
-    private List<Book> getBooks() {
+    public List<Book> getListBooks() {
         return (List<Book>) Collections.unmodifiableList(this.getBooks());
+    }
+
+    private List<Book> getBooks() {
+        return books;
     }
 
     private void setBooks(List<Book> books) {
