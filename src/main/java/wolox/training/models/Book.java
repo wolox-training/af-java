@@ -4,36 +4,38 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 
 
 @Entity
 public class Book {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "BOOK_SEQ")
+    @SequenceGenerator(name = "BOOK_SEQ", sequenceName = "BOOK_SEQ")
     private long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String genre;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String author;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String image;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String title;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String subtitle;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String publisher;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String year;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private Integer page;
 
     @Column(nullable = false, unique = true)
@@ -92,10 +94,6 @@ public class Book {
 
     private String getIsbn() {
         return isbn;
-    }
-
-    private void setId(long id) {
-        this.id = id;
     }
 
     private void setGenre(String genre) {
