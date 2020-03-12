@@ -5,7 +5,11 @@ import java.time.format.DateTimeFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import wolox.training.models.Book;
@@ -17,65 +21,51 @@ import wolox.training.repositories.UserRepository;
 @RequestMapping("/api/users")
 public class UserController {
 
-    DateTimeFormatter formatter_date = DateTimeFormatter.ofPattern("d/MM/yyyy");
-
     @Autowired
     private UserRepository userRepository;
     @Autowired
     private BookRepository bookRepository;
 
-    @GetMapping("/create")
-    public String create(@RequestParam(name="name", required=true) String name, @RequestParam(name="username", required=true) String username, @RequestParam(name="birthday", required=true)String birthday, Model model) {
-        User user = new User(name, username, LocalDate.parse(birthday, formatter_date));
-        userRepository.save(user);
-        model.addAttribute("name", user.getName());
-        return "greeting";
+    @PostMapping("/create")
+    public User create(@RequestBody User user) {
+        User new_user = new User(user.getName(), user.getUsername(), user.getBirthday());
+        userRepository.save(new_user);
+        return new_user;
     }
 
-    @GetMapping("/update")
-    public String update(@RequestParam (name="name", required=false) String name, @RequestParam(name="username", required=true) String username, @RequestParam(name="birthday", required=false)String birthday, Model model) {
-        User user = userRepository.findByUsername(username);
-        user.update(name, LocalDate.parse(birthday, formatter_date));
-        model.addAttribute("name", user.getName());
-        model.addAttribute("username", user.getUsername());
-        model.addAttribute("birthday", user.getBirthday());
-        userRepository.save(user);
+    @PutMapping("/update")
+    public User update(@RequestBody User user) {
+        User found_user = userRepository.findByUsername(user.getUsername());
+        user.update(user.getName(), user.getBirthday());
+        userRepository.save(found_user);
 
-        return "modified_user";
+        return found_user;
     }
 
-    @GetMapping("/delete")
-    public String delete(@RequestParam(name="username", required=true) String username, Model model) {
+    @DeleteMapping("/delete")
+    public User delete(@RequestParam(name="username", required=true) String username) {
         User user = userRepository.findByUsername(username);
         userRepository.delete(user);
-        model.addAttribute("username", user.getUsername());
-        return "deleted_user";
+        return user;
     }
 
     @GetMapping("/read")
-    public String read(@RequestParam(name="username", required=true) String username, Model model) {
-        User user = userRepository.findByUsername(username);
-        model.addAttribute("name", user.getName());
-        model.addAttribute("username", user.getUsername());
-        model.addAttribute("birthday", user.getBirthday().toString());
-        return "user_info";
+    public User read(@RequestParam(name="username", required=true) String username) {
+        return userRepository.findByUsername(username);
     }
 
     @GetMapping("/list_books")
-    public String list_book(@RequestParam(name="username", required=true) String username, Model model) {
-        User user = userRepository.findByUsername(username);
-        model.addAttribute("books", user.getListBooks());
-        return "user_books";
+    public User list_book(@RequestParam(name="username", required=true) String username, Model model) {
+        return userRepository.findByUsername(username);
     }
 
-    @GetMapping("/add_book")
-    public String add_book(@RequestParam(name="username", required=true) String username, @RequestParam(name="isbn", required=true) String isbn, Model model) {
-        Book book = bookRepository.findByIsbn(isbn);
-        User user = userRepository.findByUsername(username);
-        Exception message = user.addBookToUser(book);
-        model.addAttribute("message", message.getMessage());
-        userRepository.save(user);
-        bookRepository.save(book);
-        return "added_book";
+    @PutMapping("/add_book")
+    public User add_book(@RequestParam(name="username", required=true) String username, @RequestBody Book book) {
+        Book found_book = bookRepository.findByIsbn(book.getIsbn());
+        User found_user = userRepository.findByUsername(username);
+        Exception message = found_user.addBookToUser(found_book);
+        userRepository.save(found_user);
+        bookRepository.save(found_book);
+        return found_user;
     }
 }
