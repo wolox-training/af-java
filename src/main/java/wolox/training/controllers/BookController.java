@@ -2,7 +2,11 @@ package wolox.training.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import wolox.training.models.Book;
@@ -21,67 +25,32 @@ public class BookController {
         return "greeting";
     }
 
-    @GetMapping("/create")
-    public String create(@RequestParam(name="genre", required=true) String genre, @RequestParam(name="author", required=true) String author, @RequestParam(name="image", required=true)String image,
-        @RequestParam(name="title", required=true) String title, @RequestParam(name="subtitle", required=true) String subtitle, @RequestParam(name="publisher", required=true)String publisher,
-        @RequestParam(name="year", required=true) String year, @RequestParam(name="page", required=true) Integer page, @RequestParam(name="isbn", required=true)String isbn, Model model) {
-        Book book = new Book(genre, author, image, title, subtitle, publisher, year, page, isbn);
-        bookRepository.save(book);
-        model.addAttribute("genre", book.getGenre());
-        model.addAttribute("author", book.getAuthor());
-        model.addAttribute("image", book.getImage());
-        model.addAttribute("title", book.getTitle());
-        model.addAttribute("subtitle", book.getSubtitle());
-        model.addAttribute("publisher", book.getPublisher());
-        model.addAttribute("year", book.getYear());
-        model.addAttribute("page", book.getPage());
-        model.addAttribute("isbn", book.getIsbn());
-        return "created_book";
+    @PostMapping("/create")
+    public Book create(@RequestBody Book book, Model model) {
+        Book new_book = new Book(book.getGenre(), book.getAuthor(), book.getImage(), book.getTitle(), book.getSubtitle(), book.getPublisher(), book.getYear(), book.getPage(), book.getIsbn());
+        bookRepository.save(new_book);
+        return new_book;
     }
 
-    @GetMapping("/update")
-    public String update(@RequestParam(name="genre", required=false) String genre, @RequestParam(name="author", required=false) String author, @RequestParam(name="image", required=false)String image,
-        @RequestParam(name="title", required=false) String title, @RequestParam(name="subtitle", required=false) String subtitle, @RequestParam(name="publisher", required=false)String publisher,
-        @RequestParam(name="year", required=false) String year, @RequestParam(name="page", required=false) Integer page, @RequestParam(name="isbn", required=true)String isbn, Model model) {
-        Book book = bookRepository.findByIsbn(isbn);
-        book.update(genre, author, image, title, subtitle, publisher, year, page);
-        model.addAttribute("genre", book.getGenre());
-        model.addAttribute("author", book.getAuthor());
-        model.addAttribute("image", book.getImage());
-        model.addAttribute("title", book.getTitle());
-        model.addAttribute("subtitle", book.getSubtitle());
-        model.addAttribute("publisher", book.getPublisher());
-        model.addAttribute("year", book.getYear());
-        model.addAttribute("page", book.getPage());
-        model.addAttribute("isbn", book.getIsbn());
-        bookRepository.save(book);
+    @PutMapping("/update")
+    public Book update(@RequestBody Book book, Model model) {
+        Book found_book = bookRepository.findByIsbn(book.getIsbn());
+        found_book.update(book.getGenre(), book.getAuthor(), book.getImage(), book.getTitle(), book.getSubtitle(), book.getPublisher(), book.getYear(), book.getPage());
+        bookRepository.save(found_book);
 
-        return "modified_book";
+        return found_book;
     }
 
-    @GetMapping("/delete")
-    public String delete(@RequestParam(name="isbn", required=true) String isbn, Model model) {
+    @DeleteMapping("/delete")
+    public Book delete(@RequestParam(name="isbn", required=true) String isbn, Model model) {
         Book book = bookRepository.findByIsbn(isbn);
         bookRepository.delete(book);
-        model.addAttribute("isbn", book.getIsbn());
-        model.addAttribute("title", book.getTitle());
-        model.addAttribute("author", book.getAuthor());
-        model.addAttribute("publisher", book.getPublisher());
-        return "deleted_book";
+        return book;
     }
 
     @GetMapping("/read")
-    public String read(@RequestParam(name="isbn", required=true) String isbn, Model model) {
+    public Book read(@RequestParam(name="isbn", required=true) String isbn, Model model) {
         Book book = bookRepository.findByIsbn(isbn);
-        model.addAttribute("genre", book.getGenre());
-        model.addAttribute("author", book.getAuthor());
-        model.addAttribute("image", book.getImage());
-        model.addAttribute("title", book.getTitle());
-        model.addAttribute("subtitle", book.getSubtitle());
-        model.addAttribute("publisher", book.getPublisher());
-        model.addAttribute("year", book.getYear());
-        model.addAttribute("page", book.getPage());
-        model.addAttribute("isbn", book.getIsbn());
-        return "book_info";
+        return book;
     }
 }
