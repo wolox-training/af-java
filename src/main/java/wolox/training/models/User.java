@@ -101,7 +101,7 @@ public class User {
     }
 
     private Exception addBook(Book book){
-        if (this.getBooks().contains(book) == true)
+        if (!this.getBooks().contains(book))
             return new BookAddedToList();
         else
             return new BookAlreadyOwnedException();

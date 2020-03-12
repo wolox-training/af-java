@@ -19,6 +19,7 @@ public class UserController {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
     private BookRepository bookRepository;
 
     @GetMapping("/create")
@@ -70,7 +71,7 @@ public class UserController {
         Book book = bookRepository.findByIsbn(isbn);
         User user = userRepository.findByUsername(username);
         Exception message = user.addBookToUser(book);
-        model.addAttribute("message", message);
+        model.addAttribute("message", message.getMessage());
         return "added_book";
     }
 }
