@@ -158,4 +158,8 @@ public class Book {
         this.setYear(year);
         this.setPage(page);
     }
+
+    public void add_user(User user){
+        this.getUsers().add(user);
+    }
 }

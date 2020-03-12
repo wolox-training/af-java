@@ -74,6 +74,8 @@ public class UserController {
         User user = userRepository.findByUsername(username);
         Exception message = user.addBookToUser(book);
         model.addAttribute("message", message.getMessage());
+        userRepository.save(user);
+        bookRepository.save(book);
         return "added_book";
     }
 }
