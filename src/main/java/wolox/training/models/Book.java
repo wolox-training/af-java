@@ -64,47 +64,47 @@ public class Book {
         this.setUsers(new ArrayList<>());
     }
 
-    private List<User> getUsers() {
+    public List<User> getUsers() {
         return users;
     }
 
-    private long getId() {
+    public long getId() {
         return id;
     }
 
-    private String getGenre() {
+    public String getGenre() {
         return genre;
     }
 
-    private String getAuthor() {
+    public String getAuthor() {
         return author;
     }
 
-    private String getImage() {
+    public String getImage() {
         return image;
     }
 
-    private String getTitle() {
+    public String getTitle() {
         return title;
     }
 
-    private String getSubtitle() {
+    public String getSubtitle() {
         return subtitle;
     }
 
-    private String getPublisher() {
+    public String getPublisher() {
         return publisher;
     }
 
-    private String getYear() {
+    public String getYear() {
         return year;
     }
 
-    private Integer getPage() {
+    public Integer getPage() {
         return page;
     }
 
-    private String getIsbn() {
+    public String getIsbn() {
         return isbn;
     }
 
@@ -146,5 +146,16 @@ public class Book {
 
     private void setUsers(List<User> list) {
         this.users = list;
+    }
+
+    public void update (String genre, String author, String image, String title, String subtitle, String publisher, String year, Integer page){
+        this.setGenre(genre);
+        this.setAuthor(author);
+        this.setImage(image);
+        this.setTitle(title);
+        this.setSubtitle(subtitle);
+        this.setPublisher(publisher);
+        this.setYear(year);
+        this.setPage(page);
     }
 }
