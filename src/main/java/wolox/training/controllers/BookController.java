@@ -1,4 +1,5 @@
 package wolox.training.controllers;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,6 +9,7 @@ import wolox.training.models.Book;
 import wolox.training.repositories.BookRepository;
 
 @Controller
+@Api
 public class BookController {
 
     @Autowired
