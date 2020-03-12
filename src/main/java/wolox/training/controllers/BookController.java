@@ -3,11 +3,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import wolox.training.models.Book;
 import wolox.training.repositories.BookRepository;
 
 @Controller
+@RequestMapping("/api/books")
 public class BookController {
 
     @Autowired
@@ -19,7 +21,7 @@ public class BookController {
         return "greeting";
     }
 
-    @GetMapping("/create_book")
+    @GetMapping("/create")
     public String create(@RequestParam(name="genre", required=true) String genre, @RequestParam(name="author", required=true) String author, @RequestParam(name="image", required=true)String image,
         @RequestParam(name="title", required=true) String title, @RequestParam(name="subtitle", required=true) String subtitle, @RequestParam(name="publisher", required=true)String publisher,
         @RequestParam(name="year", required=true) String year, @RequestParam(name="page", required=true) Integer page, @RequestParam(name="isbn", required=true)String isbn, Model model) {
@@ -37,7 +39,7 @@ public class BookController {
         return "created_book";
     }
 
-    @GetMapping("/update_book")
+    @GetMapping("/update")
     public String update(@RequestParam(name="genre", required=false) String genre, @RequestParam(name="author", required=false) String author, @RequestParam(name="image", required=false)String image,
         @RequestParam(name="title", required=false) String title, @RequestParam(name="subtitle", required=false) String subtitle, @RequestParam(name="publisher", required=false)String publisher,
         @RequestParam(name="year", required=false) String year, @RequestParam(name="page", required=false) Integer page, @RequestParam(name="isbn", required=true)String isbn, Model model) {
@@ -57,7 +59,7 @@ public class BookController {
         return "modified_book";
     }
 
-    @GetMapping("/delete_book")
+    @GetMapping("/delete")
     public String delete(@RequestParam(name="isbn", required=true) String isbn, Model model) {
         Book book = bookRepository.findByIsbn(isbn);
         bookRepository.delete(book);
@@ -68,7 +70,7 @@ public class BookController {
         return "deleted_book";
     }
 
-    @GetMapping("/read_book")
+    @GetMapping("/read")
     public String read(@RequestParam(name="isbn", required=true) String isbn, Model model) {
         Book book = bookRepository.findByIsbn(isbn);
         model.addAttribute("genre", book.getGenre());
