@@ -34,9 +34,11 @@ public class UserController {
         User user = userRepository.findByUsername(username);
         user.update(name, LocalDate.parse(birthday, formatter_date));
         model.addAttribute("name", user.getName());
+        model.addAttribute("username", user.getUsername());
+        model.addAttribute("birthday", user.getBirthday());
         userRepository.save(user);
 
-        return "greeting";
+        return "modified_user";
     }
 
     @GetMapping("/delete")
@@ -44,7 +46,7 @@ public class UserController {
         User user = userRepository.findByUsername(username);
         userRepository.delete(user);
         model.addAttribute("username", user.getUsername());
-        return "user_delete";
+        return "deleted_user";
     }
 
     @GetMapping("/read")
@@ -67,8 +69,8 @@ public class UserController {
     public String add_book_to_user(@RequestParam(name="username", required=true) String username, @RequestParam(name="isbn", required=true) String isbn, Model model) {
         Book book = bookRepository.findByIsbn(isbn);
         User user = userRepository.findByUsername(username);
-        user.addBookToUser(book);
-        model.addAttribute("book_title", book.getTitle());
+        Exception message = user.addBookToUser(book);
+        model.addAttribute("message", message);
         return "added_book";
     }
 }

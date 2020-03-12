@@ -7,4 +7,5 @@ import wolox.training.models.Book;
 public interface BookRepository extends Repository<Book, Long> {
     List<Book> findByAuthor(String author);
     Book findByIsbn(String isbn);
+    Book findById(long id);
 }
