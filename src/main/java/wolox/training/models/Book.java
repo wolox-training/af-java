@@ -147,4 +147,15 @@ public class Book {
     private void setUsers(List<User> list) {
         this.users = list;
     }
+
+    public void update (String genre, String author, String image, String title, String subtitle, String publisher, String year, Integer page){
+        this.setGenre(genre);
+        this.setAuthor(author);
+        this.setImage(image);
+        this.setTitle(title);
+        this.setSubtitle(subtitle);
+        this.setPublisher(publisher);
+        this.setYear(year);
+        this.setPage(page);
+    }
 }
