@@ -1,4 +1,5 @@
 package wolox.training.models;
+import com.sun.xml.bind.v2.model.core.ID;
 import java.util.ArrayList;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -11,6 +12,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import org.springframework.beans.factory.annotation.Autowired;
 import wolox.training.errors.book.*;
 import java.time.LocalDate;
 import java.util.Collections;
@@ -41,22 +43,24 @@ public class User {
     )
     private List<Book> books;
 
+    @Autowired
     public User() {
         this.setBooks(null);
     }
 
-    public User(String username, String name, LocalDate birthday) {
+    @Autowired
+    public User(String name, String username, LocalDate birthday) {
         this.setUsername(username);
         this.setName(name);
         this.setBirthday(birthday);
         this.setBooks(new ArrayList<>());
     }
 
-    private long getId() {
+    public long getId() {
         return id;
     }
 
-    private String getUsername() {
+    public String getUsername() {
         return username;
     }
 
@@ -64,7 +68,7 @@ public class User {
         this.username = username;
     }
 
-    private String getName() {
+    public String getName() {
         return name;
     }
 
@@ -72,7 +76,7 @@ public class User {
         this.name = name;
     }
 
-    private LocalDate getBirthday() {
+    public LocalDate getBirthday() {
         return birthday;
     }
 
@@ -103,4 +107,8 @@ public class User {
             return new BookAlreadyOwnedException();
     }
 
+    public void update(String name, LocalDate birthday){
+        this.setName(name);
+        this.setBirthday(birthday);
+    }
 }

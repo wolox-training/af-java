@@ -64,47 +64,47 @@ public class Book {
         this.setUsers(new ArrayList<>());
     }
 
-    private List<User> getUsers() {
+    public List<User> getUsers() {
         return users;
     }
 
-    private long getId() {
+    public long getId() {
         return id;
     }
 
-    private String getGenre() {
+    public String getGenre() {
         return genre;
     }
 
-    private String getAuthor() {
+    public String getAuthor() {
         return author;
     }
 
-    private String getImage() {
+    public String getImage() {
         return image;
     }
 
-    private String getTitle() {
+    public String getTitle() {
         return title;
     }
 
-    private String getSubtitle() {
+    public String getSubtitle() {
         return subtitle;
     }
 
-    private String getPublisher() {
+    public String getPublisher() {
         return publisher;
     }
 
-    private String getYear() {
+    public String getYear() {
         return year;
     }
 
-    private Integer getPage() {
+    public Integer getPage() {
         return page;
     }
 
-    private String getIsbn() {
+    public String getIsbn() {
         return isbn;
     }
 
