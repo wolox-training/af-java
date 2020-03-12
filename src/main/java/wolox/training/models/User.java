@@ -101,10 +101,13 @@ public class User {
     }
 
     private Exception addBook(Book book){
-        if (!this.getBooks().contains(book))
+        if (!this.getBooks().contains(book)) {
+            this.getBooks().add(book);
+            book.add_user(this);
             return new BookAddedToList();
-        else
+        }else {
             return new BookAlreadyOwnedException();
+        }
     }
 
     public void update(String name, LocalDate birthday){

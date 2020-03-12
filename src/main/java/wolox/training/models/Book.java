@@ -1,4 +1,6 @@
 package wolox.training.models;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
@@ -12,18 +14,22 @@ import javax.persistence.SequenceGenerator;
 
 @Entity
 @Table(name="books")
+@ApiModel(description = "Books from my API")
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "BOOK_SEQ")
     @SequenceGenerator(name = "BOOK_SEQ", sequenceName = "BOOK_SEQ")
     private long id;
 
+    @ApiModelProperty(notes = "The book genre: could be horror, comedy, drama, etc")
     @Column(nullable = false)
     private String genre;
 
+    @ApiModelProperty(notes = "The book author: this is the author of the book")
     @Column(nullable = false)
     private String author;
 
+    @ApiModelProperty(notes = "The book image: this is the image the book")
     @Column(nullable = false)
     private String image;
 
@@ -42,6 +48,7 @@ public class Book {
     @Column(nullable = false)
     private Integer page;
 
+    @ApiModelProperty(notes = "The book isbn: this is the book identificator")
     @Column(nullable = false, unique = true)
     private String isbn;
 
@@ -157,5 +164,9 @@ public class Book {
         this.setPublisher(publisher);
         this.setYear(year);
         this.setPage(page);
+    }
+
+    public void add_user(User user){
+        this.getUsers().add(user);
     }
 }
