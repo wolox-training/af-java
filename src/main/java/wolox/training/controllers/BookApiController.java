@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import wolox.training.errors.book.BookNotFoundException;
 import wolox.training.models.Book;
 import wolox.training.repositories.BookRepository;
 
+
 @Controller
 @RequestMapping("/api/books")
-public class BookController {
+public class BookApiController extends ApiController {
 
     @Autowired
     private BookRepository bookRepository;
@@ -39,7 +39,7 @@ public class BookController {
 
     @PutMapping("/{isbn}")
     public Book update(@RequestBody Book book, @PathVariable String isbn) {
-        Book found_book = found_book(isbn);
+        Book found_book = found_book(isbn, bookRepository);
         found_book.update(book.getGenre(), book.getAuthor(), book.getImage(), book.getTitle(),
             book.getSubtitle(), book.getPublisher(), book.getYear(), book.getPage());
         return bookRepository.save(found_book);
@@ -47,21 +47,11 @@ public class BookController {
 
     @DeleteMapping("/{isbn}")
     public void delete(@PathVariable String isbn) {
-        bookRepository.delete(found_book(isbn));
+        bookRepository.delete(found_book(isbn, bookRepository));
     }
 
     @GetMapping("/{isbn}")
     public Book read(@PathVariable String isbn) {
-        return found_book(isbn);
-    }
-
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    private Book found_book(String isbn){
-        Book book = bookRepository.findByIsbn(isbn);
-        if (book == null){
-            throw new BookNotFoundException("Book not found");
-        }else{
-            return book;
-        }
+        return found_book(isbn, bookRepository);
     }
 }
