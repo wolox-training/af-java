@@ -33,12 +33,7 @@ public class User {
     @Column(nullable = false)
     private LocalDate birthday;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-        name = "books_users",
-        joinColumns = @JoinColumn(name = "book_id", referencedColumnName = "id"),
-        inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id")
-    )
+    @ManyToMany(cascade = {CascadeType.REFRESH, CascadeType.MERGE})
     private List<Book> books;
 
     public User() {
@@ -92,15 +87,16 @@ public class User {
         this.books = books;
     }
 
-    public Exception addBookToUser(Book book){
-        return this.addBook(book);
+    public void addBookToUser(Book book) throws Exception{
+        this.addBook(book);
     }
 
-    private Exception addBook(Book book){
-        if (this.getBooks().contains(book) == true)
-            return new BookAddedToList();
-        else
-            return new BookAlreadyOwnedException();
+    private void addBook(Book book) throws Exception {
+        if (this.getBooks().contains(book) == true) {
+            this.getBooks().add(book);
+            throw new BookAddedToList();
+        }else {
+            throw new BookAlreadyOwnedException();
+        }
     }
-
 }
