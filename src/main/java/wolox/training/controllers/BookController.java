@@ -37,22 +37,22 @@ public class BookController {
         return new_book;
     }
 
-    @PutMapping("/{isbn}")
-    public Book update(@RequestBody Book book, @PathVariable String isbn) {
-        Book found_book = found_book(isbn);
+    @PutMapping("/update")
+    public Book update(@RequestBody Book book) {
+        Book found_book = found_book(book.getIsbn());
         found_book.update(book.getGenre(), book.getAuthor(), book.getImage(), book.getTitle(),
             book.getSubtitle(), book.getPublisher(), book.getYear(), book.getPage());
         return bookRepository.save(found_book);
     }
 
-    @DeleteMapping("/{isbn}")
-    public void delete(@PathVariable String isbn) {
-        bookRepository.delete(found_book(isbn));
+    @DeleteMapping("/delete")
+    public void delete(@RequestBody Book book) {
+        bookRepository.delete(found_book(book.getIsbn()));
     }
 
-    @GetMapping("/{isbn}")
-    public Book read(@PathVariable String isbn) {
-        return found_book(isbn);
+    @GetMapping("/details")
+    public Book read(@RequestBody Book book) {
+        return found_book(book.getIsbn());
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
