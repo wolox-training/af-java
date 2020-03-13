@@ -1,5 +1,6 @@
 package wolox.training.controllers;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -32,6 +33,7 @@ public class BookApiController extends ApiController {
     }
 
     @PostMapping("/create")
+    @ApiOperation(value = "Given a book, create one, and return the book.", response = Book.class)
     @ResponseStatus(HttpStatus.CREATED)
     public Book create(@RequestBody Book book, Model model) {
         Book new_book = new Book(book.getGenre(), book.getAuthor(), book.getImage(), book.getTitle(), book.getSubtitle(), book.getPublisher(), book.getYear(), book.getPage(), book.getIsbn());
@@ -40,6 +42,7 @@ public class BookApiController extends ApiController {
     }
 
     @PutMapping("/{isbn}")
+    @ApiOperation(value = "Given the isbn of the book, you can update the book, and return the book.", response = Book.class)
     public Book update(@RequestBody Book book, @PathVariable String isbn) {
         Book found_book = found_book(isbn, bookRepository);
         found_book.update(book.getGenre(), book.getAuthor(), book.getImage(), book.getTitle(),
@@ -48,11 +51,13 @@ public class BookApiController extends ApiController {
     }
 
     @DeleteMapping("/{isbn}")
+    @ApiOperation(value = "Given the isbn of the book, you delete the book, and return void", response = void.class)
     public void delete(@PathVariable String isbn) {
         bookRepository.delete(found_book(isbn, bookRepository));
     }
 
     @GetMapping("/{isbn}")
+    @ApiOperation(value = "Given the isbn of the book, return the book asked", response = Book.class)
     public Book read(@PathVariable String isbn) {
         return found_book(isbn, bookRepository);
     }
