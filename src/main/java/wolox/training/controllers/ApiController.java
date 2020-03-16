@@ -11,11 +11,10 @@ import wolox.training.repositories.UserRepository;
 
 public abstract class ApiController {
 
-    @ResponseStatus(HttpStatus.NOT_FOUND)
     protected Book found_book(String isbn, BookRepository bookRepository){
         Book book = bookRepository.findByIsbn(isbn);
         if (book == null){
-            throw new BookNotFoundException("Book not found");
+            throw new BookNotFoundException();
         }else{
             return book;
         }
@@ -25,7 +24,7 @@ public abstract class ApiController {
     protected User found_user(String username, UserRepository userRepository){
         User user = userRepository.findByUsername(username);
         if (user == null){
-            throw new UserNotFoundException("User not found");
+            throw new UserNotFoundException();
         }else{
             return user;
         }
