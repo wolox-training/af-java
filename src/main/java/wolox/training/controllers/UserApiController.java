@@ -3,15 +3,7 @@ import io.swagger.annotations.ApiOperation;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import wolox.training.models.Book;
 import wolox.training.models.User;
 import wolox.training.repositories.BookRepository;
@@ -26,7 +18,7 @@ public class UserApiController extends ApiController {
     @Autowired
     private BookRepository bookRepository;
 
-    @PostMapping("/create")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @ApiOperation(value = "Given a user, create one, and return the user.", response = User.class)
     public User create(@RequestBody User user) {
@@ -35,7 +27,8 @@ public class UserApiController extends ApiController {
         return new_user;
     }
 
-    @PutMapping("/update")
+
+    @PutMapping
     @ApiOperation(value = "Given the username of a user, you can update the user, and return the user.", response = User.class)
     public User update(@RequestBody User user) {
         User found_user = found_user(user.getUsername(), userRepository);
@@ -45,29 +38,31 @@ public class UserApiController extends ApiController {
         return found_user;
     }
 
-    @DeleteMapping("/delete")
-    public void delete(@RequestBody User user) {
-        User found_user = found_user(user.getUsername(), userRepository);
-        userRepository.delete(found_user);
+    @DeleteMapping
+    @ApiOperation(value = "Given the username of a user, you delete the user, and return void", response = void.class)
+    public void delete(@RequestParam(name="username", required=true) String username) {
+        userRepository.delete(found_user(username, userRepository));
     }
 
-    @GetMapping("/details")
-    public User read(@RequestBody User user) {
-        return found_user(user.getUsername(), userRepository);
+    @GetMapping("{username}")
+    @ApiOperation(value = "Given the username of a user, return the user asked", response = User.class)
+    public User read(@PathVariable String username) {
+        return found_user(username, userRepository);
     }
 
-    @GetMapping("/list_books")
-    public List<Book> list_book(@RequestBody User user) {
-        return found_user(user.getUsername(), userRepository).getListBooks();
+    @GetMapping("/list_books/{username}")
+    @ApiOperation(value = "Given the username of a user, return a book list of the user", response = Book.class)
+    public List<Book> list_book(@PathVariable String username) {
+        return found_user(username, userRepository).getListBooks();
     }
 
     @PutMapping("/add_book")
-    public User add_book(@RequestBody User user, @RequestBody Book book) {
-        Book found_book = found_book(book.getIsbn(), bookRepository);
-        User found_user = found_user(user.getUsername(), userRepository);
-        Exception message = found_user.addBookToUser(found_book);
+    @ApiOperation(value = "Given the username of a user and the isbn of a book, the book is added to user, return the user", response = void.class)
+    public User add_book(@RequestParam(name="username", required=true) String username,
+                         @RequestParam(name="isbn", required=true) String isbn) {
+        User found_user = found_user(username, userRepository);
+        found_user.addBookToUser(found_book(isbn, bookRepository));
         userRepository.save(found_user);
-        bookRepository.save(found_book);
         return found_user;
     }
 }
