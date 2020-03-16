@@ -159,7 +159,4 @@ public class Book {
         this.setPage(page);
     }
 
-    public void add_user(User user){
-        this.getUsers().add(user);
-    }
 }

@@ -14,6 +14,8 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import org.springframework.beans.factory.annotation.Autowired;
 import wolox.training.errors.book.*;
+import wolox.training.errors.user.UserHttpErrors;
+
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
@@ -43,12 +45,10 @@ public class User {
     )
     private List<Book> books;
 
-    @Autowired
     public User() {
         this.setBooks(null);
     }
 
-    @Autowired
     public User(String name, String username, LocalDate birthday) {
         this.setUsername(username);
         this.setName(name);
@@ -96,17 +96,11 @@ public class User {
         this.books = books;
     }
 
-    public Exception addBookToUser(Book book){
-        return this.addBook(book);
-    }
-
-    private Exception addBook(Book book){
+    public void addBookToUser(Book book){
         if (!this.getBooks().contains(book)) {
             this.getBooks().add(book);
-            book.add_user(this);
-            return new BookAddedToList();
         }else {
-            return new BookAlreadyOwnedException();
+            new UserHttpErrors("The book already exists").BookAlreadyOwnedException();
         }
     }
 
