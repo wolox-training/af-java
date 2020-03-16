@@ -29,7 +29,7 @@ public class BookController {
         return "greeting";
     }
 
-    @PostMapping("/create")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Book create(@RequestBody Book book, Model model) {
         Book new_book = new Book(book.getGenre(), book.getAuthor(), book.getImage(), book.getTitle(), book.getSubtitle(), book.getPublisher(), book.getYear(), book.getPage(), book.getIsbn());
@@ -37,7 +37,7 @@ public class BookController {
         return new_book;
     }
 
-    @PutMapping("/update")
+    @PutMapping
     public Book update(@RequestBody Book book) {
         Book found_book = found_book(book.getIsbn());
         found_book.update(book.getGenre(), book.getAuthor(), book.getImage(), book.getTitle(),
@@ -45,21 +45,20 @@ public class BookController {
         return bookRepository.save(found_book);
     }
 
-    @DeleteMapping("/delete")
-    public void delete(@RequestBody Book book) {
-        bookRepository.delete(found_book(book.getIsbn()));
+    @DeleteMapping
+    public void delete(@RequestParam(name="isbn", required=true) String isbn) {
+        bookRepository.delete(found_book(isbn));
     }
 
-    @GetMapping("/details")
-    public Book read(@RequestBody Book book) {
-        return found_book(book.getIsbn());
+    @GetMapping("{isbn}")
+    public Book read(@PathVariable String isbn) {
+        return found_book(isbn);
     }
 
-    @ResponseStatus(HttpStatus.NOT_FOUND)
     private Book found_book(String isbn){
         Book book = bookRepository.findByIsbn(isbn);
         if (book == null){
-            throw new BookNotFoundException("Book not found");
+            throw new BookNotFoundException();
         }else{
             return book;
         }

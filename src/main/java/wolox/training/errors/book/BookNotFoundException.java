@@ -4,7 +4,7 @@ import org.springframework.http.HttpStatus;
 
 public class BookNotFoundException extends RuntimeException {
 
-    public BookNotFoundException(String message) {
-        super(message);
+    public BookNotFoundException() {
+        super("Book not found");
     }
 }
