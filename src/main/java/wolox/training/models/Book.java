@@ -61,15 +61,15 @@ public class Book {
     }
 
     public Book(String genre, String author, String image, String title, String subtitle, String publisher, String year, Integer page, String isbn) {
-        this.setGenre(checkNotNull(genre));
-        this.setAuthor(checkNotNull(author));
-        this.setImage(checkNotNull(image));
-        this.setTitle(checkNotNull(title));
-        this.setSubtitle(checkNotNull(subtitle));
-        this.setPublisher(checkNotNull(publisher));
-        this.setYear(checkNotNull(year));
-        this.setPage(checkNotNull(page));
-        this.setIsbn(checkNotNull(isbn));
+        this.setGenre(genre);
+        this.setAuthor(author);
+        this.setImage(image);
+        this.setTitle(title);
+        this.setSubtitle(subtitle);
+        this.setPublisher(publisher);
+        this.setYear(year);
+        this.setPage(page);
+        this.setIsbn(isbn);
         this.setUsers(new ArrayList<>());
     }
 
@@ -118,39 +118,39 @@ public class Book {
     }
 
     private void setGenre(String genre) {
-        this.genre = genre;
+        this.genre = checkNotNull(genre);
     }
 
     private void setAuthor(String author) {
-        this.author = author;
+        this.author = checkNotNull(author);
     }
 
     private void setImage(String image) {
-        this.image = image;
+        this.image = checkNotNull(image);
     }
 
     private void setTitle(String title) {
-        this.title = title;
+        this.title = checkNotNull(title);
     }
 
     private void setSubtitle(String subtitle) {
-        this.subtitle = subtitle;
+        this.subtitle = checkNotNull(subtitle);
     }
 
     private void setPublisher(String publisher) {
-        this.publisher = publisher;
+        this.publisher = checkNotNull(publisher);
     }
 
     private void setYear(String year) {
-        this.year = year;
+        this.year = checkNotNull(year);
     }
 
     private void setPage(Integer page) {
-        this.page = page;
+        this.page = checkNotNull(page);
     }
 
     private void setIsbn(String isbn) {
-        this.isbn = isbn;
+        this.isbn = checkNotNull(isbn);
     }
 
     private void setUsers(List<User> list) {

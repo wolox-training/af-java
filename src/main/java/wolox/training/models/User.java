@@ -51,9 +51,9 @@ public class User {
     }
 
     public User(String name, String username, LocalDate birthday) {
-        this.setUsername(checkNotNull(username));
-        this.setName(checkNotNull(name));
-        this.setBirthday(checkNotNull(birthday));
+        this.setUsername(username);
+        this.setName(name);
+        this.setBirthday(birthday);
         this.setBooks(new ArrayList<>());
     }
 
@@ -66,7 +66,7 @@ public class User {
     }
 
     private void setUsername(String username) {
-        this.username = username;
+        this.username = checkNotNull(username);
     }
 
     public String getName() {
@@ -74,7 +74,7 @@ public class User {
     }
 
     private void setName(String name) {
-        this.name = name;
+        this.name = checkNotNull(name);
     }
 
     public LocalDate getBirthday() {
@@ -82,7 +82,7 @@ public class User {
     }
 
     private void setBirthday(LocalDate birthday) {
-        this.birthday = birthday;
+        this.birthday = checkNotNull(birthday);
     }
 
     public List<Book> getListBooks() {
