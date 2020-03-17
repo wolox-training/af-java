@@ -1,5 +1,4 @@
 package wolox.training.models;
-import com.sun.xml.bind.v2.model.core.ID;
 import java.util.ArrayList;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -12,8 +11,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import org.springframework.beans.factory.annotation.Autowired;
-import wolox.training.errors.book.*;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import wolox.training.errors.user.UserHttpErrors;
 
 import java.time.LocalDate;
@@ -22,6 +21,7 @@ import java.util.List;
 
 @Entity
 @Table(name="users")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USERS_SEQ")
