@@ -1,4 +1,6 @@
 package wolox.training.models;
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import java.util.ArrayList;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -14,7 +16,6 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import wolox.training.errors.user.UserHttpErrors;
-
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
@@ -50,9 +51,9 @@ public class User {
     }
 
     public User(String name, String username, LocalDate birthday) {
-        this.setUsername(username);
-        this.setName(name);
-        this.setBirthday(birthday);
+        this.setUsername(checkNotNull(username));
+        this.setName(checkNotNull(name));
+        this.setBirthday(checkNotNull(birthday));
         this.setBooks(new ArrayList<>());
     }
 

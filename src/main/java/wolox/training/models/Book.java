@@ -1,4 +1,6 @@
 package wolox.training.models;
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
@@ -59,15 +61,15 @@ public class Book {
     }
 
     public Book(String genre, String author, String image, String title, String subtitle, String publisher, String year, Integer page, String isbn) {
-        this.setGenre(genre);
-        this.setAuthor(author);
-        this.setImage(image);
-        this.setTitle(title);
-        this.setSubtitle(subtitle);
-        this.setPublisher(publisher);
-        this.setYear(year);
-        this.setPage(page);
-        this.setIsbn(isbn);
+        this.setGenre(checkNotNull(genre));
+        this.setAuthor(checkNotNull(author));
+        this.setImage(checkNotNull(image));
+        this.setTitle(checkNotNull(title));
+        this.setSubtitle(checkNotNull(subtitle));
+        this.setPublisher(checkNotNull(publisher));
+        this.setYear(checkNotNull(year));
+        this.setPage(checkNotNull(page));
+        this.setIsbn(checkNotNull(isbn));
         this.setUsers(new ArrayList<>());
     }
 
