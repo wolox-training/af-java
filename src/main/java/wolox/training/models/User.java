@@ -37,7 +37,6 @@ public class User {
     private LocalDate birthday;
 
     @ManyToMany(cascade = {CascadeType.REFRESH, CascadeType.MERGE})
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     private List<Book> books = new ArrayList<>();;
 
     public User() {
