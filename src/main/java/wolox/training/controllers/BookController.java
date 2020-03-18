@@ -51,7 +51,7 @@ public class BookController {
         bookRepository.delete(found_book(isbn));
     }
 
-    @GetMapping("{isbn}")
+    @GetMapping("/{isbn}")
     public Book read(@PathVariable String isbn) {
         return found_book(isbn);
     }
