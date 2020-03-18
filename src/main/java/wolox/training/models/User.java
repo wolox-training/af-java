@@ -44,17 +44,15 @@ public class User {
         joinColumns = @JoinColumn(name = "book_id", referencedColumnName = "id"),
         inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id")
     )
-    private List<Book> books;
+    private List<Book> books = new ArrayList<>();
 
     public User() {
-        this.setBooks(null);
     }
 
     public User(String name, String username, LocalDate birthday) {
         this.setUsername(username);
         this.setName(name);
         this.setBirthday(birthday);
-        this.setBooks(new ArrayList<>());
     }
 
     public long getId() {

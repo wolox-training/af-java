@@ -55,7 +55,7 @@ public class Book {
     private String isbn;
 
     @ManyToMany(mappedBy = "books")
-    private List<User> users;
+    private List<User> users = new ArrayList<>();
 
     public Book() {
     }
@@ -70,7 +70,6 @@ public class Book {
         this.setYear(year);
         this.setPage(page);
         this.setIsbn(isbn);
-        this.setUsers(new ArrayList<>());
     }
 
     public List<User> getUsers() {

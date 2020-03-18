@@ -22,20 +22,20 @@ public class UserApiController extends ApiController {
     @ResponseStatus(HttpStatus.CREATED)
     @ApiOperation(value = "Given a user, create one, and return the user.", response = User.class)
     public User create(@RequestBody User user) {
-        User new_user = new User(user.getName(), user.getUsername(), user.getBirthday());
-        userRepository.save(new_user);
-        return new_user;
+        User newUser = new User(user.getName(), user.getUsername(), user.getBirthday());
+        userRepository.save(newUser);
+        return newUser;
     }
 
 
     @PutMapping
     @ApiOperation(value = "Given the username of a user, you can update the user, and return the user.", response = User.class)
     public User update(@RequestBody User user) {
-        User found_user = found_user(user.getUsername(), userRepository);
-        found_user.update(user.getName(), user.getBirthday());
-        userRepository.save(found_user);
+        User userFound = found_user(user.getUsername(), userRepository);
+        userFound.update(user.getName(), user.getBirthday());
+        userRepository.save(userFound);
 
-        return found_user;
+        return userFound;
     }
 
     @DeleteMapping
@@ -60,9 +60,9 @@ public class UserApiController extends ApiController {
     @ApiOperation(value = "Given the username of a user and the isbn of a book, the book is added to user, return the user", response = void.class)
     public User add_book(@RequestParam(name="username", required=true) String username,
                          @RequestParam(name="isbn", required=true) String isbn) {
-        User found_user = found_user(username, userRepository);
-        found_user.addBookToUser(found_book(isbn, bookRepository));
-        userRepository.save(found_user);
-        return found_user;
+        User userFound = found_user(username, userRepository);
+        userFound.addBookToUser(found_book(isbn, bookRepository));
+        userRepository.save(userFound);
+        return userFound;
     }
 }
