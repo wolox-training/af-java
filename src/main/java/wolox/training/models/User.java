@@ -6,8 +6,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -37,12 +35,8 @@ public class User {
     @Column(nullable = false)
     private LocalDate birthday;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-        name = "books_users",
-        joinColumns = @JoinColumn(name = "book_id", referencedColumnName = "id"),
-        inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id")
-    )
+    @ManyToMany(cascade = {CascadeType.REFRESH, CascadeType.MERGE})
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     private List<Book> books;
 
     public User() {
