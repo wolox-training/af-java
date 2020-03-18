@@ -11,9 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import wolox.training.errors.book.*;
 import java.time.LocalDate;
 import java.util.Collections;
@@ -38,7 +35,6 @@ public class User {
     private LocalDate birthday;
 
     @ManyToMany(cascade = {CascadeType.REFRESH, CascadeType.MERGE})
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     private List<Book> books;
 
     public User() {
