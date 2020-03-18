@@ -39,7 +39,7 @@ public class UserApiController extends ApiController {
         userRepository.delete(found_user(username, userRepository));
     }
 
-    @GetMapping("{username}")
+    @GetMapping("/{username}")
     public User read(@PathVariable String username) {
         return found_user(username, userRepository);
     }
