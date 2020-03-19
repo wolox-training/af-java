@@ -1,4 +1,6 @@
 package wolox.training.models;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import java.util.ArrayList;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -9,10 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import wolox.training.errors.user.UserHttpErrors;
-
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;

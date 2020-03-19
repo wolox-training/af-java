@@ -11,7 +11,7 @@ import wolox.training.repositories.UserRepository;
 
 public abstract class ApiController {
 
-    protected Book found_book(String isbn, BookRepository bookRepository){
+    protected Book foundBook(String isbn, BookRepository bookRepository){
         Book book = bookRepository.findByIsbn(isbn);
         if (book == null){
             new BookHttpErrors("Book Not Found").bookNotFound();
@@ -20,7 +20,7 @@ public abstract class ApiController {
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    protected User found_user(String username, UserRepository userRepository){
+    protected User foundUser(String username, UserRepository userRepository){
         User user = userRepository.findByUsername(username);
         if (user == null){
             new UserHttpErrors("User not found").userNotFound();
