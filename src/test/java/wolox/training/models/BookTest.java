@@ -2,7 +2,9 @@ package wolox.training.models;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.google.common.base.Preconditions;
 import java.util.Optional;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,18 +38,12 @@ public class BookTest {
     assertThat(book.equal_book(bookFound.get())).isTrue();
   }
 
-  //TODO no funciona, no se permite crear un libro con isbn null. Debo modificar metodo de creacion para que no acepte ""
   @Test
   public void whenCreateBookWithFieldNull_thenReturnError() {
-    // given
-    Book book = new Book("Terror", "Yo Soy El Autor", "Mi Imagen", "Mi Super Titulo", "Mi SubTitulo", "Publicador", "2020", 3,"");
-    bookRepository.save(book);
-
-    // when
-    Optional<Book> bookFound = bookRepository.findByIsbn(book.getIsbn());
-
-    // then
-    assertThat(book.equal_book(bookFound.get())).isTrue();
+    Assertions
+        .assertThrows(IllegalArgumentException.class, () -> {
+          new Book("Terror", "Yo Soy El Autor", "Mi Imagen", "Mi Super Titulo", "Mi SubTitulo", "Publicador", "2020", 3,"");
+    });
   }
 
   @Test

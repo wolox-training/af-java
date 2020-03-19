@@ -117,4 +117,9 @@ public class User {
         this.setName(name);
         this.setBirthday(birthday);
     }
+
+    public void setAtributes(String name, String userName, LocalDate birthday){
+        this.update(name, birthday);
+        this.setUsername(userName);
+    }
 }

@@ -204,6 +204,11 @@ public class Book {
         this.setPage(page);
     }
 
+    public void setAtributes(String genre, String author, String image, String title, String subtitle, String publisher, String year, Integer page, String isbn){
+        this.setIsbn(isbn);
+        this.update(genre, author, image, title, subtitle, publisher, year, page);
+    }
+
     public boolean equal_book (Book book){
         return
             this.getAuthor()
