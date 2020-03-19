@@ -21,30 +21,35 @@ public class Book {
     @SequenceGenerator(name = "BOOK_SEQ", sequenceName = "BOOK_SEQ")
     private long id;
 
-    @ApiModelProperty(notes = "The book genre: could be horror, comedy, drama, etc")
+    @ApiModelProperty(notes = "genre", required = true, example = "Horror, Comedy, Drama")
     @Column(nullable = false)
     private String genre;
 
-    @ApiModelProperty(notes = "The book author: this is the author of the book")
+    @ApiModelProperty(notes = "The book author: this is the author of the book", required = true)
     @Column(nullable = false)
     private String author;
 
-    @ApiModelProperty(notes = "The book image: this is the image the book")
+    @ApiModelProperty(notes = "The book image: this is the image the book", required = true)
     @Column(nullable = false)
     private String image;
 
+    @ApiModelProperty(notes = "The book title: this is the title the book", required = true)
     @Column(nullable = false)
     private String title;
 
+    @ApiModelProperty(notes = "The book subtitle: this is the subtitle the book", required = true)
     @Column(nullable = false)
     private String subtitle;
 
+    @ApiModelProperty(notes = "The book publisher: this is the publisher the book", required = true)
     @Column(nullable = false)
     private String publisher;
 
+    @ApiModelProperty(notes = "The book year: this is the year the book", required = true)
     @Column(nullable = false)
     private String year;
 
+    @ApiModelProperty(notes = "The book page: this is the page the book", required = true)
     @Column(nullable = false)
     private Integer page;
 

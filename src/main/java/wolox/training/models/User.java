@@ -1,4 +1,7 @@
 package wolox.training.models;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -9,10 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import wolox.training.errors.user.UserHttpErrors;
-
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
@@ -26,15 +26,19 @@ public class User {
     @SequenceGenerator(name = "USERS_SEQ", sequenceName = "USERS_SEQ")
     private long id;
 
+    @ApiModelProperty(notes = "user", required = true, example = "MySuperUser")
     @Column(nullable = false, unique = true)
     private String username;
 
+    @ApiModelProperty(notes = "name", required = true, example = "Alex")
     @Column(nullable = false)
     private String name;
 
+    @ApiModelProperty(notes = "birthday", required = true, example = "1994-10-25")
     @Column(nullable = false)
     private LocalDate birthday;
 
+    @ApiModelProperty(notes = "This Field is generated automatically")
     @ManyToMany(cascade = {CascadeType.REFRESH, CascadeType.MERGE})
     private List<Book> books;
 
