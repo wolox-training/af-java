@@ -28,7 +28,7 @@ public class UserTest {
   @Test
   public void whenFindByUsername_thenReturnUser() {
     // given
-    User user = new User("Alex", "Alito", LocalDate
+    User user = new User("Alex", "Alito2", LocalDate
         .of(1994, 10, 25));
     userRepository.save(user);
 
@@ -51,6 +51,6 @@ public class UserTest {
     Optional<User> userFound = userRepository.findOneByName(userName);
 
     // then
-    assertThat(userFound.isPresent()).isTrue();
+    assertThat(userFound.isPresent()).isFalse();
   }
 }
