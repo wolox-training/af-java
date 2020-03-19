@@ -1,6 +1,9 @@
 package wolox.training.models;
-import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.google.common.base.Preconditions;
+import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -11,8 +14,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import wolox.training.errors.user.UserHttpErrors;
 import java.time.LocalDate;
 import java.util.Collections;
@@ -27,15 +28,19 @@ public class User {
     @SequenceGenerator(name = "USERS_SEQ", sequenceName = "USERS_SEQ")
     private long id;
 
+    @ApiModelProperty(notes = "user", required = true, example = "MySuperUser")
     @Column(nullable = false, unique = true)
     private String username;
 
+    @ApiModelProperty(notes = "name", required = true, example = "Alex")
     @Column(nullable = false)
     private String name;
 
+    @ApiModelProperty(notes = "birthday", required = true, example = "1994-10-25")
     @Column(nullable = false)
     private LocalDate birthday;
 
+    @ApiModelProperty(notes = "This Field is generated automatically")
     @ManyToMany(cascade = {CascadeType.REFRESH, CascadeType.MERGE})
     private List<Book> books = new ArrayList<>();;
 
@@ -57,7 +62,11 @@ public class User {
     }
 
     private void setUsername(String username) {
-        this.username = checkNotNull(username);
+        Preconditions
+            .checkNotNull(username, "The username field cannot be null.");
+        Preconditions
+            .checkArgument(!username.isEmpty(), "The username field cannot be empty.");
+        this.username = username;
     }
 
     public String getName() {
@@ -65,7 +74,11 @@ public class User {
     }
 
     private void setName(String name) {
-        this.name = checkNotNull(name);
+        Preconditions
+            .checkNotNull(name, "The name field cannot be null.");
+        Preconditions
+            .checkArgument(!name.isEmpty(), "The name field cannot be empty.");
+        this.name = name;
     }
 
     public LocalDate getBirthday() {
@@ -73,7 +86,11 @@ public class User {
     }
 
     private void setBirthday(LocalDate birthday) {
-        this.birthday = checkNotNull(birthday);
+        Preconditions
+            .checkNotNull(birthday, "The birthday field cannot be null.");
+        Preconditions
+            .checkArgument(!birthday.isAfter(LocalDate.now()), "The birthday cannot be later than the current date.");
+        this.birthday = birthday;
     }
 
     public List<Book> getListBooks() {
