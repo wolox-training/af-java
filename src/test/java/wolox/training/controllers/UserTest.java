@@ -30,8 +30,8 @@ public class UserTest {
   }
 
   @Test
-  public void whenFindByIsbnThatNotExist_thenReturnAnError() {
-    
+  public void asd() {
+
   }
 
 }
