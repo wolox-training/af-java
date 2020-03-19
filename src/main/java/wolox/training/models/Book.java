@@ -1,6 +1,6 @@
 package wolox.training.models;
-import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.base.Preconditions;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
@@ -23,30 +23,35 @@ public class Book {
     @SequenceGenerator(name = "BOOK_SEQ", sequenceName = "BOOK_SEQ")
     private long id;
 
-    @ApiModelProperty(notes = "The book genre: could be horror, comedy, drama, etc")
+    @ApiModelProperty(notes = "genre", required = true, example = "Horror, Comedy, Drama")
     @Column(nullable = false)
     private String genre;
 
-    @ApiModelProperty(notes = "The book author: this is the author of the book")
+    @ApiModelProperty(notes = "The book author: this is the author of the book", required = true)
     @Column(nullable = false)
     private String author;
 
-    @ApiModelProperty(notes = "The book image: this is the image the book")
+    @ApiModelProperty(notes = "The book image: this is the image the book", required = true)
     @Column(nullable = false)
     private String image;
 
+    @ApiModelProperty(notes = "The book title: this is the title the book", required = true)
     @Column(nullable = false)
     private String title;
 
+    @ApiModelProperty(notes = "The book subtitle: this is the subtitle the book", required = true)
     @Column(nullable = false)
     private String subtitle;
 
+    @ApiModelProperty(notes = "The book publisher: this is the publisher the book", required = true)
     @Column(nullable = false)
     private String publisher;
 
+    @ApiModelProperty(notes = "The book year: this is the year the book", required = true)
     @Column(nullable = false)
     private String year;
 
+    @ApiModelProperty(notes = "The book page: this is the page the book", required = true)
     @Column(nullable = false)
     private Integer page;
 
@@ -117,43 +122,75 @@ public class Book {
     }
 
     private void setGenre(String genre) {
-        this.genre = checkNotNull(genre);
+        Preconditions
+            .checkNotNull(genre, "The genre field cannot be null.");
+        Preconditions
+            .checkArgument(! genre.isEmpty(), "The genre field cannot be empty.");
+        this.genre = genre;
     }
 
     private void setAuthor(String author) {
-        this.author = checkNotNull(author);
+        Preconditions
+            .checkNotNull(author, "The author field cannot be null.");
+        Preconditions
+            .checkArgument(! author.isEmpty(), "The author field cannot be empty.");
+        this.author = author;
     }
 
     private void setImage(String image) {
-        this.image = checkNotNull(image);
+        Preconditions
+            .checkNotNull(image, "The image field cannot be null.");
+        Preconditions
+            .checkArgument(! image.isEmpty(), "The image field cannot be empty.");
+        this.image = image;
     }
 
     private void setTitle(String title) {
-        this.title = checkNotNull(title);
+        Preconditions
+            .checkNotNull(title, "The title field cannot be null.");
+        Preconditions
+            .checkArgument(! title.isEmpty(), "The title field cannot be empty.");
+        this.title = title;
     }
 
     private void setSubtitle(String subtitle) {
-        this.subtitle = checkNotNull(subtitle);
+        Preconditions
+            .checkNotNull(subtitle, "The subtitle field cannot be null.");
+        Preconditions
+            .checkArgument(! subtitle.isEmpty(), "The subtitle field cannot be empty.");
+        this.subtitle = subtitle;
     }
 
     private void setPublisher(String publisher) {
-        this.publisher = checkNotNull(publisher);
+        Preconditions
+            .checkNotNull(publisher, "The publisher field cannot be null.");
+        Preconditions
+            .checkArgument(! publisher.isEmpty(), "The publisher field cannot be empty.");
+        this.publisher = publisher;
     }
 
     private void setYear(String year) {
-        this.year = checkNotNull(year);
+        Preconditions
+            .checkNotNull(year, "The year field cannot be null.");
+        Preconditions
+            .checkArgument(! year.isEmpty(), "The year field cannot be empty.");
+        this.year = year;
     }
 
     private void setPage(Integer page) {
-        this.page = checkNotNull(page);
+        Preconditions
+            .checkNotNull(page, "The author field cannot be null.");
+        Preconditions
+            .checkArgument(! (page > 0), "The author field cannot be empty.");
+        this.page = page;
     }
 
     private void setIsbn(String isbn) {
-        this.isbn = checkNotNull(isbn);
-    }
-
-    private void setUsers(List<User> list) {
-        this.users = list;
+        Preconditions
+            .checkNotNull(isbn, "The isbn field cannot be null.");
+        Preconditions
+            .checkArgument(! isbn.isEmpty(), "The isbn field cannot be empty.");
+        this.isbn = isbn;
     }
 
     public void update (String genre, String author, String image, String title, String subtitle, String publisher, String year, Integer page){
