@@ -48,31 +48,31 @@ public class User {
         this.setBooks(new ArrayList<>());
     }
 
-    private long getId() {
+    public long getId() {
         return id;
     }
 
-    private String getUsername() {
+    public String getUsername() {
         return username;
     }
 
-    private void setUsername(String username) {
+    public void setUsername(String username) {
         this.username = username;
     }
 
-    private String getName() {
+    public String getName() {
         return name;
     }
 
-    private void setName(String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
-    private LocalDate getBirthday() {
+    public LocalDate getBirthday() {
         return birthday;
     }
 
-    private void setBirthday(LocalDate birthday) {
+    public void setBirthday(LocalDate birthday) {
         this.birthday = birthday;
     }
 
@@ -80,22 +80,17 @@ public class User {
         return (List<Book>) Collections.unmodifiableList(this.getBooks());
     }
 
-    private List<Book> getBooks() {
+    public List<Book> getBooks() {
         return books;
     }
 
-    private void setBooks(List<Book> books) {
+    public void setBooks(List<Book> books) {
         this.books = books;
     }
 
     public void addBookToUser(Book book) throws Exception{
-        this.addBook(book);
-    }
-
-    private void addBook(Book book) throws Exception {
-        if (this.getBooks().contains(book) == true) {
+        if (this.getBooks().contains(book)) {
             this.getBooks().add(book);
-            throw new BookAddedToList();
         }else {
             throw new BookAlreadyOwnedException();
         }

@@ -64,87 +64,87 @@ public class Book {
         this.setUsers(new ArrayList<>());
     }
 
-    private List<User> getUsers() {
+    public List<User> getUsers() {
         return users;
     }
 
-    private long getId() {
+    public long getId() {
         return id;
     }
 
-    private String getGenre() {
+    public String getGenre() {
         return genre;
     }
 
-    private String getAuthor() {
+    public String getAuthor() {
         return author;
     }
 
-    private String getImage() {
+    public String getImage() {
         return image;
     }
 
-    private String getTitle() {
+    public String getTitle() {
         return title;
     }
 
-    private String getSubtitle() {
+    public String getSubtitle() {
         return subtitle;
     }
 
-    private String getPublisher() {
+    public String getPublisher() {
         return publisher;
     }
 
-    private String getYear() {
+    public String getYear() {
         return year;
     }
 
-    private Integer getPage() {
+    public Integer getPage() {
         return page;
     }
 
-    private String getIsbn() {
+    public String getIsbn() {
         return isbn;
     }
 
-    private void setGenre(String genre) {
+    public void setGenre(String genre) {
         this.genre = genre;
     }
 
-    private void setAuthor(String author) {
+    public void setAuthor(String author) {
         this.author = author;
     }
 
-    private void setImage(String image) {
+    public void setImage(String image) {
         this.image = image;
     }
 
-    private void setTitle(String title) {
+    public void setTitle(String title) {
         this.title = title;
     }
 
-    private void setSubtitle(String subtitle) {
+    public void setSubtitle(String subtitle) {
         this.subtitle = subtitle;
     }
 
-    private void setPublisher(String publisher) {
+    public void setPublisher(String publisher) {
         this.publisher = publisher;
     }
 
-    private void setYear(String year) {
+    public void setYear(String year) {
         this.year = year;
     }
 
-    private void setPage(Integer page) {
+    public void setPage(Integer page) {
         this.page = page;
     }
 
-    private void setIsbn(String isbn) {
+    public void setIsbn(String isbn) {
         this.isbn = isbn;
     }
 
-    private void setUsers(List<User> list) {
+    public void setUsers(List<User> list) {
         this.users = list;
     }
 }
