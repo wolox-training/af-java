@@ -1,13 +1,17 @@
 package wolox.training.models;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 import javax.persistence.SequenceGenerator;
 
-
 @Entity
+@Table(name="books")
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "BOOK_SEQ")
@@ -41,6 +45,9 @@ public class Book {
     @Column(nullable = false, unique = true)
     private String isbn;
 
+    @ManyToMany(mappedBy = "books")
+    private List<User> users;
+
     public Book() {
     }
 
@@ -54,81 +61,101 @@ public class Book {
         this.setYear(year);
         this.setPage(page);
         this.setIsbn(isbn);
+        this.setUsers(new ArrayList<>());
     }
 
-    private long getId() {
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public long getId() {
         return id;
     }
 
-    private String getGenre() {
+    public String getGenre() {
         return genre;
     }
 
-    private String getAuthor() {
+    public String getAuthor() {
         return author;
     }
 
-    private String getImage() {
+    public String getImage() {
         return image;
     }
 
-    private String getTitle() {
+    public String getTitle() {
         return title;
     }
 
-    private String getSubtitle() {
+    public String getSubtitle() {
         return subtitle;
     }
 
-    private String getPublisher() {
+    public String getPublisher() {
         return publisher;
     }
 
-    private String getYear() {
+    public String getYear() {
         return year;
     }
 
-    private Integer getPage() {
+    public Integer getPage() {
         return page;
     }
 
-    private String getIsbn() {
+    public String getIsbn() {
         return isbn;
     }
 
-    private void setGenre(String genre) {
+    public void setGenre(String genre) {
         this.genre = genre;
     }
 
-    private void setAuthor(String author) {
+    public void setAuthor(String author) {
         this.author = author;
     }
 
-    private void setImage(String image) {
+    public void setImage(String image) {
         this.image = image;
     }
 
-    private void setTitle(String title) {
+    public void setTitle(String title) {
         this.title = title;
     }
 
-    private void setSubtitle(String subtitle) {
+    public void setSubtitle(String subtitle) {
         this.subtitle = subtitle;
     }
 
-    private void setPublisher(String publisher) {
+    public void setPublisher(String publisher) {
         this.publisher = publisher;
     }
 
-    private void setYear(String year) {
+    public void setYear(String year) {
         this.year = year;
     }
 
-    private void setPage(Integer page) {
+    public void setPage(Integer page) {
         this.page = page;
     }
 
-    private void setIsbn(String isbn) {
+    public void setIsbn(String isbn) {
         this.isbn = isbn;
+    }
+
+    public void setUsers(List<User> list) {
+        this.users = list;
+    }
+
+    public void update (String genre, String author, String image, String title, String subtitle, String publisher, String year, Integer page){
+        this.setGenre(genre);
+        this.setAuthor(author);
+        this.setImage(image);
+        this.setTitle(title);
+        this.setSubtitle(subtitle);
+        this.setPublisher(publisher);
+        this.setYear(year);
+        this.setPage(page);
     }
 }
