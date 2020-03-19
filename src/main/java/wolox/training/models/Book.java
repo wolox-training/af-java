@@ -108,43 +108,43 @@ public class Book {
         return isbn;
     }
 
-    private void setGenre(String genre) {
+    public void setGenre(String genre) {
         this.genre = genre;
     }
 
-    private void setAuthor(String author) {
+    public void setAuthor(String author) {
         this.author = author;
     }
 
-    private void setImage(String image) {
+    public void setImage(String image) {
         this.image = image;
     }
 
-    private void setTitle(String title) {
+    public void setTitle(String title) {
         this.title = title;
     }
 
-    private void setSubtitle(String subtitle) {
+    public void setSubtitle(String subtitle) {
         this.subtitle = subtitle;
     }
 
-    private void setPublisher(String publisher) {
+    public void setPublisher(String publisher) {
         this.publisher = publisher;
     }
 
-    private void setYear(String year) {
+    public void setYear(String year) {
         this.year = year;
     }
 
-    private void setPage(Integer page) {
+    public void setPage(Integer page) {
         this.page = page;
     }
 
-    private void setIsbn(String isbn) {
+    public void setIsbn(String isbn) {
         this.isbn = isbn;
     }
 
-    private void setUsers(List<User> list) {
+    public void setUsers(List<User> list) {
         this.users = list;
     }
 

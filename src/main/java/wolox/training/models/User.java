@@ -56,7 +56,7 @@ public class User {
         return username;
     }
 
-    private void setUsername(String username) {
+    public void setUsername(String username) {
         this.username = username;
     }
 
@@ -64,7 +64,7 @@ public class User {
         return name;
     }
 
-    private void setName(String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
@@ -72,7 +72,7 @@ public class User {
         return birthday;
     }
 
-    private void setBirthday(LocalDate birthday) {
+    public void setBirthday(LocalDate birthday) {
         this.birthday = birthday;
     }
 
@@ -80,11 +80,11 @@ public class User {
         return (List<Book>) Collections.unmodifiableList(this.getBooks());
     }
 
-    private List<Book> getBooks() {
+    public List<Book> getBooks() {
         return books;
     }
 
-    private void setBooks(List<Book> books) {
+    public void setBooks(List<Book> books) {
         this.books = books;
     }
 
