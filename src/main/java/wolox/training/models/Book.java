@@ -1,5 +1,6 @@
 package wolox.training.models;
 
+import org.apache.commons.lang3.StringUtils;
 import com.google.common.base.Preconditions;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -13,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.SequenceGenerator;
+import wolox.training.utils.ErrorConstants;
 
 @Entity
 @Table(name="books")
@@ -123,73 +125,75 @@ public class Book {
 
     private void setGenre(String genre) {
         Preconditions
-            .checkNotNull(genre, "The genre field cannot be null.");
+            .checkNotNull(genre,
+                ErrorConstants.NOT_NULL_GENRE);
         Preconditions
-            .checkArgument(! genre.isEmpty(), "The genre field cannot be empty.");
+            .checkArgument(! genre.isEmpty(), ErrorConstants.NOT_EMPTY_GENRE);
         this.genre = genre;
     }
 
     private void setAuthor(String author) {
         Preconditions
-            .checkNotNull(author, "The author field cannot be null.");
+            .checkNotNull(author, ErrorConstants.NOT_NULL_AUTHOR);
         Preconditions
-            .checkArgument(! author.isEmpty(), "The author field cannot be empty.");
+            .checkArgument(! author.isEmpty(), ErrorConstants.NOT_EMPTY_AUTHOR);
         this.author = author;
     }
 
     private void setImage(String image) {
         Preconditions
-            .checkNotNull(image, "The image field cannot be null.");
+            .checkNotNull(image, ErrorConstants.NOT_NULL_IMAGE);
         Preconditions
-            .checkArgument(! image.isEmpty(), "The image field cannot be empty.");
+            .checkArgument(! image.isEmpty(), ErrorConstants.NOT_EMPTY_IMAGE);
         this.image = image;
     }
 
     private void setTitle(String title) {
         Preconditions
-            .checkNotNull(title, "The title field cannot be null.");
+            .checkNotNull(title, ErrorConstants.NOT_NULL_TITLE);
         Preconditions
-            .checkArgument(! title.isEmpty(), "The title field cannot be empty.");
+            .checkArgument(! title.isEmpty(), ErrorConstants.NOT_EMPTY_TITLE);
         this.title = title;
     }
 
     private void setSubtitle(String subtitle) {
         Preconditions
-            .checkNotNull(subtitle, "The subtitle field cannot be null.");
+            .checkNotNull(subtitle, ErrorConstants.NOT_NULL_SUBTITLE);
         Preconditions
-            .checkArgument(! subtitle.isEmpty(), "The subtitle field cannot be empty.");
+            .checkArgument(! subtitle.isEmpty(), ErrorConstants.NOT_EMPTY_SUBTITLE);
         this.subtitle = subtitle;
     }
 
     private void setPublisher(String publisher) {
         Preconditions
-            .checkNotNull(publisher, "The publisher field cannot be null.");
+            .checkNotNull(publisher, ErrorConstants.NOT_NULL_PUBLISHER);
         Preconditions
-            .checkArgument(! publisher.isEmpty(), "The publisher field cannot be empty.");
+            .checkArgument(! publisher.isEmpty(), ErrorConstants.NOT_EMPTY_PUBLISHER);
         this.publisher = publisher;
     }
 
     private void setYear(String year) {
         Preconditions
-            .checkNotNull(year, "The year field cannot be null.");
+            .checkNotNull(year, ErrorConstants.NOT_NULL_YEAR);
         Preconditions
-            .checkArgument(! year.isEmpty(), "The year field cannot be empty.");
+            .checkArgument(
+                !StringUtils.isNumeric(year),  ErrorConstants.NOT_NUMERIC);
         this.year = year;
     }
 
     private void setPage(Integer page) {
         Preconditions
-            .checkNotNull(page, "The author field cannot be null.");
+            .checkNotNull(page, ErrorConstants.NOT_NULL_PAGE);
         Preconditions
-            .checkArgument(! (page > 0), "The author field cannot be empty.");
+            .checkArgument(! (page > 0), ErrorConstants.NOT_GRADER_THAN_ZERO);
         this.page = page;
     }
 
     private void setIsbn(String isbn) {
         Preconditions
-            .checkNotNull(isbn, "The isbn field cannot be null.");
+            .checkNotNull(isbn, ErrorConstants.NOT_NULL_ISBN);
         Preconditions
-            .checkArgument(! isbn.isEmpty(), "The isbn field cannot be empty.");
+            .checkArgument(!StringUtils.isNumeric(isbn), ErrorConstants.NOT_NUMERIC);
         this.isbn = isbn;
     }
 

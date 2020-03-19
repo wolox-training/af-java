@@ -18,6 +18,7 @@ import wolox.training.errors.user.UserHttpErrors;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
+import wolox.training.utils.ErrorConstants;
 
 @Entity
 @Table(name="users")
@@ -63,9 +64,10 @@ public class User {
 
     private void setUsername(String username) {
         Preconditions
-            .checkNotNull(username, "The username field cannot be null.");
+            .checkNotNull(username,
+                ErrorConstants.NOT_NULL_USERNAME);
         Preconditions
-            .checkArgument(!username.isEmpty(), "The username field cannot be empty.");
+            .checkArgument(!username.isEmpty(), ErrorConstants.NOT_EMPTY_USERNAME);
         this.username = username;
     }
 
@@ -75,9 +77,9 @@ public class User {
 
     private void setName(String name) {
         Preconditions
-            .checkNotNull(name, "The name field cannot be null.");
+            .checkNotNull(name, ErrorConstants.NOT_NULL_NAME);
         Preconditions
-            .checkArgument(!name.isEmpty(), "The name field cannot be empty.");
+            .checkArgument(!name.isEmpty(), ErrorConstants.NOT_EMPTY_NAME);
         this.name = name;
     }
 
@@ -87,9 +89,9 @@ public class User {
 
     private void setBirthday(LocalDate birthday) {
         Preconditions
-            .checkNotNull(birthday, "The birthday field cannot be null.");
+            .checkNotNull(birthday, ErrorConstants.NOT_NULL_BIRTHDAY);
         Preconditions
-            .checkArgument(!birthday.isAfter(LocalDate.now()), "The birthday cannot be later than the current date.");
+            .checkArgument(!birthday.isAfter(LocalDate.now()), ErrorConstants.NOT_LATER_CURRENT_DAY);
         this.birthday = birthday;
     }
 

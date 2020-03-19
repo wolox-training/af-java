@@ -19,8 +19,8 @@ import wolox.training.repositories.UserRepository;
 @DataJpaTest
 public class UserTest {
 
-  @Autowired
-  private TestEntityManager entityManager;
+//  @Autowired
+//  private TestEntityManager entityManager;
 
   @Autowired
   private UserRepository userRepository;
@@ -28,7 +28,7 @@ public class UserTest {
   @Test
   public void whenFindByUsername_thenReturnUser() {
     // given
-    User user = new User("Alex", "Alito2", LocalDate
+    User user = new User("Alex", "Alito21", LocalDate
         .of(1994, 10, 25));
     userRepository.save(user);
 
