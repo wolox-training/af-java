@@ -5,10 +5,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.time.LocalDate;
+import java.util.Optional;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -17,11 +19,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import wolox.training.models.Book;
 import wolox.training.models.User;
-import wolox.training.repositories.BookRepository;
 import wolox.training.repositories.UserRepository;
 
-@RunWith(SpringRunner.class)
-@WebMvcTest(UserController.class)
+@RunWith(MockitoJUnitRunner.class)
+//@WebMvcTest(UserController.class)
 public class UserTest {
 
   @Autowired
@@ -29,7 +30,6 @@ public class UserTest {
 
   @MockBean
   private UserRepository mockedUserRepository;
-  private BookRepository mockedBookRepository;
   private User oneTestUser;
   private Book oneTestBook;
 
@@ -43,8 +43,12 @@ public class UserTest {
 
   @Test
   public void whenFindByUsernameWichExist_thenUserIsReturned() throws Exception{
-    Mockito
-        .when(mockedUserRepository.findByUsername(oneTestUser.getUsername()).get()).thenReturn(oneTestUser);
+//    Mockito
+//        .when(mockedUserRepository.findByUsername(oneTestUser.getUsername()).get()).thenReturn(oneTestUser);
+    Mockito.when(mockedUserRepository.findByUsername(oneTestUser.getUsername()))
+        .thenReturn(
+            Optional
+                .of(oneTestUser));
     String url = "/api/users/".concat(oneTestUser.getUsername());
     mvc.perform(get(url)
       .contentType(MediaType.APPLICATION_JSON))
