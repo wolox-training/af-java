@@ -126,85 +126,85 @@ public class Book {
         return isbn;
     }
 
-    private void setGenre(String genre) {
+    public void setGenre(String genre) {
         Preconditions
             .checkNotNull(genre,
-                ErrorConstants.NOT_NULL_GENRE);
+                String.format(ErrorConstants.NOT_NULL,"genre"));
         Preconditions
             .checkArgument(
-                !genre.isEmpty(), ErrorConstants.NOT_EMPTY_GENRE);
+                !genre.isEmpty(), String.format(ErrorConstants.NOT_EMPTY, "genre"));
         this.genre = genre;
     }
 
-    private void setAuthor(String author) {
+    public void setAuthor(String author) {
         Preconditions
-            .checkNotNull(author, ErrorConstants.NOT_NULL_AUTHOR);
+            .checkNotNull(author, String.format(ErrorConstants.NOT_NULL,"author"));
         Preconditions
             .checkArgument(
-                !author.isEmpty(), ErrorConstants.NOT_EMPTY_AUTHOR);
+                !author.isEmpty(), String.format(ErrorConstants.NOT_EMPTY,"author"));
         this.author = author;
     }
 
-    private void setImage(String image) {
+    public void setImage(String image) {
         Preconditions
-            .checkNotNull(image, ErrorConstants.NOT_NULL_IMAGE);
+            .checkNotNull(image, String.format(ErrorConstants.NOT_NULL,"image"));
         Preconditions
             .checkArgument(
-                !image.isEmpty(), ErrorConstants.NOT_EMPTY_IMAGE);
+                !image.isEmpty(), String.format(ErrorConstants.NOT_EMPTY,"image"));
         this.image = image;
     }
 
-    private void setTitle(String title) {
+    public void setTitle(String title) {
         Preconditions
-            .checkNotNull(title, ErrorConstants.NOT_NULL_TITLE);
+            .checkNotNull(title, String.format(ErrorConstants.NOT_NULL,"title"));
         Preconditions
             .checkArgument(
-                !title.isEmpty(), ErrorConstants.NOT_EMPTY_TITLE);
+                !title.isEmpty(), String.format(ErrorConstants.NOT_EMPTY,"title"));
         this.title = title;
     }
 
-    private void setSubtitle(String subtitle) {
+    public void setSubtitle(String subtitle) {
         Preconditions
-            .checkNotNull(subtitle, ErrorConstants.NOT_NULL_SUBTITLE);
+            .checkNotNull(subtitle, String.format(ErrorConstants.NOT_NULL,"subtitle"));
         Preconditions
             .checkArgument(
-                !subtitle.isEmpty(), ErrorConstants.NOT_EMPTY_SUBTITLE);
+                !subtitle.isEmpty(), String.format(ErrorConstants.NOT_EMPTY,"subtitle"));
         this.subtitle = subtitle;
     }
 
-    private void setPublisher(String publisher) {
+    public void setPublisher(String publisher) {
         Preconditions
-            .checkNotNull(publisher, ErrorConstants.NOT_NULL_PUBLISHER);
+            .checkNotNull(publisher, String.format(ErrorConstants.NOT_NULL,"publisher"));
         Preconditions
             .checkArgument(
-                !publisher.isEmpty(), ErrorConstants.NOT_EMPTY_PUBLISHER);
+                !publisher.isEmpty(), String.format(ErrorConstants.NOT_EMPTY,"publisher"));
         this.publisher = publisher;
     }
 
-    private void setYear(String year) {
+    public void setYear(String year) {
         Preconditions
-            .checkNotNull(year, ErrorConstants.NOT_NULL_YEAR);
+            .checkNotNull(year, String.format(ErrorConstants.NOT_NULL,"year"));
         Preconditions
             .checkArgument(
-                StringUtils.isNumeric(year),  ErrorConstants.NOT_NUMERIC);
+                StringUtils.isNumeric(year),  String.format(ErrorConstants.NOT_NUMERIC, "year"));
         this.year = year;
     }
 
-    private void setPage(Integer page) {
+    public void setPage(Integer page) {
         Preconditions
-            .checkNotNull(page, ErrorConstants.NOT_NULL_PAGE);
+            .checkNotNull(page, String.format(ErrorConstants.NOT_NULL,"page"));
         Preconditions
             .checkArgument(
                 page > 0, ErrorConstants.NOT_GRADER_THAN_ZERO);
         this.page = page;
     }
 
-    private void setIsbn(String isbn) {
+    public void setIsbn(String isbn) {
         Preconditions
-            .checkNotNull(isbn, ErrorConstants.NOT_NULL_ISBN);
+            .checkNotNull(isbn, String.format(ErrorConstants.NOT_NULL,"isbn"));
         Preconditions
             .checkArgument(
-                StringUtils.isNumeric(isbn), ErrorConstants.NOT_NUMERIC);
+                StringUtils.isNumeric(isbn), String.format(ErrorConstants.NOT_NUMERIC, "isbn"));
         this.isbn = isbn;
     }
 
