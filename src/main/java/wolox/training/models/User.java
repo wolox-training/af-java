@@ -43,7 +43,7 @@ public class User {
 
     @ApiModelProperty(notes = "This Field is generated automatically")
     @ManyToMany(cascade = {CascadeType.REFRESH, CascadeType.MERGE})
-    private List<Book> books = new ArrayList<>();;
+    private List<Book> books = new ArrayList<>();
 
     public User() {
     }

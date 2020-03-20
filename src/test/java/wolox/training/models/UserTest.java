@@ -33,12 +33,12 @@ public class UserTest {
     userRepository.save(user);
 
     // when
-    Optional<User> userFound = userRepository.findByUsername(user.getUsername());
+    User userFound = userRepository.findByUsername(user.getUsername()).get();
 
     // then
-    assertThat(userFound.get().getUsername())
+    assertThat(userFound.getUsername())
         .isEqualTo(user.getUsername());
-    assertThat(userFound.get().getName())
+    assertThat(userFound.getName())
         .isEqualTo(user.getName());
   }
 

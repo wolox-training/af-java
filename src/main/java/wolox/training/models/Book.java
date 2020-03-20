@@ -1,5 +1,7 @@
 package wolox.training.models;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.apache.commons.lang3.StringUtils;
 import com.google.common.base.Preconditions;
 import io.swagger.annotations.ApiModel;
@@ -19,6 +21,7 @@ import wolox.training.utils.ErrorConstants;
 @Entity
 @Table(name="books")
 @ApiModel(description = "Books from my API")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "BOOK_SEQ")
