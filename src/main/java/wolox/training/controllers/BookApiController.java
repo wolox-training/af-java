@@ -12,14 +12,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
-import wolox.training.errors.book.BookHttpErrors;
 import wolox.training.models.Book;
 import wolox.training.repositories.BookRepository;
 
 @RestController
 @RequestMapping("/api/books")
-public class BookController {
+public class BookApiController extends ApiController {
 
     @Autowired
     private BookRepository bookRepository;
@@ -33,34 +31,26 @@ public class BookController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Book create(@RequestBody Book book, Model model) {
-        Book new_book = new Book(book.getGenre(), book.getAuthor(), book.getImage(), book.getTitle(), book.getSubtitle(), book.getPublisher(), book.getYear(), book.getPage(), book.getIsbn());
-        bookRepository.save(new_book);
-        return new_book;
+        Book newBook = new Book(book.getGenre(), book.getAuthor(), book.getImage(), book.getTitle(), book.getSubtitle(), book.getPublisher(), book.getYear(), book.getPage(), book.getIsbn());
+        bookRepository.save(newBook);
+        return newBook;
     }
 
     @PutMapping
     public Book update(@RequestBody Book book) {
-        Book found_book = found_book(book.getIsbn());
-        found_book.update(book.getGenre(), book.getAuthor(), book.getImage(), book.getTitle(),
+        Book bookFounded = foundBook(book.getIsbn(), bookRepository);
+        bookFounded.update(book.getGenre(), book.getAuthor(), book.getImage(), book.getTitle(),
             book.getSubtitle(), book.getPublisher(), book.getYear(), book.getPage());
-        return bookRepository.save(found_book);
+        return bookRepository.save(bookFounded);
     }
 
     @DeleteMapping
     public void delete(@RequestParam(name="isbn", required=true) String isbn) {
-        bookRepository.delete(found_book(isbn));
+        bookRepository.delete(foundBook(isbn, bookRepository));
     }
 
     @GetMapping("/{isbn}")
     public Book read(@PathVariable String isbn) {
-        return found_book(isbn);
-    }
-
-    private Book found_book(String isbn){
-        Book book = bookRepository.findByIsbn(isbn);
-        if (book == null){
-            new BookHttpErrors("Book Not Found").bookNotFound();
-        }
-        return book;
+        return foundBook(isbn, bookRepository);
     }
 }

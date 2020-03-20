@@ -11,7 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import wolox.training.errors.book.*;
+import wolox.training.errors.user.UserHttpErrors;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
@@ -41,7 +41,7 @@ public class User {
         this.setBooks(null);
     }
 
-    public User(String username, String name, LocalDate birthday) {
+    public User(String name, String username, LocalDate birthday) {
         this.setUsername(username);
         this.setName(name);
         this.setBirthday(birthday);
@@ -88,11 +88,16 @@ public class User {
         this.books = books;
     }
 
-    public void addBookToUser(Book book) throws Exception{
-        if (this.getBooks().contains(book)) {
+    public void addBookToUser(Book book){
+        if (!this.getBooks().contains(book)) {
             this.getBooks().add(book);
         }else {
-            throw new BookAlreadyOwnedException();
+            new UserHttpErrors("The book already exists").BookAlreadyOwnedException();
         }
+    }
+
+    public void update(String name, LocalDate birthday){
+        this.setName(name);
+        this.setBirthday(birthday);
     }
 }
