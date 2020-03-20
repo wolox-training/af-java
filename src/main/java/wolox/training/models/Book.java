@@ -131,7 +131,8 @@ public class Book {
             .checkNotNull(genre,
                 ErrorConstants.NOT_NULL_GENRE);
         Preconditions
-            .checkArgument(! genre.isEmpty(), ErrorConstants.NOT_EMPTY_GENRE);
+            .checkArgument(
+                !genre.isEmpty(), ErrorConstants.NOT_EMPTY_GENRE);
         this.genre = genre;
     }
 
@@ -139,7 +140,8 @@ public class Book {
         Preconditions
             .checkNotNull(author, ErrorConstants.NOT_NULL_AUTHOR);
         Preconditions
-            .checkArgument(! author.isEmpty(), ErrorConstants.NOT_EMPTY_AUTHOR);
+            .checkArgument(
+                !author.isEmpty(), ErrorConstants.NOT_EMPTY_AUTHOR);
         this.author = author;
     }
 
@@ -147,7 +149,8 @@ public class Book {
         Preconditions
             .checkNotNull(image, ErrorConstants.NOT_NULL_IMAGE);
         Preconditions
-            .checkArgument(! image.isEmpty(), ErrorConstants.NOT_EMPTY_IMAGE);
+            .checkArgument(
+                !image.isEmpty(), ErrorConstants.NOT_EMPTY_IMAGE);
         this.image = image;
     }
 
@@ -155,7 +158,8 @@ public class Book {
         Preconditions
             .checkNotNull(title, ErrorConstants.NOT_NULL_TITLE);
         Preconditions
-            .checkArgument(! title.isEmpty(), ErrorConstants.NOT_EMPTY_TITLE);
+            .checkArgument(
+                !title.isEmpty(), ErrorConstants.NOT_EMPTY_TITLE);
         this.title = title;
     }
 
@@ -163,7 +167,8 @@ public class Book {
         Preconditions
             .checkNotNull(subtitle, ErrorConstants.NOT_NULL_SUBTITLE);
         Preconditions
-            .checkArgument(! subtitle.isEmpty(), ErrorConstants.NOT_EMPTY_SUBTITLE);
+            .checkArgument(
+                !subtitle.isEmpty(), ErrorConstants.NOT_EMPTY_SUBTITLE);
         this.subtitle = subtitle;
     }
 
@@ -171,7 +176,8 @@ public class Book {
         Preconditions
             .checkNotNull(publisher, ErrorConstants.NOT_NULL_PUBLISHER);
         Preconditions
-            .checkArgument(! publisher.isEmpty(), ErrorConstants.NOT_EMPTY_PUBLISHER);
+            .checkArgument(
+                !publisher.isEmpty(), ErrorConstants.NOT_EMPTY_PUBLISHER);
         this.publisher = publisher;
     }
 
@@ -180,7 +186,7 @@ public class Book {
             .checkNotNull(year, ErrorConstants.NOT_NULL_YEAR);
         Preconditions
             .checkArgument(
-                !StringUtils.isNumeric(year),  ErrorConstants.NOT_NUMERIC);
+                StringUtils.isNumeric(year),  ErrorConstants.NOT_NUMERIC);
         this.year = year;
     }
 
@@ -188,7 +194,8 @@ public class Book {
         Preconditions
             .checkNotNull(page, ErrorConstants.NOT_NULL_PAGE);
         Preconditions
-            .checkArgument(! (page > 0), ErrorConstants.NOT_GRADER_THAN_ZERO);
+            .checkArgument(
+                page > 0, ErrorConstants.NOT_GRADER_THAN_ZERO);
         this.page = page;
     }
 
@@ -196,7 +203,8 @@ public class Book {
         Preconditions
             .checkNotNull(isbn, ErrorConstants.NOT_NULL_ISBN);
         Preconditions
-            .checkArgument(!StringUtils.isNumeric(isbn), ErrorConstants.NOT_NUMERIC);
+            .checkArgument(
+                StringUtils.isNumeric(isbn), ErrorConstants.NOT_NUMERIC);
         this.isbn = isbn;
     }
 
