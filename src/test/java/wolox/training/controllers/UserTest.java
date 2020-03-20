@@ -9,16 +9,19 @@ import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import wolox.training.models.Book;
 import wolox.training.models.User;
+import wolox.training.repositories.BookRepository;
 import wolox.training.repositories.UserRepository;
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(SpringRunner.class)
+@WebMvcTest(UserController.class)
 public class UserTest {
 
   @Autowired
@@ -26,6 +29,7 @@ public class UserTest {
 
   @MockBean
   private UserRepository mockedUserRepository;
+  private BookRepository mockedBookRepository;
   private User oneTestUser;
   private Book oneTestBook;
 
@@ -39,7 +43,6 @@ public class UserTest {
 
   @Test
   public void whenFindByUsernameWichExist_thenUserIsReturned() throws Exception{
-    setUp();
     Mockito
         .when(mockedUserRepository.findByUsername(oneTestUser.getUsername()).get()).thenReturn(oneTestUser);
     String url = "/api/users/".concat(oneTestUser.getUsername());
@@ -48,10 +51,10 @@ public class UserTest {
       .andExpect(status().isOk())
       .andExpect(content().json(
          "{\"id\": 1052,\"username\": \"Alito\",\"name\": \"Alex\","
-             + "\"birthday\": \"1994-10-25\",\"listBooks\": [{\"id\": 1,\"genre\": \"asd\","
-             + "\"author\": \"asd\", \"image\": \"asd\","
-             + "\"title\": \"asd\",\"subtitle\": \"asd\",\"publisher\": \"asd\", "
-             + "\"year\": \"qqqq\", \"page\": 3, \"isbn\": \"10\", \"users\": [{\"id\": 1,"
+             + "\"birthday\": \"1994-10-25\",\"listBooks\": [{\"id\": 1,\"genre\": \"Terror\","
+             + "\"author\": \"Yo Soy El Autor\", \"image\": \"Mi Imagen\","
+             + "\"title\": \"Mi Super Titulo\",\"subtitle\": \"Mi SubTitulo\",\"publisher\": \"Publicador\", "
+             + "\"year\": \"2020\", \"page\": 3, \"isbn\": \"999\", \"users\": [{\"id\": 1,"
              + "\"username\": \"Alito1\",\"name\": \"Alex\",\"birthday\": \"1994-10-25\","
              + "\"listBooks\": [1]},1052]\"id\": 1"
              + "}"

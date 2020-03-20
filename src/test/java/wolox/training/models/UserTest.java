@@ -19,9 +19,6 @@ import wolox.training.repositories.UserRepository;
 @DataJpaTest
 public class UserTest {
 
-//  @Autowired
-//  private TestEntityManager entityManager;
-
   @Autowired
   private UserRepository userRepository;
 

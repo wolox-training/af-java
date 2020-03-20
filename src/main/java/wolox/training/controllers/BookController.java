@@ -22,7 +22,7 @@ import wolox.training.repositories.BookRepository;
 @RestController
 @Api
 @RequestMapping("/api/books")
-public class BookApiController extends ApiController {
+public class BookController extends ApiController {
 
     @Autowired
     private BookRepository bookRepository;

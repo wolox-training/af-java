@@ -13,7 +13,7 @@ import wolox.training.repositories.UserRepository;
 
 @RestController
 @RequestMapping("/api/users")
-public class UserApiController extends ApiController {
+public class UserController extends ApiController {
 
     @Autowired
     private UserRepository userRepository;
