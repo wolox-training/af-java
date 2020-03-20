@@ -123,7 +123,7 @@ public class Book {
         return isbn;
     }
 
-    private void setGenre(String genre) {
+    public void setGenre(String genre) {
         Preconditions
             .checkNotNull(genre,
                 ErrorConstants.NOT_NULL_GENRE);
@@ -133,7 +133,7 @@ public class Book {
         this.genre = genre;
     }
 
-    private void setAuthor(String author) {
+    public void setAuthor(String author) {
         Preconditions
             .checkNotNull(author, ErrorConstants.NOT_NULL_AUTHOR);
         Preconditions
@@ -142,7 +142,7 @@ public class Book {
         this.author = author;
     }
 
-    private void setImage(String image) {
+    public void setImage(String image) {
         Preconditions
             .checkNotNull(image, ErrorConstants.NOT_NULL_IMAGE);
         Preconditions
@@ -151,7 +151,7 @@ public class Book {
         this.image = image;
     }
 
-    private void setTitle(String title) {
+    public void setTitle(String title) {
         Preconditions
             .checkNotNull(title, ErrorConstants.NOT_NULL_TITLE);
         Preconditions
@@ -160,7 +160,7 @@ public class Book {
         this.title = title;
     }
 
-    private void setSubtitle(String subtitle) {
+    public void setSubtitle(String subtitle) {
         Preconditions
             .checkNotNull(subtitle, ErrorConstants.NOT_NULL_SUBTITLE);
         Preconditions
@@ -169,7 +169,7 @@ public class Book {
         this.subtitle = subtitle;
     }
 
-    private void setPublisher(String publisher) {
+    public void setPublisher(String publisher) {
         Preconditions
             .checkNotNull(publisher, ErrorConstants.NOT_NULL_PUBLISHER);
         Preconditions
@@ -178,7 +178,7 @@ public class Book {
         this.publisher = publisher;
     }
 
-    private void setYear(String year) {
+    public void setYear(String year) {
         Preconditions
             .checkNotNull(year, ErrorConstants.NOT_NULL_YEAR);
         Preconditions
@@ -187,7 +187,7 @@ public class Book {
         this.year = year;
     }
 
-    private void setPage(Integer page) {
+    public void setPage(Integer page) {
         Preconditions
             .checkNotNull(page, ErrorConstants.NOT_NULL_PAGE);
         Preconditions
@@ -196,7 +196,7 @@ public class Book {
         this.page = page;
     }
 
-    private void setIsbn(String isbn) {
+    public void setIsbn(String isbn) {
         Preconditions
             .checkNotNull(isbn, ErrorConstants.NOT_NULL_ISBN);
         Preconditions

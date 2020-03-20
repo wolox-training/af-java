@@ -62,7 +62,7 @@ public class User {
         return username;
     }
 
-    private void setUsername(String username) {
+    public void setUsername(String username) {
         Preconditions
             .checkNotNull(username,
                 ErrorConstants.NOT_NULL_USERNAME);
@@ -75,7 +75,7 @@ public class User {
         return name;
     }
 
-    private void setName(String name) {
+    public void setName(String name) {
         Preconditions
             .checkNotNull(name, ErrorConstants.NOT_NULL_NAME);
         Preconditions
@@ -87,7 +87,7 @@ public class User {
         return birthday;
     }
 
-    private void setBirthday(LocalDate birthday) {
+  public void setBirthday(LocalDate birthday) {
         Preconditions
             .checkNotNull(birthday, ErrorConstants.NOT_NULL_BIRTHDAY);
         Preconditions
@@ -99,11 +99,11 @@ public class User {
         return (List<Book>) Collections.unmodifiableList(this.getBooks());
     }
 
-    private List<Book> getBooks() {
+    public List<Book> getBooks() {
         return books;
     }
 
-    private void setBooks(List<Book> books) {
+    public void setBooks(List<Book> books) {
         this.books = books;
     }
 
