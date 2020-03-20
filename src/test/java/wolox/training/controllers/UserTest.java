@@ -43,8 +43,6 @@ public class UserTest {
 
   @Test
   public void whenFindByUsernameWichExist_thenUserIsReturned() throws Exception{
-//    Mockito
-//        .when(mockedUserRepository.findByUsername(oneTestUser.getUsername()).get()).thenReturn(oneTestUser);
     Mockito.when(mockedUserRepository.findByUsername(oneTestUser.getUsername()))
         .thenReturn(
             Optional
