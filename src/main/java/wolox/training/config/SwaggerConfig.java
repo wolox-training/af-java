@@ -1,10 +1,7 @@
 package wolox.training.config;
 
-import com.sun.tools.javac.comp.Resolve.InapplicableMethodException;
-import com.sun.tools.sjavac.server.RequestHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.bind.annotation.RequestParam;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
