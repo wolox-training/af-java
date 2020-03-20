@@ -13,6 +13,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit4.SpringRunner;
 import wolox.training.repositories.UserRepository;
+import wolox.training.utils.VariablesConstants;
 
 @RunWith(SpringRunner.class)
 @AutoConfigureTestDatabase(replace = Replace.NONE)
@@ -42,10 +43,10 @@ public class UserTest {
   @Test
   public void whenFindByUsernameThatNotExist_thenReturnAnError() {
     // given
-    String userName = "UsuarioInexistente";
+    String username = VariablesConstants.USER_NOT_EXIST;
 
     // when
-    Optional<User> userFound = userRepository.findOneByName(userName);
+    Optional<User> userFound = userRepository.findOneByName(username);
 
     // then
     assertThat(userFound.isPresent()).isFalse();
