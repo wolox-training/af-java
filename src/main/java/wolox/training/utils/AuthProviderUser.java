@@ -1,4 +1,4 @@
-package wolox.training.config;
+package wolox.training.utils;
 
 public class AuthProviderUser {
   private String username;
