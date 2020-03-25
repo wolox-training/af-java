@@ -94,7 +94,7 @@ public class UserController extends ApiController {
     @ResponseStatus(HttpStatus.OK)
     @ApiOperation(value = "Given the username of a user, return a book list of the user", response = Book.class)
     public List<Book> list_book(@PathVariable String username) {
-        return foundUser(username, userRepository).getListBooks();
+        return foundUser(username, userRepository).getBooks();
     }
 
     @PutMapping("/add_book")
