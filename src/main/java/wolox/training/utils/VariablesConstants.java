@@ -8,4 +8,7 @@ public class VariablesConstants {
 
   //VARIABLES ON USERS TEST
   public static String BOOK_URL = "/api/books/";
+
+  //EXTERNAL SERVICE
+  public static String OPEN_LIBRARY_URL = "https://openlibrary.org/api/books?bibkeys=ISBN:%s&format=json&jscmd=data";
 }

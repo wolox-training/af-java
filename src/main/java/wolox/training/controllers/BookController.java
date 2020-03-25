@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import wolox.training.external.services.OpenLibraryService;
 import wolox.training.models.Book;
 import wolox.training.repositories.BookRepository;
 
@@ -26,6 +28,8 @@ public class BookController extends ApiController {
 
     @Autowired
     private BookRepository bookRepository;
+
+    private OpenLibraryService openLibraryService;
 
     @GetMapping("/greeting")
     public String greeting(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
@@ -87,6 +91,6 @@ public class BookController extends ApiController {
     })
     @ResponseStatus(HttpStatus.OK)
     public Book read(@PathVariable String isbn) {
-        return foundBook(isbn, bookRepository);
+        return foundBookForGet(isbn, bookRepository, openLibraryService);
     }
 }

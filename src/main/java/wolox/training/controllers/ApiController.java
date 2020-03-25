@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import wolox.training.errors.book.BookHttpErrors;
 import wolox.training.errors.user.UserHttpErrors;
+import wolox.training.external.services.OpenLibraryService;
 import wolox.training.models.Book;
 import wolox.training.models.User;
 import wolox.training.repositories.BookRepository;
@@ -22,13 +23,22 @@ public abstract class ApiController {
         return list.get();
     }
 
-
     @ApiOperation(value = "Given the username of a user, return the user or an exception", response = User.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     protected User foundUser(String username, UserRepository userRepository){
         Optional<User> list = userRepository.findByUsername(username);
         if (list.isEmpty()){
             new UserHttpErrors("User not found").userNotFound();
+        }
+        return list.get();
+    }
+
+    @ApiOperation(value = "Given the isbn of a book, return the book or an exception", response = User.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    protected Book foundBookForGet(String isbn, BookRepository bookRepository, OpenLibraryService openLibraryService){
+        Optional<Book> list = bookRepository.findByIsbn(isbn);
+        if (list.isEmpty()){
+            return openLibraryService.bookInfo(isbn);
         }
         return list.get();
     }
