@@ -27,7 +27,7 @@ public class UserTest {
   public void whenFindByUsername_thenReturnUser() {
     // given
     User user = new User("Alex", "Alito21", LocalDate
-        .of(1994, 10, 25));
+        .of(1994, 10, 25), "123456");
     userRepository.save(user);
 
     // when

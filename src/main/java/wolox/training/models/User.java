@@ -14,6 +14,11 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import wolox.training.errors.user.UserHttpErrors;
 import java.time.LocalDate;
 import java.util.Collections;
@@ -45,13 +50,36 @@ public class User {
     @ManyToMany(cascade = {CascadeType.REFRESH, CascadeType.MERGE})
     private List<Book> books = new ArrayList<>();
 
+    @ApiModelProperty(notes = "password", required = true)
+    @Column(nullable = false)
+    private String password;
+
+
+    @Autowired
+    @Transient
+    private PasswordEncoder passwordEncoder = this.passwordEncoder();
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+      return new BCryptPasswordEncoder();
+    }
+
     public User() {
     }
 
-    public User(String name, String username, LocalDate birthday) {
+    public User(String name, String username, LocalDate birthday, String password) {
         this.setUsername(username);
         this.setName(name);
         this.setBirthday(birthday);
+        this.setPassword(passwordEncoder.encode(password));
+    }
+
+    public String getPassword(){
+      return this.password;
+    }
+
+    public void setPassword(String password){
+      this.password = password;
     }
 
     public long getId() {
