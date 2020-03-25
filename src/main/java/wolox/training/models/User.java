@@ -95,12 +95,8 @@ public class User {
         this.birthday = birthday;
     }
 
-    public List<Book> getListBooks() {
-        return (List<Book>) Collections.unmodifiableList(this.getBooks());
-    }
-
     public List<Book> getBooks() {
-        return books;
+        return (List<Book>) Collections.unmodifiableList(this.books);
     }
 
     public void setBooks(List<Book> books) {
@@ -109,7 +105,7 @@ public class User {
 
     public void addBookToUser(Book book){
         if (!this.getBooks().contains(book)) {
-            this.getBooks().add(book);
+            this.books.add(book);
         }else {
             new UserHttpErrors("The book already exists").BookAlreadyOwnedException();
         }
