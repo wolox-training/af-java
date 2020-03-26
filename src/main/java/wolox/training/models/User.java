@@ -79,6 +79,11 @@ public class User {
     }
 
     public void setPassword(String password){
+      Preconditions
+          .checkNotNull(password,
+              String.format(ErrorConstants.NOT_NULL,"password"));
+      Preconditions
+          .checkArgument(password.length() > 6, String.format(ErrorConstants.NOT_GRADER_THAN, "0"));
       this.password = password;
     }
 

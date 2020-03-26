@@ -195,7 +195,7 @@ public class Book {
             .checkNotNull(page, String.format(ErrorConstants.NOT_NULL,"page"));
         Preconditions
             .checkArgument(
-                page > 0, ErrorConstants.NOT_GRADER_THAN_ZERO);
+                page > 0, String.format(ErrorConstants.NOT_GRADER_THAN, "0"));
         this.page = page;
     }
 

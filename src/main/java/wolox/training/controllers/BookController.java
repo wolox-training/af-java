@@ -29,7 +29,7 @@ public class BookController extends ApiController {
     @Autowired
     private BookRepository bookRepository;
 
-    private OpenLibraryService openLibraryService;
+    private OpenLibraryService openLibraryService = new OpenLibraryService();
 
     @GetMapping("/greeting")
     public String greeting(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {

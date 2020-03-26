@@ -1,6 +1,9 @@
 package wolox.training.external.dtos;
 
-public class BookDTO {
+import java.io.Serializable;
+
+public class BookDTO implements
+    Serializable {
 
   private String isbn;
   private String title;
