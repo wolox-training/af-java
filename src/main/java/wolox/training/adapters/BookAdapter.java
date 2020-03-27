@@ -8,21 +8,23 @@ import wolox.training.models.Book;
 public class BookAdapter {
 
   public BookDTO transformBookDTOToBook(String isbn, JsonNode request){
-    String[] authors = convertJsonNodeToArrayString(request.path("authors"));
     String title = request.path("title").textValue();
     String subtitle = request.path("subtitle").textValue();
-    String publishers = convertJsonNodeToString(request.path("publishers"));
     String publishDate = request.path("publish_date").textValue();
-    Integer numberPages = request.path("number_of_pages").intValue();
-    return new BookDTO(isbn, title, subtitle, publishers, publishDate, numberPages.toString(), authors);
+    int numberPages = request.path("number_of_pages").intValue();
+    String[] authors = convertJsonNodeToArrayString(request.path("authors"));
+    String publishers = convertJsonNodeToString(request.path("publishers"));
+    return new BookDTO(isbn, title, subtitle, publishers, publishDate,
+        Integer
+            .toString(
+                numberPages), authors);
   }
 
   private String convertJsonNodeToString(JsonNode publishersNode){
-    String publishers = new String();
-    publishersNode.forEach(publisher -> publishers.concat(
-        publisher.path("name").textValue()).concat(","));
-    publishers.substring(0, publishers.length()-1);
-    return publishers;
+    AtomicReference<String> publishers = new AtomicReference<>(
+        "");
+    publishersNode.forEach(publisherNode -> publishers.set(publishers.get().concat(publisherNode.path("name").textValue().concat(", "))));
+    return publishers.get().substring(0, publishers.get().length()-2);
   }
 
   private String[] convertJsonNodeToArrayString(JsonNode authorsNode){
@@ -30,7 +32,7 @@ public class BookAdapter {
     AtomicReference<Integer> count = new AtomicReference<>(
         0);
     authorsNode.forEach(author -> {
-      list[Integer.parseInt(count.toString())] = author.toString();
+      list[Integer.parseInt(count.toString())] = author.path("name").textValue();
       count.set(count.get()+ 1);
     });
     return list;
