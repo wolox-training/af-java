@@ -1,4 +1,5 @@
 package wolox.training.controllers;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -14,9 +15,10 @@ import wolox.training.models.User;
 import wolox.training.repositories.BookRepository;
 import wolox.training.repositories.UserRepository;
 
-@SpringBootApplication(exclude = { SecurityAutoConfiguration.class })
 @RestController
+@Api
 @RequestMapping("/api/users")
+//@SpringBootApplication(exclude = { SecurityAutoConfiguration.class })
 public class UserController extends ApiController {
 
     @Autowired
@@ -29,6 +31,7 @@ public class UserController extends ApiController {
         @ApiResponse(code = 201, message = "Successfully created user"),
         @ApiResponse(code = 500, message = "Error created user, exist user"),
         @ApiResponse(code = 405, message = "Method Not Allowed"),
+        @ApiResponse(code = 401, message = "Access unauthorized."),
         @ApiResponse(code = 500, message = "Internal Server Error")
     })
     @ResponseStatus(HttpStatus.CREATED)
@@ -46,6 +49,7 @@ public class UserController extends ApiController {
         @ApiResponse(code = 200, message = "Successfully updated user"),
         @ApiResponse(code = 404, message = "User not found"),
         @ApiResponse(code = 405, message = "Method Not Allowed"),
+        @ApiResponse(code = 401, message = "Access unauthorized."),
         @ApiResponse(code = 500, message = "Internal Server Error")
     })
     @ResponseStatus(HttpStatus.OK)
@@ -63,6 +67,7 @@ public class UserController extends ApiController {
         @ApiResponse(code = 200, message = "Successfully deleted user"),
         @ApiResponse(code = 404, message = "User not found"),
         @ApiResponse(code = 405, message = "Method Not Allowed"),
+        @ApiResponse(code = 401, message = "Access unauthorized."),
         @ApiResponse(code = 500, message = "Internal Server Error")
     })
     @ResponseStatus(HttpStatus.OK)
@@ -77,6 +82,7 @@ public class UserController extends ApiController {
         @ApiResponse(code = 200, message = "Successfully founded user"),
         @ApiResponse(code = 404, message = "User not found"),
         @ApiResponse(code = 405, message = "Method Not Allowed"),
+        @ApiResponse(code = 401, message = "Access unauthorized."),
         @ApiResponse(code = 500, message = "Internal Server Error")
     })
     @ResponseStatus(HttpStatus.OK)
@@ -89,6 +95,7 @@ public class UserController extends ApiController {
         @ApiResponse(code = 200, message = "Successfully founded user"),
         @ApiResponse(code = 404, message = "User not found"),
         @ApiResponse(code = 405, message = "Method Not Allowed"),
+        @ApiResponse(code = 401, message = "Access unauthorized."),
         @ApiResponse(code = 500, message = "Internal Server Error")
     })
     @ResponseStatus(HttpStatus.OK)
@@ -103,6 +110,7 @@ public class UserController extends ApiController {
         @ApiResponse(code = 200, message = "Book added to user"),
         @ApiResponse(code = 404, message = "The book is added to user"),
         @ApiResponse(code = 405, message = "Method Not Allowed"),
+        @ApiResponse(code = 401, message = "Access unauthorized."),
         @ApiResponse(code = 500, message = "Internal Server Error")
     })
     @ResponseStatus(HttpStatus.OK)
@@ -120,6 +128,7 @@ public class UserController extends ApiController {
         @ApiResponse(code = 200, message = "Passwrod user updated"),
         @ApiResponse(code = 404, message = "User not found"),
         @ApiResponse(code = 405, message = "Method Not Allowed"),
+        @ApiResponse(code = 401, message = "Access unauthorized."),
         @ApiResponse(code = 500, message = "Internal Server Error")
     })
     @ResponseStatus(HttpStatus.OK)

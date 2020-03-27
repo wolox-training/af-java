@@ -13,7 +13,7 @@ import wolox.training.repositories.UserRepository;
 
 public abstract class ApiController {
 
-    @ApiOperation(value = "Given the isbn of a book, return the book or an exception", response = Book.class)
+  @ApiOperation(value = "Given the isbn of a book, return the book or an exception", response = Book.class)
     protected Book foundBook(String isbn, BookRepository bookRepository){
         Optional<Book> list = bookRepository.findByIsbn(isbn);
         if (list.isEmpty()){

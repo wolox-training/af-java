@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.google.common.base.Preconditions;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
+import java.util.Collection;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -54,6 +55,8 @@ public class User {
     @Column(nullable = false)
     private String password;
 
+    @ManyToMany
+    private Collection<Role> roles = new ArrayList<>();
 
     @Autowired
     @Transient
@@ -147,5 +150,13 @@ public class User {
     public void setAtributes(String name, String userName, LocalDate birthday){
         this.update(name, birthday);
         this.setUsername(userName);
+    }
+
+    public void setRoles(Role role){
+      this.roles.add(role);
+    }
+
+    public Collection<Role> getRoles(){
+      return this.roles;
     }
 }
