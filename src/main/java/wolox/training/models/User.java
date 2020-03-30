@@ -54,6 +54,9 @@ public class User {
     @Column(nullable = false)
     private String password;
 
+    @ApiModelProperty(notes = "This Field is generated automatically, but this are the permissions of the user")
+    @ManyToMany(cascade = {CascadeType.REFRESH, CascadeType.MERGE})
+    private List<Role> roles = new ArrayList<>();
 
     @Autowired
     @Transient
@@ -152,5 +155,13 @@ public class User {
     public void setAtributes(String name, String userName, LocalDate birthday){
         this.update(name, birthday);
         this.setUsername(userName);
+    }
+
+    public void setRoles(Role role){
+      this.roles.add(role);
+    }
+
+    public List<Role> getRoles(){
+      return this.roles;
     }
 }

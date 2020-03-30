@@ -4,7 +4,6 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -40,9 +39,10 @@ public class BookController extends ApiController {
     @PostMapping
     @ApiOperation(value = "Given a book, create one, and return the book.", response = Book.class)
     @ApiResponses(value = {
-        @ApiResponse(code = 201, message = "Successfully created book"),
-        @ApiResponse(code = 500, message = "Error created book, exist book"),
-        @ApiResponse(code = 405, message = "Method Not Allowed"),
+        @ApiResponse(code = 201, message = "Successfully created book."),
+        @ApiResponse(code = 500, message = "Error created book, exist book."),
+        @ApiResponse(code = 405, message = "Method Not Allowed."),
+        @ApiResponse(code = 401, message = "Access unauthorized."),
         @ApiResponse(code = 500, message = "Internal Server Error")
     })
     @ResponseStatus(HttpStatus.CREATED)
@@ -58,6 +58,7 @@ public class BookController extends ApiController {
         @ApiResponse(code = 200, message = "Successfully updated book"),
         @ApiResponse(code = 404, message = "Book not found"),
         @ApiResponse(code = 405, message = "Method Not Allowed"),
+        @ApiResponse(code = 401, message = "Access unauthorized."),
         @ApiResponse(code = 500, message = "Internal Server Error")
     })
     @ResponseStatus(HttpStatus.OK)
@@ -74,6 +75,7 @@ public class BookController extends ApiController {
         @ApiResponse(code = 200, message = "Successfully deleted book"),
         @ApiResponse(code = 404, message = "Book not found"),
         @ApiResponse(code = 405, message = "Method Not Allowed"),
+        @ApiResponse(code = 401, message = "Access unauthorized."),
         @ApiResponse(code = 500, message = "Internal Server Error")
     })
     @ResponseStatus(HttpStatus.OK)
@@ -87,6 +89,7 @@ public class BookController extends ApiController {
         @ApiResponse(code = 200, message = "Successfully founded book"),
         @ApiResponse(code = 404, message = "Book not found"),
         @ApiResponse(code = 405, message = "Method Not Allowed"),
+        @ApiResponse(code = 401, message = "Access unauthorized."),
         @ApiResponse(code = 500, message = "Internal Server Error")
     })
     @ResponseStatus(HttpStatus.OK)
