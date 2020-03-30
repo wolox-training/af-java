@@ -54,6 +54,7 @@ public class User {
     @Column(nullable = false)
     private String password;
 
+    @ApiModelProperty(notes = "This Field is generated automatically, but this are the permissions of the user")
     @ManyToMany(cascade = {CascadeType.REFRESH, CascadeType.MERGE})
     private List<Role> roles = new ArrayList<>();
 

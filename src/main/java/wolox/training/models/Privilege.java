@@ -2,6 +2,7 @@ package wolox.training.models;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
@@ -23,6 +24,7 @@ public class Privilege {
   @SequenceGenerator(name = "PRIVILEGE_SEQ", sequenceName = "PRIVILEGE_SEQ")
   private long id;
 
+  @ApiModelProperty(notes = "name", required = true, example = "WRITE_PRIVILEGE")
   @Column(nullable = false)
   private String name;
 

@@ -2,6 +2,7 @@ package wolox.training.models;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -24,12 +25,14 @@ public class Role {
   @SequenceGenerator(name = "ROLE_SEQ", sequenceName = "ROLE_SEQ")
   private long id;
 
+  @ApiModelProperty(notes = "name", required = true, example = "ROL_USER")
   @Column(nullable = false)
   private String name;
 
   @ManyToMany(mappedBy = "roles")
   private List<User> users = new ArrayList<>();
 
+  @ApiModelProperty(notes = "This Field is generated automatically, but this are the privileges of the roles")
   @ManyToMany(cascade = {CascadeType.REFRESH, CascadeType.MERGE})
   private List<Privilege> privileges = new ArrayList<>();
 
