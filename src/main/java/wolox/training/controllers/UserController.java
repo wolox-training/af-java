@@ -18,7 +18,6 @@ import wolox.training.repositories.UserRepository;
 @RestController
 @Api
 @RequestMapping("/api/users")
-//@SpringBootApplication(exclude = { SecurityAutoConfiguration.class })
 public class UserController extends ApiController {
 
     @Autowired

@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.google.common.base.Preconditions;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
-import java.util.Collection;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -55,8 +54,8 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @ManyToMany
-    private Collection<Role> roles = new ArrayList<>();
+    @ManyToMany(cascade = {CascadeType.REFRESH, CascadeType.MERGE})
+    private List<Role> roles = new ArrayList<>();
 
     @Autowired
     @Transient
@@ -156,7 +155,7 @@ public class User {
       this.roles.add(role);
     }
 
-    public Collection<Role> getRoles(){
+    public List<Role> getRoles(){
       return this.roles;
     }
 }

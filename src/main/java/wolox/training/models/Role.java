@@ -1,27 +1,37 @@
 package wolox.training.models;
 
-import java.awt.desktop.UserSessionEvent;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
 @Entity
+@Table(name="roles")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Role {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
-  private Long id;
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ROLE_SEQ")
+  @SequenceGenerator(name = "ROLE_SEQ", sequenceName = "ROLE_SEQ")
+  private long id;
 
+  @Column(nullable = false)
   private String name;
-  @ManyToMany(mappedBy = "roles")
-  private Collection<User> users = new ArrayList<>();
 
-  @ManyToMany
-  private Collection<Privilege> privileges = new ArrayList<>();
+  @ManyToMany(mappedBy = "roles")
+  private List<User> users = new ArrayList<>();
+
+  @ManyToMany(cascade = {CascadeType.REFRESH, CascadeType.MERGE})
+  private List<Privilege> privileges = new ArrayList<>();
 
   public Role() {
   }
@@ -34,7 +44,7 @@ public class Role {
     this.name = name;
   }
 
-  public Collection<User> getUsers(){
+  public List<User> getUsers(){
     return this.users;
   }
 
@@ -42,12 +52,16 @@ public class Role {
     this.users.add(user);
   }
 
-  public Collection<Privilege> getPrivileges(){
+  public List<Privilege> getPrivileges(){
     return this.privileges;
   }
 
   public void setPrivileges(Privilege privilege){
     this.privileges.add(privilege);
+  }
+
+  public long getId(){
+    return this.id;
   }
 
 }

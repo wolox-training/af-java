@@ -59,7 +59,7 @@ public class SetupDataLoader implements
     adminPrivileges.add(readPrivilege);
     adminPrivileges.add(writePrivilege);
     Collection<Privilege> userPrivileges = new ArrayList<>();
-    adminPrivileges.add(readPrivilege);
+    userPrivileges.add(readPrivilege);
     createRoleIfNotFound("ROLE_ADMIN", adminPrivileges);
     createRoleIfNotFound("ROLE_USER", userPrivileges);
 
