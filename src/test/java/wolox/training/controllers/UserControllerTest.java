@@ -8,6 +8,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,7 +33,7 @@ import wolox.training.utils.VariablesConstants;
 
 @RunWith(MockitoJUnitRunner.class)
 @WebMvcTest(UserController.class)
-public class UserTest {
+public class UserControllerTest {
 
   @Autowired
   private MockMvc mvc;
@@ -40,17 +44,19 @@ public class UserTest {
   private BookRepository mockedBookRepository;
   private User oneTestUser;
   private Book oneTestBook;
+  private ObjectMapper mapper = new ObjectMapper();
 
   @BeforeEach
-  public void setUp() {
+  public void setUp(){
     oneTestBook = new Book ("Terror", "Yo Soy El Autor", "Mi Imagen", "Mi Super Titulo", "Mi SubTitulo", "Publicador", "2020", 3, "999");
     oneTestUser = new User ("Alex", "Alito", LocalDate
         .of(1994, 10, 25));
   }
 
   @Test
-  public void whenFindByUsernameWichExist_thenUserIsReturned() throws Exception{
+  public void whenFindByUsernameWhichExist_thenUserIsReturned() throws Exception{
     oneTestUser.addBookToUser(oneTestBook);
+    JsonNode jsonUser = mapper.readValue(new File("./JsonFiles/Users/UserWithBookJson.json"), JsonNode.class);
     Mockito.when(mockedUserRepository.findByUsername(oneTestUser.getUsername()))
         .thenReturn(
             Optional
@@ -59,37 +65,26 @@ public class UserTest {
     mvc.perform(get(url)
       .contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isOk())
-      .andExpect(content().json(
-         "{\"id\": 0,\"username\": \"Alito\",\"name\": \"Alex\","
-             + "\"birthday\": \"1994-10-25\",\"listBooks\": [{\"id\": 0,\"genre\": \"Terror\","
-             + "\"author\": \"Yo Soy El Autor\", \"image\": \"Mi Imagen\","
-             + "\"title\": \"Mi Super Titulo\",\"subtitle\": \"Mi SubTitulo\",\"publisher\": \"Publicador\", "
-             + "\"year\": \"2020\", \"page\": 3, \"isbn\": \"999\", \"users\": [0]}],"
-             + "\"listBooks\": [0]}"
-             + "}"
+      .andExpect(content().json(jsonUser.toString()
       ));
   }
 
   @Test
   public void whenCreateUser_thenUserIsReturned() throws Exception{
+    JsonNode jsonCreateUser = mapper.readValue(new File("./JsonFiles/Users/CreateUserJson.json"), JsonNode.class);
+    JsonNode jsonUser = mapper.readValue(new File("./JsonFiles/Users/UserWithoutBookJson.json"), JsonNode.class);
     Mockito.when(mockedUserRepository.save(oneTestUser))
         .thenReturn((oneTestUser));
     mvc.perform(post(VariablesConstants.USER_URL)
         .contentType(MediaType.APPLICATION_JSON)
-        .content("{\"username\": \"Alito\",\"name\": \"Alex\","
-            + "\"birthday\": \"1994-10-25\""
-            + "}"))
+        .content(jsonCreateUser.toString()))
         .andExpect(status().isCreated())
-        .andExpect(content().json(
-            "{\"id\": 0,\"username\": \"Alito\",\"name\": \"Alex\","
-                + "\"birthday\": \"1994-10-25\",\"listBooks\": [],"
-                + "\"listBooks\": []}"
-                + "}"
-        ));
+        .andExpect(content().json(jsonUser.toString()));
   }
 
   @Test
   public void whenUpdateUser_thenUserIsReturned() throws Exception{
+    JsonNode jsonUser = mapper.readValue(new File("./JsonFiles/Users/UserUpdatedWithoutBookJson.json"), JsonNode.class);
     Mockito.when(mockedUserRepository.findByUsername(oneTestUser.getUsername()))
         .thenReturn(
             Optional
@@ -97,25 +92,18 @@ public class UserTest {
     oneTestUser.setName("Alex Nicolas");
     mvc.perform(put(VariablesConstants.USER_URL)
         .contentType(MediaType.APPLICATION_JSON)
-        .content("{\"username\": \"Alito\",\"name\": \"Alex Nicolas\","
-            + "\"birthday\": \"1994-10-25\""
-            + "}"))
+        .content(jsonUser.toString()))
         .andExpect(status().isOk())
-        .andExpect(content().json(
-            "{\"id\": 0,\"username\": \"Alito\",\"name\": \"Alex Nicolas\","
-                + "\"birthday\": \"1994-10-25\",\"listBooks\": [],"
-                + "\"listBooks\": []}"
-                + "}"
+        .andExpect(content().json(jsonUser.toString()
         ));
   }
 
   @Test
   public void whenUpdateUserThatNotExist_thenMessageIsReturned() throws Exception{
+    JsonNode jsonUser = mapper.readValue(new File("./JsonFiles/Users/UserUpdatedWithoutBookJson.json"), JsonNode.class);
     mvc.perform(put(VariablesConstants.USER_URL)
         .contentType(MediaType.APPLICATION_JSON)
-        .content("{\"username\": \"Alito\",\"name\": \"Alex Nicolas\","
-            + "\"birthday\": \"1994-10-25\""
-            + "}"))
+        .content(jsonUser.toString()))
         .andExpect(status().isNotFound());
   }
 
@@ -133,6 +121,7 @@ public class UserTest {
 
   @Test
   public void whenAUserAddBook_thenUserIsReturned() throws Exception{
+    JsonNode jsonUser = mapper.readValue(new File("./JsonFiles/Users/UserWithBookJson.json"), JsonNode.class);
     Mockito.when(mockedUserRepository.findByUsername(oneTestUser.getUsername()))
         .thenReturn(
             Optional
@@ -149,14 +138,7 @@ public class UserTest {
         .contentType(MediaType.APPLICATION_JSON)
         .queryParams(requestParams))
         .andExpect(status().isOk())
-        .andExpect(content().json(
-            "{\"id\": 0,\"username\": \"Alito\",\"name\": \"Alex\","
-                + "\"birthday\": \"1994-10-25\",\"listBooks\": [{\"id\": 0,\"genre\": \"Terror\","
-                + "\"author\": \"Yo Soy El Autor\", \"image\": \"Mi Imagen\","
-                + "\"title\": \"Mi Super Titulo\",\"subtitle\": \"Mi SubTitulo\",\"publisher\": \"Publicador\", "
-                + "\"year\": \"2020\", \"page\": 3, \"isbn\": \"999\", \"users\": [0]}],"
-                + "\"listBooks\": [0]}"
-                + "}"
+        .andExpect(content().json(jsonUser.toString()
         ));
   }
 }

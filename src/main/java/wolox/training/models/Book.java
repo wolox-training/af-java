@@ -224,7 +224,7 @@ public class Book {
         this.update(genre, author, image, title, subtitle, publisher, year, page);
     }
 
-    public boolean equal_book (Book book){
+    public boolean equal (Book book){
         return
             this.getAuthor()
                 .equals(
