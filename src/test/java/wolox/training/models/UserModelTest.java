@@ -17,7 +17,7 @@ import wolox.training.utils.VariablesConstants;
 @RunWith(SpringRunner.class)
 @AutoConfigureTestDatabase(replace = Replace.NONE)
 @DataJpaTest
-public class UserTest {
+public class UserModelTest {
 
   @Autowired
   private UserRepository userRepository;
