@@ -3,17 +3,22 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import io.swagger.models.Model;
 import java.util.List;
+import javax.persistence.Transient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import wolox.training.utils.AuthProviderUser;
 import wolox.training.models.Book;
 import wolox.training.models.User;
 import wolox.training.repositories.BookRepository;
 import wolox.training.repositories.UserRepository;
+import wolox.training.utils.CustomAuthenticationProvider;
 
 @RestController
 @Api
@@ -24,6 +29,8 @@ public class UserController extends ApiController {
     private UserRepository userRepository;
     @Autowired
     private BookRepository bookRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @PostMapping
     @ApiResponses(value = {
@@ -136,5 +143,23 @@ public class UserController extends ApiController {
         userFounded.setPassword(user.getPassword());
         userRepository.save(userFounded);
         return userFounded;
+    }
+
+    @ApiOperation(value = "Given the username of a user, return the user logged", response = User.class)
+    @GetMapping("/login")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Successfully login user"),
+        @ApiResponse(code = 404, message = "User not found"),
+        @ApiResponse(code = 405, message = "Method Not Allowed"),
+        @ApiResponse(code = 401, message = "Access unauthorized."),
+        @ApiResponse(code = 500, message = "Internal Server Error")
+    })
+    @ResponseStatus(HttpStatus.OK)
+    public User login(@RequestBody AuthProviderUser user, Model model) {
+        User userFounded = foundUser(user.getUsername() , userRepository);
+        if (userFounded.getPassword().equals(passwordEncoder.encode(user.getPassword()))){
+            return userFounded;
+        }
+        return null;
     }
 }

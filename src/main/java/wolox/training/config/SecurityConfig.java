@@ -46,13 +46,15 @@ public class SecurityConfig extends
         http.httpBasic().and().authorizeRequests()
         .antMatchers(
             HttpMethod.PUT, user_url, VariablesConstants.USER_URL.concat("/add_book/*"),book_url)
-        .authenticated()
+        .permitAll()
+//        .authenticated()
         .antMatchers(
             HttpMethod.DELETE, user_url, book_url)
         .authenticated()
         .antMatchers(
             HttpMethod.GET, user_url, book_url)
-        .authenticated()
+        .permitAll()
+//        .authenticated()
         .and()
         .csrf().disable();
   }
