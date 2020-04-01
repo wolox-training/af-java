@@ -1,4 +1,8 @@
 package wolox.training.controllers;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
@@ -16,6 +20,7 @@ import wolox.training.models.Book;
 import wolox.training.repositories.BookRepository;
 
 @RestController
+@Api
 @RequestMapping("/api/books")
 public class BookApiController extends ApiController {
 
@@ -29,6 +34,13 @@ public class BookApiController extends ApiController {
     }
 
     @PostMapping
+    @ApiOperation(value = "Given a book, create one, and return the book.", response = Book.class)
+    @ApiResponses(value = {
+        @ApiResponse(code = 201, message = "Successfully created book"),
+        @ApiResponse(code = 500, message = "Error created book, exist book"),
+        @ApiResponse(code = 405, message = "Method Not Allowed"),
+        @ApiResponse(code = 500, message = "Internal Server Error")
+    })
     @ResponseStatus(HttpStatus.CREATED)
     public Book create(@RequestBody Book book, Model model) {
         Book newBook = new Book(book.getGenre(), book.getAuthor(), book.getImage(), book.getTitle(), book.getSubtitle(), book.getPublisher(), book.getYear(), book.getPage(), book.getIsbn());
@@ -37,6 +49,14 @@ public class BookApiController extends ApiController {
     }
 
     @PutMapping
+    @ApiOperation(value = "Given the isbn of the book, you can update the book, and return the book.", response = Book.class)
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Successfully updated book"),
+        @ApiResponse(code = 404, message = "Book not found"),
+        @ApiResponse(code = 405, message = "Method Not Allowed"),
+        @ApiResponse(code = 500, message = "Internal Server Error")
+    })
+    @ResponseStatus(HttpStatus.OK)
     public Book update(@RequestBody Book book) {
         Book bookFounded = foundBook(book.getIsbn(), bookRepository);
         bookFounded.update(book.getGenre(), book.getAuthor(), book.getImage(), book.getTitle(),
@@ -45,11 +65,27 @@ public class BookApiController extends ApiController {
     }
 
     @DeleteMapping
+    @ApiOperation(value = "Given the isbn of the book, you delete the book, and return void", response = void.class)
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Successfully deleted book"),
+        @ApiResponse(code = 404, message = "Book not found"),
+        @ApiResponse(code = 405, message = "Method Not Allowed"),
+        @ApiResponse(code = 500, message = "Internal Server Error")
+    })
+    @ResponseStatus(HttpStatus.OK)
     public void delete(@RequestParam(name="isbn", required=true) String isbn) {
         bookRepository.delete(foundBook(isbn, bookRepository));
     }
 
     @GetMapping("/{isbn}")
+    @ApiOperation(value = "Given the isbn of the book, return the book asked", response = Book.class)
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Successfully founded book"),
+        @ApiResponse(code = 404, message = "Book not found"),
+        @ApiResponse(code = 405, message = "Method Not Allowed"),
+        @ApiResponse(code = 500, message = "Internal Server Error")
+    })
+    @ResponseStatus(HttpStatus.OK)
     public Book read(@PathVariable String isbn) {
         return foundBook(isbn, bookRepository);
     }

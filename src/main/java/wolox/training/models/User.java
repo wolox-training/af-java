@@ -1,6 +1,9 @@
 package wolox.training.models;
+
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.google.common.base.Preconditions;
+import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -15,6 +18,7 @@ import wolox.training.errors.user.UserHttpErrors;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
+import wolox.training.utils.ErrorConstants;
 
 @Entity
 @Table(name="users")
@@ -25,27 +29,29 @@ public class User {
     @SequenceGenerator(name = "USERS_SEQ", sequenceName = "USERS_SEQ")
     private long id;
 
+    @ApiModelProperty(notes = "user", required = true, example = "MySuperUser")
     @Column(nullable = false, unique = true)
     private String username;
 
+    @ApiModelProperty(notes = "name", required = true, example = "Alex")
     @Column(nullable = false)
     private String name;
 
+    @ApiModelProperty(notes = "birthday", required = true, example = "1994-10-25")
     @Column(nullable = false)
     private LocalDate birthday;
 
+    @ApiModelProperty(notes = "This Field is generated automatically")
     @ManyToMany(cascade = {CascadeType.REFRESH, CascadeType.MERGE})
-    private List<Book> books;
+    private List<Book> books = new ArrayList<>();;
 
     public User() {
-        this.setBooks(null);
     }
 
     public User(String name, String username, LocalDate birthday) {
         this.setUsername(username);
         this.setName(name);
         this.setBirthday(birthday);
-        this.setBooks(new ArrayList<>());
     }
 
     public long getId() {
@@ -57,6 +63,11 @@ public class User {
     }
 
     public void setUsername(String username) {
+        Preconditions
+            .checkNotNull(username,
+                String.format(ErrorConstants.NOT_NULL,"username"));
+        Preconditions
+            .checkArgument(!username.isEmpty(), String.format(ErrorConstants.NOT_EMPTY, "username"));
         this.username = username;
     }
 
@@ -65,6 +76,10 @@ public class User {
     }
 
     public void setName(String name) {
+        Preconditions
+            .checkNotNull(name, String.format(ErrorConstants.NOT_NULL,"name"));
+        Preconditions
+            .checkArgument(!name.isEmpty(), String.format(ErrorConstants.NOT_EMPTY, "name"));
         this.name = name;
     }
 
@@ -72,7 +87,11 @@ public class User {
         return birthday;
     }
 
-    public void setBirthday(LocalDate birthday) {
+  public void setBirthday(LocalDate birthday) {
+        Preconditions
+            .checkNotNull(birthday, String.format(ErrorConstants.NOT_NULL,"birthday"));
+        Preconditions
+            .checkArgument(!birthday.isAfter(LocalDate.now()), ErrorConstants.NOT_LATER_CURRENT_DAY);
         this.birthday = birthday;
     }
 
