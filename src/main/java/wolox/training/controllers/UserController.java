@@ -5,13 +5,12 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import io.swagger.models.Model;
 import java.util.List;
-import javax.persistence.Transient;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import wolox.training.utils.AuthProviderUser;
 import wolox.training.models.Book;
@@ -30,7 +29,7 @@ public class UserController extends ApiController {
     @Autowired
     private BookRepository bookRepository;
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private CustomAuthenticationProvider authenticateProvider;
 
     @PostMapping
     @ApiResponses(value = {
@@ -38,6 +37,7 @@ public class UserController extends ApiController {
         @ApiResponse(code = 500, message = "Error created user, exist user"),
         @ApiResponse(code = 405, message = "Method Not Allowed"),
         @ApiResponse(code = 401, message = "Access unauthorized."),
+        @ApiResponse(code = 403, message = "Access unauthorized."),
         @ApiResponse(code = 500, message = "Internal Server Error")
     })
     @ResponseStatus(HttpStatus.CREATED)
@@ -56,6 +56,7 @@ public class UserController extends ApiController {
         @ApiResponse(code = 404, message = "User not found"),
         @ApiResponse(code = 405, message = "Method Not Allowed"),
         @ApiResponse(code = 401, message = "Access unauthorized."),
+        @ApiResponse(code = 403, message = "Access unauthorized."),
         @ApiResponse(code = 500, message = "Internal Server Error")
     })
     @ResponseStatus(HttpStatus.OK)
@@ -74,6 +75,7 @@ public class UserController extends ApiController {
         @ApiResponse(code = 404, message = "User not found"),
         @ApiResponse(code = 405, message = "Method Not Allowed"),
         @ApiResponse(code = 401, message = "Access unauthorized."),
+        @ApiResponse(code = 403, message = "Access unauthorized."),
         @ApiResponse(code = 500, message = "Internal Server Error")
     })
     @ResponseStatus(HttpStatus.OK)
@@ -89,6 +91,7 @@ public class UserController extends ApiController {
         @ApiResponse(code = 404, message = "User not found"),
         @ApiResponse(code = 405, message = "Method Not Allowed"),
         @ApiResponse(code = 401, message = "Access unauthorized."),
+        @ApiResponse(code = 403, message = "Access unauthorized."),
         @ApiResponse(code = 500, message = "Internal Server Error")
     })
     @ResponseStatus(HttpStatus.OK)
@@ -117,6 +120,7 @@ public class UserController extends ApiController {
         @ApiResponse(code = 404, message = "The book is added to user"),
         @ApiResponse(code = 405, message = "Method Not Allowed"),
         @ApiResponse(code = 401, message = "Access unauthorized."),
+        @ApiResponse(code = 403, message = "Access unauthorized."),
         @ApiResponse(code = 500, message = "Internal Server Error")
     })
     @ResponseStatus(HttpStatus.OK)
@@ -135,6 +139,7 @@ public class UserController extends ApiController {
         @ApiResponse(code = 404, message = "User not found"),
         @ApiResponse(code = 405, message = "Method Not Allowed"),
         @ApiResponse(code = 401, message = "Access unauthorized."),
+        @ApiResponse(code = 403, message = "Access unauthorized."),
         @ApiResponse(code = 500, message = "Internal Server Error")
     })
     @ResponseStatus(HttpStatus.OK)
@@ -145,6 +150,7 @@ public class UserController extends ApiController {
         return userFounded;
     }
 
+
     @ApiOperation(value = "Given the username of a user, return the user logged", response = User.class)
     @GetMapping("/login")
     @ApiResponses(value = {
@@ -152,14 +158,17 @@ public class UserController extends ApiController {
         @ApiResponse(code = 404, message = "User not found"),
         @ApiResponse(code = 405, message = "Method Not Allowed"),
         @ApiResponse(code = 401, message = "Access unauthorized."),
+        @ApiResponse(code = 403, message = "Access unauthorized."),
         @ApiResponse(code = 500, message = "Internal Server Error")
     })
     @ResponseStatus(HttpStatus.OK)
     public User login(@RequestBody AuthProviderUser user, Model model) {
-        User userFounded = foundUser(user.getUsername() , userRepository);
-        if (userFounded.getPassword().equals(passwordEncoder.encode(user.getPassword()))){
-            return userFounded;
-        }
-        return null;
+        UsernamePasswordAuthenticationToken authReq
+            = new UsernamePasswordAuthenticationToken(user, user.getPassword());
+        Authentication auth = authenticateProvider.authenticate(authReq);
+        SecurityContext sc = SecurityContextHolder
+            .getContext();
+        sc.setAuthentication(auth);
+        return foundUser(user.getUsername(), userRepository);
     }
 }

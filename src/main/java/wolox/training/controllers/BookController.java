@@ -42,6 +42,7 @@ public class BookController extends ApiController {
         @ApiResponse(code = 500, message = "Error created book, exist book."),
         @ApiResponse(code = 405, message = "Method Not Allowed."),
         @ApiResponse(code = 401, message = "Access unauthorized."),
+        @ApiResponse(code = 403, message = "Access unauthorized."),
         @ApiResponse(code = 500, message = "Internal Server Error")
     })
     @ResponseStatus(HttpStatus.CREATED)
@@ -58,6 +59,7 @@ public class BookController extends ApiController {
         @ApiResponse(code = 404, message = "Book not found"),
         @ApiResponse(code = 405, message = "Method Not Allowed"),
         @ApiResponse(code = 401, message = "Access unauthorized."),
+        @ApiResponse(code = 403, message = "Access unauthorized."),
         @ApiResponse(code = 500, message = "Internal Server Error")
     })
     @ResponseStatus(HttpStatus.OK)
@@ -75,6 +77,7 @@ public class BookController extends ApiController {
         @ApiResponse(code = 404, message = "Book not found"),
         @ApiResponse(code = 405, message = "Method Not Allowed"),
         @ApiResponse(code = 401, message = "Access unauthorized."),
+        @ApiResponse(code = 403, message = "Access unauthorized."),
         @ApiResponse(code = 500, message = "Internal Server Error")
     })
     @ResponseStatus(HttpStatus.OK)
@@ -89,6 +92,7 @@ public class BookController extends ApiController {
         @ApiResponse(code = 404, message = "Book not found"),
         @ApiResponse(code = 405, message = "Method Not Allowed"),
         @ApiResponse(code = 401, message = "Access unauthorized."),
+        @ApiResponse(code = 403, message = "Access unauthorized."),
         @ApiResponse(code = 500, message = "Internal Server Error")
     })
     @ResponseStatus(HttpStatus.OK)
