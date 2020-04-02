@@ -45,7 +45,7 @@ public class SecurityConfig extends
         .antMatchers(String.valueOf(HttpMethod.POST), VariablesConstants.USER_URL, VariablesConstants.BOOK_URL)
         .permitAll()
         .antMatchers(String.valueOf(HttpMethod.DELETE), VariablesConstants.USER_URL, VariablesConstants.BOOK_URL)
-        .hasRole("ROLE_ADMIN")
+        .hasRole("ADMIN")
         .antMatchers(
             String.valueOf(HttpMethod.GET), VariablesConstants.USER_URL.concat("/login"))
         .permitAll()
