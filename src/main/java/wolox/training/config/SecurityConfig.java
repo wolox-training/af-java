@@ -41,15 +41,13 @@ public class SecurityConfig extends
   @Override
   protected void configure(
       HttpSecurity http) throws Exception {
-    String user_url = VariablesConstants.USER_URL;
-    String book_url = VariablesConstants.BOOK_URL;
     http.httpBasic().and().authorizeRequests()
-        .antMatchers(HttpMethod.POST, user_url,book_url)
+        .antMatchers(String.valueOf(HttpMethod.POST), VariablesConstants.USER_URL, VariablesConstants.BOOK_URL)
         .permitAll()
-        .antMatchers(HttpMethod.DELETE, user_url, book_url)
+        .antMatchers(String.valueOf(HttpMethod.DELETE), VariablesConstants.USER_URL, VariablesConstants.BOOK_URL)
         .hasRole("ROLE_ADMIN")
         .antMatchers(
-            HttpMethod.GET, user_url.concat("/login"))
+            String.valueOf(HttpMethod.GET), VariablesConstants.USER_URL.concat("/login"))
         .permitAll()
         .and()
         .csrf();
