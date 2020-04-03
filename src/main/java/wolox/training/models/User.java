@@ -74,7 +74,7 @@ public class User {
         this.setUsername(username);
         this.setName(name);
         this.setBirthday(birthday);
-        this.setPassword(passwordEncoder.encode(password));
+        this.setPassword(password);
     }
 
     public String getPassword(){
@@ -82,7 +82,7 @@ public class User {
     }
 
     public void setPassword(String password){
-      this.password = password;
+      this.password = passwordEncoder.encode(password);
     }
 
     public long getId() {

@@ -22,20 +22,8 @@ public class SecurityConfig extends
   private CustomAuthenticationProvider authProvider;
 
   @Override
-  protected void configure(
-      AuthenticationManagerBuilder auth) throws Exception {
-    PasswordEncoder encoder =
-        PasswordEncoderFactories
-            .createDelegatingPasswordEncoder();
-    auth
-        .inMemoryAuthentication()
-        .withUser("user")
-        .password(encoder.encode("password"))
-        .roles("USER")
-        .and()
-        .withUser("admin")
-        .password(encoder.encode("admin"))
-        .roles("USER", "ADMIN");
+  protected void configure(final AuthenticationManagerBuilder auth) {
+    auth.authenticationProvider(authProvider);
   }
 
   @Override
@@ -49,10 +37,10 @@ public class SecurityConfig extends
         .disable()
         .authorizeRequests()
         .antMatchers(HttpMethod.POST, userUrl, bookUrl).permitAll()
-        .antMatchers(HttpMethod.DELETE, userUrl, bookUrl).hasAnyRole("ADMIN")
+        .antMatchers(HttpMethod.DELETE, userUrl, bookUrl).hasRole("ADMIN")
         .antMatchers(HttpMethod.PUT, userUrl, bookUrl).hasAnyRole("ADMIN")
         .antMatchers(HttpMethod.GET, userLoginUrl).permitAll()
-        .antMatchers(HttpMethod.GET, userUrl).hasAnyRole("USER", "ADMIN")
+        .antMatchers(userUrl).authenticated()
         .anyRequest().authenticated();
   }
 }
