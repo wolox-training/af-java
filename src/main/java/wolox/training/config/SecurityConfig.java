@@ -41,22 +41,18 @@ public class SecurityConfig extends
   @Override
   protected void configure(
       HttpSecurity http) throws Exception {
-    String userUrl = VariablesConstants.USER_URL.concat("/**");
+    String userUrl = VariablesConstants.USER_URL.concat("/*");
     String bookUrl = VariablesConstants.BOOK_URL;
     String userLoginUrl = VariablesConstants.USER_URL.concat("/login");
-    http.httpBasic().and().authorizeRequests()
-        .antMatchers(HttpMethod.GET, userLoginUrl)
-        .permitAll()
-        .antMatchers(HttpMethod.POST, userUrl, bookUrl  )
-        .permitAll()
-        .antMatchers(HttpMethod.DELETE, userUrl, bookUrl)
-        .hasAuthority("ADMIN")
-        .antMatchers(HttpMethod.PUT, userUrl, bookUrl)
-        .hasAuthority("ADMIN")
-        .antMatchers(HttpMethod.GET, userUrl)
-        .authenticated()
-    .and()
-    .csrf()
-    .disable();
+    http
+        .csrf()
+        .disable()
+        .authorizeRequests()
+        .antMatchers(HttpMethod.POST, userUrl, bookUrl).permitAll()
+        .antMatchers(HttpMethod.DELETE, userUrl, bookUrl).hasAnyRole("ADMIN")
+        .antMatchers(HttpMethod.PUT, userUrl, bookUrl).hasAnyRole("ADMIN")
+        .antMatchers(HttpMethod.GET, userLoginUrl).permitAll()
+        .antMatchers(HttpMethod.GET, userUrl).hasAnyRole("USER", "ADMIN")
+        .anyRequest().authenticated();
   }
 }
