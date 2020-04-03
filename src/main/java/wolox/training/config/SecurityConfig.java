@@ -32,15 +32,16 @@ public class SecurityConfig extends
     String userUrl = VariablesConstants.USER_URL.concat("/*");
     String bookUrl = VariablesConstants.BOOK_URL;
     String userLoginUrl = VariablesConstants.USER_URL.concat("/login");
-    http
-        .csrf()
-        .disable()
+    http.httpBasic().and()
         .authorizeRequests()
         .antMatchers(HttpMethod.POST, userUrl, bookUrl).permitAll()
         .antMatchers(HttpMethod.DELETE, userUrl, bookUrl).hasRole("ADMIN")
-        .antMatchers(HttpMethod.PUT, userUrl, bookUrl).hasAnyRole("ADMIN")
+        .antMatchers(HttpMethod.PUT, userUrl, bookUrl).hasRole("ADMIN")
         .antMatchers(HttpMethod.GET, userLoginUrl).permitAll()
         .antMatchers(userUrl).authenticated()
-        .anyRequest().authenticated();
+        .anyRequest().authenticated()
+    .and()
+    .csrf()
+    .disable();
   }
 }
