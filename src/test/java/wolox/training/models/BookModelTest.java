@@ -6,6 +6,7 @@ import com.google.common.base.Preconditions;
 import java.util.Optional;
 import org.junit.Before;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ public class BookModelTest {
 
   private Book book;
 
-  @Before
+  @BeforeEach
   public void init(){
     book = new Book("Terror", "Yo Soy El Autor", "Mi Imagen", "Mi Super Titulo", "Mi SubTitulo", "Publicador", "2020", 3,"99");
     entityManager.persist(book);
