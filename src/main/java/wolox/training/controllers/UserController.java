@@ -12,12 +12,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-import wolox.training.utils.AuthProviderUser;
 import wolox.training.models.Book;
 import wolox.training.models.User;
 import wolox.training.repositories.BookRepository;
 import wolox.training.repositories.UserRepository;
-import wolox.training.utils.CustomAuthenticationProvider;
+import wolox.training.utils.AuthProviderUser;
 
 @RestController
 @Api
@@ -29,7 +28,9 @@ public class UserController extends ApiController {
     @Autowired
     private BookRepository bookRepository;
     @Autowired
-    private CustomAuthenticationProvider authenticateProvider;
+    private AuthProviderUser authenticateProvider;
+    @Autowired
+    private SecurityController securityController;
 
     @PostMapping
     @ApiResponses(value = {
@@ -162,12 +163,13 @@ public class UserController extends ApiController {
         @ApiResponse(code = 500, message = "Internal Server Error")
     })
     @ResponseStatus(HttpStatus.OK)
-    public User login(@RequestBody AuthProviderUser user, Model model) {
+    public User login(@RequestBody AuthProviderUser user) {
         UsernamePasswordAuthenticationToken authReq
             = new UsernamePasswordAuthenticationToken(user, user.getPassword());
         Authentication auth = authenticateProvider.authenticate(authReq);
         SecurityContext sc = SecurityContextHolder
             .getContext();
+        ((UsernamePasswordAuthenticationToken) auth).setDetails(user.getUsername());
         sc.setAuthentication(auth);
         return foundUser(user.getUsername(), userRepository);
     }
