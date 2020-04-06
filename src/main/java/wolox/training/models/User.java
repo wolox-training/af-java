@@ -86,7 +86,7 @@ public class User {
           .checkNotNull(password,
               String.format(ErrorConstants.NOT_NULL,"password"));
       Preconditions
-          .checkArgument(password.length() > 6, String.format(ErrorConstants.NOT_GRADER_THAN, "0"));
+          .checkArgument(password.length() >= 6, String.format(ErrorConstants.NOT_GRADER_THAN, "0"));
       this.password = passwordEncoder.encode(password);
     }
 
