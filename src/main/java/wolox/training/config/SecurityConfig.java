@@ -29,16 +29,15 @@ public class SecurityConfig extends
   @Override
   protected void configure(
       HttpSecurity http) throws Exception {
-    String userUrl = VariablesConstants.USER_URL.concat("/*");
-    String bookUrl = VariablesConstants.BOOK_URL;
-    String userLoginUrl = VariablesConstants.USER_URL.concat("/login");
     http.httpBasic().and()
         .authorizeRequests()
-        .antMatchers(HttpMethod.POST, userUrl, bookUrl).permitAll()
-        .antMatchers(HttpMethod.DELETE, userUrl, bookUrl).hasRole("ADMIN")
-        .antMatchers(HttpMethod.PUT, userUrl, bookUrl).hasRole("ADMIN")
-        .antMatchers(HttpMethod.GET, userLoginUrl).permitAll()
-        .antMatchers(userUrl).authenticated()
+        .antMatchers(HttpMethod.POST, "/api/users/**").permitAll()
+        .antMatchers(HttpMethod.GET, "/api/users/login" ).permitAll()
+        .antMatchers(HttpMethod.DELETE, "/api/users").hasRole("ADMIN")
+        .antMatchers(HttpMethod.PUT, "/api/users").hasRole("ADMIN")
+        .antMatchers(HttpMethod.POST, "/api/books/**").permitAll()
+        .antMatchers(HttpMethod.PUT, "/api/books").hasRole("ADMIN")
+        .antMatchers(HttpMethod.DELETE, "/api/books").hasRole("ADMIN")
         .anyRequest().authenticated()
     .and()
     .csrf()
