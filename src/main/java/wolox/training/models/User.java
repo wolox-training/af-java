@@ -74,7 +74,7 @@ public class User {
         this.setUsername(username);
         this.setName(name);
         this.setBirthday(birthday);
-        this.setPassword(passwordEncoder.encode(password));
+        this.setPassword(password);
     }
 
     public String getPassword(){
@@ -86,8 +86,8 @@ public class User {
           .checkNotNull(password,
               String.format(ErrorConstants.NOT_NULL,"password"));
       Preconditions
-          .checkArgument(password.length() > 6, String.format(ErrorConstants.NOT_GRADER_THAN, "0"));
-      this.password = password;
+          .checkArgument(password.length() >= 6, String.format(ErrorConstants.NOT_GRADER_THAN, "0"));
+      this.password = passwordEncoder.encode(password);
     }
 
     public long getId() {

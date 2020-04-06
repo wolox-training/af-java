@@ -22,38 +22,25 @@ public class SecurityConfig extends
   private CustomAuthenticationProvider authProvider;
 
   @Override
-  protected void configure(
-      AuthenticationManagerBuilder auth) throws Exception {
-    PasswordEncoder encoder =
-        PasswordEncoderFactories
-            .createDelegatingPasswordEncoder();
-    auth
-        .inMemoryAuthentication()
-        .withUser("user")
-        .password(encoder.encode("password"))
-        .roles("USER")
-        .and()
-        .withUser("admin")
-        .password(encoder.encode("admin"))
-        .roles("USER", "ADMIN");
+  protected void configure(final AuthenticationManagerBuilder auth) {
+    auth.authenticationProvider(authProvider);
   }
 
   @Override
   protected void configure(
       HttpSecurity http) throws Exception {
-        String user_url = VariablesConstants.USER_URL.concat("/*");
-        String book_url = VariablesConstants.BOOK_URL.concat("/*");
-        http.httpBasic().and().authorizeRequests()
-        .antMatchers(
-            HttpMethod.PUT, user_url, VariablesConstants.USER_URL.concat("/add_book/*"),book_url)
-        .authenticated()
-        .antMatchers(
-            HttpMethod.DELETE, user_url, book_url)
-        .authenticated()
-        .antMatchers(
-            HttpMethod.GET, user_url, book_url)
-        .authenticated()
-        .and()
-        .csrf().disable();
+    http.httpBasic().and()
+        .authorizeRequests()
+        .antMatchers(HttpMethod.POST, "/api/users/**").permitAll()
+        .antMatchers(HttpMethod.GET, "/api/users/login" ).permitAll()
+        .antMatchers(HttpMethod.DELETE, "/api/users").hasRole("ADMIN")
+        .antMatchers(HttpMethod.PUT, "/api/users").hasRole("ADMIN")
+        .antMatchers(HttpMethod.POST, "/api/books/**").permitAll()
+        .antMatchers(HttpMethod.PUT, "/api/books").hasRole("ADMIN")
+        .antMatchers(HttpMethod.DELETE, "/api/books").hasRole("ADMIN")
+        .anyRequest().authenticated()
+    .and()
+    .csrf()
+    .disable();
   }
 }
