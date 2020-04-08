@@ -99,12 +99,9 @@ public class BookController extends ApiController {
         @ApiResponse(code = 500, message = "Internal Server Error")
     })
     @ResponseStatus(HttpStatus.OK)
-    public List<Book> filter(@RequestParam(name="editor", required=false) String editor,
-                             @RequestParam(name="genre", required=false) String genre,
-                             @RequestParam(name="year", required=false) String year) {
-        if (editor == null) { editor = ""; }
-        if (genre == null) { genre = ""; }
-        if (year == null) { year = ""; }
+    public List<Book> filter(@RequestParam(name="editor", required=false, defaultValue = "") String editor,
+                             @RequestParam(name="genre", required=false, defaultValue = "") String genre,
+                             @RequestParam(name="year", required=false, defaultValue = "") String year) {
         return this.filterBooks(editor, genre, year, bookRepository);
     }
 }
