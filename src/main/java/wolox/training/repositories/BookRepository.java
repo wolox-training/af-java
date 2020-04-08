@@ -16,6 +16,9 @@ public interface BookRepository extends Repository<Book, Long> {
         nativeQuery = true)
     List<Book> findAllBooksWithFilter(String editor, String genre, String year);
 
+    @Query(value = "SELECT * FROM BOOKS B WHERE B.PUBLISHER = ?1 OR B.AUTHOR = ?2 OR B.GENRE = ?3 OR B.YEAR = ?4 OR B.IMAGE = ?5 OR B.TITLE = ?6 OR B.SUBTITLE = ?7 OR B.PAGE = ?8 OR B.ISBN = ?9",
+        nativeQuery = true)
+    List<Book> getAllBook(String editor, String author, String genre, String year, String image, String title, String subtitle, String page, String isbn);
     Book save(Book book);
     void delete(Book book);
 }

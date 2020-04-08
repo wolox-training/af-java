@@ -75,6 +75,17 @@ public abstract class ApiController {
         return list;
     }
 
+    @ApiOperation(value = "Given the filter for book, return the books or an exception", response = User.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    protected List<Book> getAllBooks(String editor, String author, String genre, String year, String image,
+                    String title, String subtitle, String page, String isbn, BookRepository bookRepository) {
+        List<Book> list = bookRepository.getAllBook(editor, author, genre, year, image, title, subtitle, page, isbn);
+        if (list.isEmpty()){
+            new BookHttpErrors("Book Not Found").bookNotFound();
+        }
+        return list;
+    }
+
     @ApiOperation(value = "Given the username of a user, return the user or an exception", response = User.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     protected User foundUser(String username, UserRepository userRepository){

@@ -104,4 +104,28 @@ public class BookController extends ApiController {
                              @RequestParam(name="year", required=false, defaultValue = "") String year) {
         return this.filterBooks(editor, genre, year, bookRepository);
     }
+
+    @GetMapping("/getall")
+    @ApiOperation(value = "Given a filter type and a param for filter, return the book asked", response = Book.class)
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Successfully founded book"),
+        @ApiResponse(code = 404, message = "Book not found"),
+        @ApiResponse(code = 405, message = "Method Not Allowed"),
+        @ApiResponse(code = 401, message = "Access unauthorized."),
+        @ApiResponse(code = 403, message = "Access unauthorized."),
+        @ApiResponse(code = 500, message = "Internal Server Error")
+    })
+    @ResponseStatus(HttpStatus.OK)
+    public List<Book> getAll(@RequestParam(name="editor", required=false, defaultValue = "") String editor,
+        @RequestParam(name="author", required=false, defaultValue = "") String author,
+        @RequestParam(name="genre", required=false, defaultValue = "") String genre,
+        @RequestParam(name="year", required=false, defaultValue = "") String year,
+        @RequestParam(name="image", required=false, defaultValue = "") String image,
+        @RequestParam(name="title", required=false, defaultValue = "") String title,
+        @RequestParam(name="subtitle", required=false, defaultValue = "") String subtitle,
+        @RequestParam(name="page", required=false, defaultValue = "") String page,
+        @RequestParam(name="isbn", required=false, defaultValue = "") String isbn
+        ) {
+        return this.getAllBooks(editor, author, genre, year, image, title, subtitle, page, isbn, bookRepository);
+    }
 }
