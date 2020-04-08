@@ -13,7 +13,7 @@ import wolox.training.repositories.UserRepository;
 
 @RestController
 @RequestMapping("/api/users")
-public class UserApiController extends ApiController {
+public class UserController extends ApiController {
 
     @Autowired
     private UserRepository userRepository;
@@ -90,7 +90,7 @@ public class UserApiController extends ApiController {
     @ResponseStatus(HttpStatus.OK)
     @ApiOperation(value = "Given the username of a user, return a book list of the user", response = Book.class)
     public List<Book> list_book(@PathVariable String username) {
-        return foundUser(username, userRepository).getListBooks();
+        return foundUser(username, userRepository).getBooks();
     }
 
     @PutMapping("/add_book")

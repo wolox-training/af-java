@@ -1,5 +1,7 @@
 package wolox.training.models;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.apache.commons.lang3.StringUtils;
 import com.google.common.base.Preconditions;
 import io.swagger.annotations.ApiModel;
@@ -19,6 +21,7 @@ import wolox.training.utils.ErrorConstants;
 @Entity
 @Table(name="books")
 @ApiModel(description = "Books from my API")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "BOOK_SEQ")
@@ -214,6 +217,46 @@ public class Book {
         this.setPublisher(publisher);
         this.setYear(year);
         this.setPage(page);
+    }
+
+    public void setAtributes(String genre, String author, String image, String title, String subtitle, String publisher, String year, Integer page, String isbn){
+        this.setIsbn(isbn);
+        this.update(genre, author, image, title, subtitle, publisher, year, page);
+    }
+
+    public boolean equal (Book book){
+        return
+            this.getAuthor()
+                .equals(
+                    book.getAuthor())
+                &&
+                this.getGenre()
+                    .equals(
+                        book.getGenre())
+                &&
+                this.getImage()
+                    .equals(
+                        book.getImage())
+                &&
+                this.getTitle()
+                    .equals(
+                        book.getTitle())
+                &&
+                this.getSubtitle()
+                    .equals(
+                        book.getSubtitle())
+                &&
+                this.getPublisher()
+                    .equals(
+                        book.getPublisher())
+                &&
+                this.getYear()
+                    .equals(
+                        book.getYear())
+                &&
+                this.getPage()
+                    .equals(
+                        book.getPage());
     }
 
 }

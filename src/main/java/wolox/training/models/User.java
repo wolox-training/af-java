@@ -43,7 +43,7 @@ public class User {
 
     @ApiModelProperty(notes = "This Field is generated automatically")
     @ManyToMany(cascade = {CascadeType.REFRESH, CascadeType.MERGE})
-    private List<Book> books = new ArrayList<>();;
+    private List<Book> books = new ArrayList<>();
 
     public User() {
     }
@@ -95,12 +95,8 @@ public class User {
         this.birthday = birthday;
     }
 
-    public List<Book> getListBooks() {
-        return (List<Book>) Collections.unmodifiableList(this.getBooks());
-    }
-
     public List<Book> getBooks() {
-        return books;
+        return (List<Book>) Collections.unmodifiableList(this.books);
     }
 
     public void setBooks(List<Book> books) {
@@ -109,7 +105,7 @@ public class User {
 
     public void addBookToUser(Book book){
         if (!this.getBooks().contains(book)) {
-            this.getBooks().add(book);
+            this.books.add(book);
         }else {
             new UserHttpErrors("The book already exists").BookAlreadyOwnedException();
         }
@@ -118,5 +114,10 @@ public class User {
     public void update(String name, LocalDate birthday){
         this.setName(name);
         this.setBirthday(birthday);
+    }
+
+    public void setAtributes(String name, String userName, LocalDate birthday){
+        this.update(name, birthday);
+        this.setUsername(userName);
     }
 }
