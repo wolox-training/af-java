@@ -4,8 +4,6 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.SpringBootConfiguration;
-import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -47,7 +45,8 @@ public class BookController extends ApiController {
     })
     @ResponseStatus(HttpStatus.CREATED)
     public Book create(@RequestBody Book book, Model model) {
-        Book newBook = new Book(book.getGenre(), book.getAuthor(), book.getImage(), book.getTitle(), book.getSubtitle(), book.getPublisher(), book.getYear(), book.getPage(), book.getIsbn());
+        Book newBook = new Book(book.getGenre(), book.getAuthor(), book.getImage(), book.getTitle(),
+            book.getSubtitle(), book.getPublisher(), book.getYear(), book.getPage(), book.getIsbn());
         bookRepository.save(newBook);
         return newBook;
     }

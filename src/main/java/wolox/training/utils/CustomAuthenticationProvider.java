@@ -16,8 +16,7 @@ import wolox.training.models.User;
 import wolox.training.repositories.UserRepository;
 
 @Component
-public class CustomAuthenticationProvider implements
-    AuthenticationProvider {
+public class CustomAuthenticationProvider implements AuthenticationProvider {
 
   @Autowired
   private PasswordEncoder passwordEncoder;
@@ -34,14 +33,11 @@ public class CustomAuthenticationProvider implements
     if (!passwordEncoder.matches(password,user.getPassword())) {
       new UserHttpErrors("User or Password incorrect").userNotLogued();
     }
-    return new UsernamePasswordAuthenticationToken(
-          username, password, new ArrayList<>());
+    return new UsernamePasswordAuthenticationToken(username, password, new ArrayList<>());
   }
 
   @Override
-  public Authentication authenticate(
-      Authentication authentication)
-      throws AuthenticationException {
+  public Authentication authenticate(Authentication authentication) throws AuthenticationException {
     return null;
   }
 
