@@ -82,7 +82,7 @@ public class User {
     }
 
     public void setPassword(String password){
-      this.password = passwordEncoder.encode(password);
+      this.password = new BCryptPasswordEncoder().encode(password);
     }
 
     public long getId() {

@@ -10,7 +10,9 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.HttpClientErrorException.NotFound;
 import wolox.training.errors.user.UserHttpErrors;
+import wolox.training.models.User;
 import wolox.training.repositories.UserRepository;
 
 @Component
@@ -18,7 +20,7 @@ public class CustomAuthenticationProvider implements
     AuthenticationProvider {
 
   @Autowired
-  private PasswordEncoder passwordEncoder = this.passwordEncoderProvider();;
+  private PasswordEncoder passwordEncoder;
 
   @Autowired
   private UserRepository userRepository;
@@ -26,14 +28,14 @@ public class CustomAuthenticationProvider implements
   public Authentication authenticate(Authentication authentication, String username)
       throws AuthenticationException {
 
-    String name = username;
     String password = authentication.getCredentials().toString();
+    User user = userRepository.findByUsername(username).orElseThrow(()->new UserHttpErrors("User not found"));
 
-    if (!passwordEncoder.matches(password, userRepository.findByUsername(name).get().getPassword())) {
+    if (!passwordEncoder.matches(password,user.getPassword())) {
       new UserHttpErrors("User or Password incorrect").userNotLogued();
     }
     return new UsernamePasswordAuthenticationToken(
-          name, password, new ArrayList<>());
+          username, password, new ArrayList<>());
   }
 
   @Override
@@ -46,10 +48,5 @@ public class CustomAuthenticationProvider implements
   @Override
   public boolean supports(Class<?> authentication) {
     return authentication.equals(UsernamePasswordAuthenticationToken.class);
-  }
-
-  @Bean
-  public PasswordEncoder passwordEncoderProvider() {
-    return new BCryptPasswordEncoder();
   }
 }
