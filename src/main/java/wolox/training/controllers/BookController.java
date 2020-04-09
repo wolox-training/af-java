@@ -48,7 +48,8 @@ public class BookController extends ApiController {
     })
     @ResponseStatus(HttpStatus.CREATED)
     public Book create(@RequestBody Book book, Model model) {
-        Book newBook = new Book(book.getGenre(), book.getAuthor(), book.getImage(), book.getTitle(), book.getSubtitle(), book.getPublisher(), book.getYear(), book.getPage(), book.getIsbn());
+        Book newBook = new Book(book.getGenre(), book.getAuthor(), book.getImage(), book.getTitle(),
+            book.getSubtitle(), book.getPublisher(), book.getYear(), book.getPage(), book.getIsbn());
         bookRepository.save(newBook);
         return newBook;
     }

@@ -21,8 +21,7 @@ import wolox.training.repositories.RoleRepository;
 import wolox.training.repositories.UserRepository;
 
 @Component
-public class SetupDataLoader implements
-    ApplicationListener<ContextRefreshedEvent> {
+public class SetupDataLoader implements ApplicationListener<ContextRefreshedEvent> {
 
   boolean alreadySetup = false;
 
@@ -91,9 +90,7 @@ public class SetupDataLoader implements
     Optional<Role> role = roleRepository.findByName(name);
     if (role.isEmpty()) {
       Role newRole = new Role(name);
-      privileges.forEach(
-          newRole::setPrivileges
-      );
+      privileges.forEach(newRole::setPrivileges);
       return roleRepository.save(newRole);
     } else {
       return role.get();
