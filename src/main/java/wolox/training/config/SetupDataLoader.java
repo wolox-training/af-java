@@ -47,7 +47,6 @@ public class SetupDataLoader implements
   @Override
   @Transactional
   public void onApplicationEvent(ContextRefreshedEvent event) {
-
     if (alreadySetup)
       return;
     Privilege readPrivilege

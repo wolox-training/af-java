@@ -165,7 +165,7 @@ public class UserController extends ApiController {
     public User login(@RequestBody AuthProviderUser user, Model model) {
         UsernamePasswordAuthenticationToken authReq
             = new UsernamePasswordAuthenticationToken(user, user.getPassword());
-        Authentication auth = authenticateProvider.authenticate(authReq);
+        Authentication auth = authenticateProvider.authenticate(authReq, user.getUsername());
         SecurityContext sc = SecurityContextHolder
             .getContext();
         sc.setAuthentication(auth);
