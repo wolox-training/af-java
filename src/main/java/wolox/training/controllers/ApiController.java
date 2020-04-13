@@ -6,7 +6,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import wolox.training.errors.book.BookHttpErrors;
 import wolox.training.errors.user.UserHttpErrors;
-import wolox.training.external.services.OpenLibraryService;
 import wolox.training.models.Book;
 import wolox.training.models.User;
 import wolox.training.repositories.BookRepository;

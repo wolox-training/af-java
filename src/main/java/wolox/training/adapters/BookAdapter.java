@@ -22,16 +22,14 @@ public class BookAdapter {
   }
 
   private String convertJsonNodeToString(JsonNode publishersNode){
-    AtomicReference<String> publishers = new AtomicReference<>(
-        "");
+    AtomicReference<String> publishers = new AtomicReference<>("");
     publishersNode.forEach(publisherNode -> publishers.set(publishers.get().concat(publisherNode.path("name").textValue().concat(", "))));
     return publishers.get().substring(0, publishers.get().length()-2);
   }
 
   private String[] convertJsonNodeToArrayString(JsonNode authorsNode){
     String[] list = new String[authorsNode.size()];
-    AtomicReference<Integer> count = new AtomicReference<>(
-        0);
+    AtomicReference<Integer> count = new AtomicReference<>(0);
     authorsNode.forEach(author -> {
       list[Integer.parseInt(count.toString())] = author.path("name").textValue();
       count.set(count.get()+ 1);
