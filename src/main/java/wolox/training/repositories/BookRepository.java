@@ -5,8 +5,6 @@ import org.springframework.data.repository.Repository;
 import wolox.training.models.Book;
 
 public interface BookRepository extends Repository<Book, Long> {
-    //Optional<Book> findByAuthor(String author);
-    //Optional<Book> findOneByAuthor(String author);
     Book save(Book book);
     Optional<Book> findByIsbn(String isbn);
     void delete(Book book);
