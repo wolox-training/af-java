@@ -15,13 +15,13 @@ public class BookDTO implements
 
   public BookDTO (){};
 
-  public BookDTO (String isbn, String title, String subtitle, String publishers, String publishDate, String numberPages, String[] authors){
+  public BookDTO (String isbn, String title, String subtitle, String publishers, String publishDate, Integer numberPages, String[] authors){
     this.setIsbn(isbn);
     this.setTitle(title);
     this.setSubtitle(subtitle);
     this.setPublishers(publishers);
     this.setPublishDate(publishDate);
-    this.setNumberPages(Integer.parseInt(numberPages));
+    this.setNumberPages(numberPages);
     this.setAuthors(authors);
   }
 
@@ -29,8 +29,7 @@ public class BookDTO implements
     return isbn;
   }
 
-  public void setIsbn(
-      String isbn) {
+  public void setIsbn(String isbn) {
     this.isbn = isbn;
   }
 
@@ -38,8 +37,7 @@ public class BookDTO implements
     return title;
   }
 
-  public void setTitle(
-      String title) {
+  public void setTitle(String title) {
     this.title = title;
   }
 
@@ -47,8 +45,7 @@ public class BookDTO implements
     return subtitle;
   }
 
-  public void setSubtitle(
-      String subtitle) {
+  public void setSubtitle(String subtitle) {
     this.subtitle = subtitle;
   }
 
@@ -65,8 +62,7 @@ public class BookDTO implements
     return publishDate;
   }
 
-  public void setPublishDate(
-      String publishDate) {
+  public void setPublishDate(String publishDate) {
     this.publishDate = publishDate;
   }
 
@@ -74,8 +70,7 @@ public class BookDTO implements
     return numberPages;
   }
 
-  public void setNumberPages(
-      Integer numberPages) {
+  public void setNumberPages(Integer numberPages) {
     this.numberPages = numberPages;
   }
 
@@ -83,8 +78,7 @@ public class BookDTO implements
     return authors;
   }
 
-  public void setAuthors(
-      String[] authors) {
+  public void setAuthors(String[] authors) {
     this.authors = authors;
   }
 

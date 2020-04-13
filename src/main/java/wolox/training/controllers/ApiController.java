@@ -33,13 +33,4 @@ public abstract class ApiController {
         return list.get();
     }
 
-    @ApiOperation(value = "Given the isbn of a book, search in DB or external service and return the book or an exception", response = User.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    protected Book foundBookForGet(String isbn, BookRepository bookRepository, OpenLibraryService openLibraryService){
-        Optional<Book> list = bookRepository.findByIsbn(isbn);
-        if (list.isEmpty()){
-            return openLibraryService.bookInfo(isbn);
-        }
-        return list.get();
-    }
 }

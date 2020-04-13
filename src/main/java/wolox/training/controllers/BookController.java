@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import wolox.training.external.services.OpenLibraryService;
 import wolox.training.models.Book;
 import wolox.training.repositories.BookRepository;
+import wolox.training.services.BookService;
 
 @RestController
 @Api
@@ -28,7 +29,11 @@ public class BookController extends ApiController {
     @Autowired
     private BookRepository bookRepository;
 
-    private OpenLibraryService openLibraryService = new OpenLibraryService();
+    @Autowired
+    private OpenLibraryService openLibraryService;
+
+    @Autowired
+    private BookService bookService;
 
     @GetMapping("/greeting")
     public String greeting(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
@@ -99,6 +104,6 @@ public class BookController extends ApiController {
     })
     @ResponseStatus(HttpStatus.OK)
     public Book read(@PathVariable String isbn) {
-        return foundBookForGet(isbn, bookRepository, openLibraryService);
+        return bookService.foundBookForGet(isbn, bookRepository, openLibraryService);
     }
 }
