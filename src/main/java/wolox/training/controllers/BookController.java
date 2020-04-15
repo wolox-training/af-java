@@ -110,11 +110,11 @@ public class BookController extends ApiController {
                        @RequestParam(name="param", required=true) String param) {
         switch (operation){
             case "editor":
-                return this.foundBookForPublisher(param, bookRepository);
+                return bookService.foundBookForPublisher(param, bookRepository);
             case "gender":
-                return this.foundBookForGenre(param, bookRepository);
+                return bookService.foundBookForGenre(param, bookRepository);
             case "year":
-                return this.foundBookForYear(param, bookRepository);
+                return bookService.foundBookForYear(param, bookRepository);
         }
         new BookHttpErrors("Book Not Found").bookNotFound();
         return null;
