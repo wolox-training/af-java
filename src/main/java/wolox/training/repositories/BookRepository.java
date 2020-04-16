@@ -16,13 +16,6 @@ public interface BookRepository extends Repository<Book, Long> {
     @Query("SELECT b FROM Book b "
         + "WHERE "
         + "(:publisher is null OR b.publisher = :publisher) AND "
-        + "(:genre is null OR b.genre = :genre) AND "
-        + "(:year is null OR b.year = :year)")
-    List<Book> findAllBooksWithFilter(@Param("publisher") String publisher, @Param("genre") String genre, @Param("year") String year);
-
-    @Query("SELECT b FROM Book b "
-        + "WHERE "
-        + "(:publisher is null OR b.publisher = :publisher) AND "
         + "(:genre is null OR b.author = :author) AND "
         + "(:genre is null OR b.genre = :genre) AND "
         + "(:genre is null OR b.year = :year) AND "

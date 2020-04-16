@@ -95,46 +95,6 @@ public class BookController extends ApiController {
         bookRepository.delete(foundBook(isbn, bookRepository));
     }
 
-    @GetMapping("/filter")
-    @ApiOperation(value = "Given a filter type and a param for filter, return the book asked", response = Book.class)
-    @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Successfully founded book"),
-        @ApiResponse(code = 404, message = "Book not found"),
-        @ApiResponse(code = 405, message = "Method Not Allowed"),
-        @ApiResponse(code = 401, message = "Access unauthorized."),
-        @ApiResponse(code = 403, message = "Access unauthorized."),
-        @ApiResponse(code = 500, message = "Internal Server Error")
-    })
-    @ResponseStatus(HttpStatus.OK)
-    public List<Book> filter(@RequestParam(name="operation", required=true) String operation,
-                       @RequestParam(name="param", required=true) String param) {
-        switch (operation){
-            case "editor":
-                return bookService.foundBookForPublisher(param, bookRepository);
-            case "gender":
-                return bookService.foundBookForGenre(param, bookRepository);
-            case "year":
-                return bookService.foundBookForYear(param, bookRepository);
-        }
-        new BookHttpErrors("Book Not Found").bookNotFound();
-        return null;
-    }
-
-    @GetMapping("/{isbn}")
-    @ApiOperation(value = "Given the isbn of the book, return the book asked", response = Book.class)
-    @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Successfully founded book"),
-        @ApiResponse(code = 404, message = "Book not found"),
-        @ApiResponse(code = 405, message = "Method Not Allowed"),
-        @ApiResponse(code = 401, message = "Access unauthorized."),
-        @ApiResponse(code = 403, message = "Access unauthorized."),
-        @ApiResponse(code = 500, message = "Internal Server Error")
-    })
-    @ResponseStatus(HttpStatus.OK)
-    public Book read(@PathVariable String isbn) {
-        return bookService.foundBookForGet(isbn, bookRepository, openLibraryService);
-    }
-
     @GetMapping("/getall")
     @ApiOperation(value = "Given a filter type and a param for filter, return the book asked", response = Book.class)
     @ApiResponses(value = {
@@ -155,7 +115,22 @@ public class BookController extends ApiController {
         @RequestParam(name="subtitle", required=false) String subtitle,
         @RequestParam(name="page", required=false) String page,
         @RequestParam(name="isbn", required=false) String isbn
-        ) {
+    ) {
         return bookService.getAllBooks(editor, author, genre, year, image, title, subtitle, page, isbn, bookRepository);
+    }
+
+    @GetMapping("/{isbn}")
+    @ApiOperation(value = "Given the isbn of the book, return the book asked", response = Book.class)
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Successfully founded book"),
+        @ApiResponse(code = 404, message = "Book not found"),
+        @ApiResponse(code = 405, message = "Method Not Allowed"),
+        @ApiResponse(code = 401, message = "Access unauthorized."),
+        @ApiResponse(code = 403, message = "Access unauthorized."),
+        @ApiResponse(code = 500, message = "Internal Server Error")
+    })
+    @ResponseStatus(HttpStatus.OK)
+    public Book read(@PathVariable String isbn) {
+        return bookService.foundBookForGet(isbn, bookRepository, openLibraryService);
     }
 }
