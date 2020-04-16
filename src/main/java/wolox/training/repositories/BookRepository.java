@@ -18,7 +18,7 @@ public interface BookRepository extends Repository<Book, Long> {
         + "(:publisher is null OR b.publisher = :publisher) AND "
         + "(:genre is null OR b.genre = :genre) AND "
         + "(:year is null OR b.year = :year)")
-    List<Book> findAllBooksWithFilter(@Param("publisher") String publisher, @Param("genre") String genre, @Param("year") String year);
+    List<Book> getAllBook(@Param("publisher") String publisher, @Param("genre") String genre, @Param("year") String year);
 
     Book save(Book book);
     void delete(Book book);
