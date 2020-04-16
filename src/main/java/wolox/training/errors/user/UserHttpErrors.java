@@ -16,4 +16,8 @@ public class UserHttpErrors extends RuntimeException {
     public void BookAlreadyOwnedException() {
         throw new ResponseStatusException(HttpStatus.NOT_FOUND, this.getMessage());
     }
+    public void userNotLogged() {
+        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, this.getMessage());
+    }
+
 }

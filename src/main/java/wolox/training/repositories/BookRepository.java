@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
+import org.springframework.data.repository.query.Param;
 import wolox.training.models.Book;
 
 public interface BookRepository extends Repository<Book, Long> {
@@ -12,13 +13,26 @@ public interface BookRepository extends Repository<Book, Long> {
     List<Book> findByGenre(String genre);
     List<Book> findByYear(String year);
 
-    @Query(value = "SELECT * FROM BOOKS B WHERE B.PUBLISHER = ?1 OR B.GENRE = ?2 OR B.YEAR = ?3",
-        nativeQuery = true)
-    List<Book> findAllBooksWithFilter(String editor, String genre, String year);
+    @Query("SELECT b FROM Book b "
+        + "WHERE "
+        + "(:publisher is null OR b.publisher = :publisher) AND "
+        + "(:genre is null OR b.genre = :genre) AND "
+        + "(:year is null OR b.year = :year)")
+    List<Book> findAllBooksWithFilter(@Param("publisher") String publisher, @Param("genre") String genre, @Param("year") String year);
 
-    @Query(value = "SELECT * FROM BOOKS B WHERE B.PUBLISHER = ?1 OR B.AUTHOR = ?2 OR B.GENRE = ?3 OR B.YEAR = ?4 OR B.IMAGE = ?5 OR B.TITLE = ?6 OR B.SUBTITLE = ?7 OR B.PAGE = ?8 OR B.ISBN = ?9",
-        nativeQuery = true)
-    List<Book> getAllBook(String editor, String author, String genre, String year, String image, String title, String subtitle, String page, String isbn);
+    @Query("SELECT b FROM Book b "
+        + "WHERE "
+        + "(:publisher is null OR b.publisher = :publisher) AND "
+        + "(:genre is null OR b.author = :author) AND "
+        + "(:genre is null OR b.genre = :genre) AND "
+        + "(:genre is null OR b.year = :year) AND "
+        + "(:genre is null OR b.image = :image) AND "
+        + "(:genre is null OR b.title = :title) AND "
+        + "(:genre is null OR b.subtitle = :subtitle) AND "
+        + "(:genre is null OR b.page = :page) AND "
+        + "(:year is null OR b.isbn = :isbn)")
+    List<Book> getAllBook(@Param("publisher") String publisher, @Param("author") String author, @Param("genre") String genre, @Param("year") String year,
+        @Param("image") String image, @Param("title") String title, @Param("subtitle") String subtitle, @Param("page") String page, @Param("isbn") String isbn);
     Book save(Book book);
     void delete(Book book);
 }

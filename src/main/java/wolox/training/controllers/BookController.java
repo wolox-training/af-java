@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,6 +22,7 @@ import wolox.training.errors.book.BookHttpErrors;
 import wolox.training.external.services.OpenLibraryService;
 import wolox.training.models.Book;
 import wolox.training.repositories.BookRepository;
+import wolox.training.services.BookService;
 
 @RestController
 @Api
@@ -30,7 +32,11 @@ public class BookController extends ApiController {
     @Autowired
     private BookRepository bookRepository;
 
-    private OpenLibraryService openLibraryService = new OpenLibraryService();
+    @Autowired
+    private OpenLibraryService openLibraryService;
+
+    @Autowired
+    private BookService bookService;
 
     @GetMapping("/greeting")
     public String greeting(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
@@ -50,7 +56,8 @@ public class BookController extends ApiController {
     })
     @ResponseStatus(HttpStatus.CREATED)
     public Book create(@RequestBody Book book, Model model) {
-        Book newBook = new Book(book.getGenre(), book.getAuthor(), book.getImage(), book.getTitle(), book.getSubtitle(), book.getPublisher(), book.getYear(), book.getPage(), book.getIsbn());
+        Book newBook = new Book(book.getGenre(), book.getAuthor(), book.getImage(), book.getTitle(),
+            book.getSubtitle(), book.getPublisher(), book.getYear(), book.getPage(), book.getIsbn());
         bookRepository.save(newBook);
         return newBook;
     }
@@ -99,10 +106,33 @@ public class BookController extends ApiController {
         @ApiResponse(code = 500, message = "Internal Server Error")
     })
     @ResponseStatus(HttpStatus.OK)
-    public List<Book> filter(@RequestParam(name="editor", required=false, defaultValue = "") String editor,
-                             @RequestParam(name="genre", required=false, defaultValue = "") String genre,
-                             @RequestParam(name="year", required=false, defaultValue = "") String year) {
-        return this.filterBooks(editor, genre, year, bookRepository);
+    public List<Book> filter(@RequestParam(name="operation", required=true) String operation,
+                       @RequestParam(name="param", required=true) String param) {
+        switch (operation){
+            case "editor":
+                return bookService.foundBookForPublisher(param, bookRepository);
+            case "gender":
+                return bookService.foundBookForGenre(param, bookRepository);
+            case "year":
+                return bookService.foundBookForYear(param, bookRepository);
+        }
+        new BookHttpErrors("Book Not Found").bookNotFound();
+        return null;
+    }
+
+    @GetMapping("/{isbn}")
+    @ApiOperation(value = "Given the isbn of the book, return the book asked", response = Book.class)
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Successfully founded book"),
+        @ApiResponse(code = 404, message = "Book not found"),
+        @ApiResponse(code = 405, message = "Method Not Allowed"),
+        @ApiResponse(code = 401, message = "Access unauthorized."),
+        @ApiResponse(code = 403, message = "Access unauthorized."),
+        @ApiResponse(code = 500, message = "Internal Server Error")
+    })
+    @ResponseStatus(HttpStatus.OK)
+    public Book read(@PathVariable String isbn) {
+        return bookService.foundBookForGet(isbn, bookRepository, openLibraryService);
     }
 
     @GetMapping("/getall")
@@ -116,16 +146,16 @@ public class BookController extends ApiController {
         @ApiResponse(code = 500, message = "Internal Server Error")
     })
     @ResponseStatus(HttpStatus.OK)
-    public List<Book> getAll(@RequestParam(name="editor", required=false, defaultValue = "") String editor,
-        @RequestParam(name="author", required=false, defaultValue = "") String author,
-        @RequestParam(name="genre", required=false, defaultValue = "") String genre,
-        @RequestParam(name="year", required=false, defaultValue = "") String year,
-        @RequestParam(name="image", required=false, defaultValue = "") String image,
-        @RequestParam(name="title", required=false, defaultValue = "") String title,
-        @RequestParam(name="subtitle", required=false, defaultValue = "") String subtitle,
-        @RequestParam(name="page", required=false, defaultValue = "") String page,
-        @RequestParam(name="isbn", required=false, defaultValue = "") String isbn
+    public List<Book> getAll(@RequestParam(name="editor", required=false) String editor,
+        @RequestParam(name="author", required=false) String author,
+        @RequestParam(name="genre", required=false) String genre,
+        @RequestParam(name="year", required=false) String year,
+        @RequestParam(name="image", required=false) String image,
+        @RequestParam(name="title", required=false) String title,
+        @RequestParam(name="subtitle", required=false) String subtitle,
+        @RequestParam(name="page", required=false) String page,
+        @RequestParam(name="isbn", required=false) String isbn
         ) {
-        return this.getAllBooks(editor, author, genre, year, image, title, subtitle, page, isbn, bookRepository);
+        return bookService.getAllBooks(editor, author, genre, year, image, title, subtitle, page, isbn, bookRepository);
     }
 }
