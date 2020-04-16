@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
+import org.springframework.data.repository.query.Param;
 import wolox.training.models.Book;
 
 public interface BookRepository extends Repository<Book, Long> {
@@ -12,9 +13,12 @@ public interface BookRepository extends Repository<Book, Long> {
     List<Book> findByGenre(String genre);
     List<Book> findByYear(String year);
 
-    @Query(value = "SELECT * FROM BOOKS B WHERE B.PUBLISHER = ?1 OR B.GENRE = ?2 OR B.YEAR = ?3",
-        nativeQuery = true)
-    List<Book> findAllBooksWithFilter(String editor, String genre, String year);
+    @Query("SELECT b FROM Book b "
+        + "WHERE "
+        + "(:publisher is null OR b.publisher = :publisher) AND "
+        + "(:genre is null OR b.genre = :genre) AND "
+        + "(:year is null OR b.year = :year)")
+    List<Book> findAllBooksWithFilter(@Param("publisher") String publisher, @Param("genre") String genre, @Param("year") String year);
 
     Book save(Book book);
     void delete(Book book);

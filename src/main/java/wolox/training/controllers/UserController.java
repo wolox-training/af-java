@@ -3,10 +3,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import io.swagger.models.Model;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,6 +16,7 @@ import wolox.training.models.Book;
 import wolox.training.models.User;
 import wolox.training.repositories.BookRepository;
 import wolox.training.repositories.UserRepository;
+import wolox.training.services.UserService;
 import wolox.training.utils.AuthProviderUser;
 
 @RestController
@@ -33,6 +32,8 @@ public class UserController extends ApiController {
     private AuthProviderUser authenticateProvider;
     @Autowired
     private SecurityController securityController;
+    @Autowired
+    private UserService userService;
 
     @PostMapping
     @ApiResponses(value = {
@@ -166,11 +167,9 @@ public class UserController extends ApiController {
     })
     @ResponseStatus(HttpStatus.OK)
     public User login(@RequestBody AuthProviderUser user) {
-        UsernamePasswordAuthenticationToken authReq
-            = new UsernamePasswordAuthenticationToken(user, user.getPassword());
+        UsernamePasswordAuthenticationToken authReq = new UsernamePasswordAuthenticationToken(user, user.getPassword());
         Authentication auth = authenticateProvider.authenticate(authReq);
-        SecurityContext sc = SecurityContextHolder
-            .getContext();
+        SecurityContext sc = SecurityContextHolder.getContext();
         ((UsernamePasswordAuthenticationToken) auth).setDetails(user.getUsername());
         sc.setAuthentication(auth);
         return foundUser(user.getUsername(), userRepository);
@@ -189,7 +188,7 @@ public class UserController extends ApiController {
     @ResponseStatus(HttpStatus.OK)
     public List<User> filterByDates(@RequestParam (name="startDate", required=true) String date1,
                                 @RequestParam (name="endDate", required=true) String date2) {
-        return this.foundUserByBetweenBirthday(
+        return userService.foundUserByBetweenBirthday(
             LocalDate.parse(date1), LocalDate.parse(date2), userRepository);
     }
 
@@ -205,6 +204,6 @@ public class UserController extends ApiController {
     })
     @ResponseStatus(HttpStatus.OK)
     public List<User> filterBySequence(@RequestParam (name="sequence", required=true) String sequence) {
-        return this.foundUserByContainsName(sequence, userRepository);
+        return userService.foundUserByContainsName(sequence, userRepository);
     }
 }
