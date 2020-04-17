@@ -152,7 +152,7 @@ public class UserController extends ApiController {
 
 
     @ApiOperation(value = "Given the username of a user, return the user logged", response = User.class)
-    @GetMapping("/login")
+    @GetMapping("/user")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Successfully login user"),
         @ApiResponse(code = 404, message = "User not found"),
@@ -162,7 +162,7 @@ public class UserController extends ApiController {
         @ApiResponse(code = 500, message = "Internal Server Error")
     })
     @ResponseStatus(HttpStatus.OK)
-    public User login(@RequestBody AuthProviderUser user, Model model) {
+    public User user(@RequestBody AuthProviderUser user, Model model) {
         UsernamePasswordAuthenticationToken authReq = new UsernamePasswordAuthenticationToken(user, user.getPassword());
         Authentication auth = authenticateProvider.authenticate(authReq, user.getUsername());
         SecurityContext sc = SecurityContextHolder.getContext();
