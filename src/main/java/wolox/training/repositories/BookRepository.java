@@ -16,16 +16,23 @@ public interface BookRepository extends Repository<Book, Long> {
     @Query("SELECT b FROM Book b "
         + "WHERE "
         + "(:publisher is null OR b.publisher = :publisher) AND "
-        + "(:genre is null OR b.author = :author) AND "
+        + "(:author is null OR b.author = :author) AND "
         + "(:genre is null OR b.genre = :genre) AND "
-        + "(:genre is null OR b.year = :year) AND "
-        + "(:genre is null OR b.image = :image) AND "
-        + "(:genre is null OR b.title = :title) AND "
-        + "(:genre is null OR b.subtitle = :subtitle) AND "
-        + "(:genre is null OR b.page = :page) AND "
-        + "(:year is null OR b.isbn = :isbn)")
-    List<Book> getAllBook(@Param("publisher") String publisher, @Param("author") String author, @Param("genre") String genre, @Param("year") String year,
-        @Param("image") String image, @Param("title") String title, @Param("subtitle") String subtitle, @Param("page") String page, @Param("isbn") String isbn);
+        + "(:year is null OR b.year = :year) AND "
+        + "(:image is null OR b.image = :image) AND "
+        + "(:title is null OR b.title = :title) AND "
+        + "(:subtitle is null OR b.subtitle = :subtitle) AND "
+        + "(:page is null OR b.page = :page) AND "
+        + "(:isbn is null OR b.isbn = :isbn)")
+    List<Book> getAllBook(@Param("publisher") String publisher,
+                            @Param("author") String author,
+                            @Param("genre") String genre,
+                            @Param("year") String year,
+                            @Param("image") String image,
+                            @Param("title") String title,
+                            @Param("subtitle") String subtitle,
+                            @Param("page") String page,
+                            @Param("isbn") String isbn);
     Book save(Book book);
     void delete(Book book);
 }
