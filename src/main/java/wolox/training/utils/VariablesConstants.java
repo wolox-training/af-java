@@ -8,4 +8,5 @@ public class VariablesConstants {
 
   //VARIABLES ON USERS TEST
   public static String BOOK_URL = "/api/books/";
+
 }

@@ -29,20 +29,21 @@ public class UserModelTest {
   private UserRepository userRepository;
   private User user;
 
+
   @BeforeEach
   public void init(){
     user = new User("Alex", "Alito", LocalDate
-        .of(1994, 10, 25));
+          .of(1994, 10, 25), "123456");
     entityManager.persist(user);
     entityManager.flush();
   }
 
   @Test
   public void whenFindByUsername_thenReturnUser() {
-    User userFound = userRepository.findByUsername(user.getUsername()).get();
-    assertThat(userFound.getUsername())
+    Optional<User> userFound = userRepository.findByUsername(user.getUsername());
+    assertThat(userFound.get().getUsername())
         .isEqualTo(user.getUsername());
-    assertThat(userFound.getName())
+    assertThat(userFound.get().getName())
         .isEqualTo(user.getName());
   }
 

@@ -50,7 +50,7 @@ public class UserControllerTest {
   public void setUp(){
     oneTestBook = new Book ("Terror", "Yo Soy El Autor", "Mi Imagen", "Mi Super Titulo", "Mi SubTitulo", "Publicador", "2020", 3, "999");
     oneTestUser = new User ("Alex", "Alito", LocalDate
-        .of(1994, 10, 25));
+        .of(1994, 10, 25), "123456");
   }
 
   @Test

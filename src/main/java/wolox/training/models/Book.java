@@ -195,7 +195,7 @@ public class Book {
             .checkNotNull(page, String.format(ErrorConstants.NOT_NULL,"page"));
         Preconditions
             .checkArgument(
-                page > 0, ErrorConstants.NOT_GRADER_THAN_ZERO);
+                page > 0, String.format(ErrorConstants.NOT_GRADER_THAN, "0"));
         this.page = page;
     }
 
@@ -226,37 +226,14 @@ public class Book {
 
     public boolean equal (Book book){
         return
-            this.getAuthor()
-                .equals(
-                    book.getAuthor())
-                &&
-                this.getGenre()
-                    .equals(
-                        book.getGenre())
-                &&
-                this.getImage()
-                    .equals(
-                        book.getImage())
-                &&
-                this.getTitle()
-                    .equals(
-                        book.getTitle())
-                &&
-                this.getSubtitle()
-                    .equals(
-                        book.getSubtitle())
-                &&
-                this.getPublisher()
-                    .equals(
-                        book.getPublisher())
-                &&
-                this.getYear()
-                    .equals(
-                        book.getYear())
-                &&
-                this.getPage()
-                    .equals(
-                        book.getPage());
+            this.getAuthor().equals(book.getAuthor()) &&
+            this.getGenre().equals(book.getGenre()) &&
+            this.getImage().equals(book.getImage()) &&
+            this.getTitle().equals(book.getTitle()) &&
+            this.getSubtitle().equals(book.getSubtitle()) &&
+            this.getPublisher().equals(book.getPublisher()) &&
+            this.getYear().equals(book.getYear()) &&
+            this.getPage().equals(book.getPage());
     }
 
 }

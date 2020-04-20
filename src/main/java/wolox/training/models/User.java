@@ -1,6 +1,8 @@
 package wolox.training.models;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.google.common.base.Preconditions;
 import io.swagger.annotations.ApiModelProperty;
@@ -14,6 +16,11 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import wolox.training.errors.user.UserHttpErrors;
 import java.time.LocalDate;
 import java.util.Collections;
@@ -45,13 +52,41 @@ public class User {
     @ManyToMany(cascade = {CascadeType.REFRESH, CascadeType.MERGE})
     private List<Book> books = new ArrayList<>();
 
+    @ApiModelProperty(notes = "password", required = true)
+    @Column(nullable = false)
+    @JsonProperty(access = Access.WRITE_ONLY)
+    private String password;
+
+    @ApiModelProperty(notes = "This Field is generated automatically, but this are the permissions of the user")
+    @ManyToMany(cascade = {CascadeType.REFRESH, CascadeType.MERGE})
+    private List<Role> roles = new ArrayList<>();
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+      return new BCryptPasswordEncoder();
+    }
+
     public User() {
     }
 
-    public User(String name, String username, LocalDate birthday) {
+    public User(String name, String username, LocalDate birthday, String password) {
         this.setUsername(username);
         this.setName(name);
         this.setBirthday(birthday);
+        this.setPassword(password);
+    }
+
+    public String getPassword(){
+      return this.password;
+    }
+
+    public void setPassword(String password){
+      Preconditions
+          .checkNotNull(password,
+              String.format(ErrorConstants.NOT_NULL,"password"));
+      Preconditions
+          .checkArgument(password.length() >= 6, String.format(ErrorConstants.NOT_GRADER_THAN, "0"));
+      this.password = new BCryptPasswordEncoder().encode(password);
     }
 
     public long getId() {
@@ -119,5 +154,13 @@ public class User {
     public void setAtributes(String name, String userName, LocalDate birthday){
         this.update(name, birthday);
         this.setUsername(userName);
+    }
+
+    public void setRoles(Role role){
+      this.roles.add(role);
+    }
+
+    public List<Role> getRoles(){
+      return this.roles;
     }
 }

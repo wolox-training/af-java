@@ -1,6 +1,8 @@
 package wolox.training.controllers;
 
 import io.swagger.annotations.ApiOperation;
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -21,7 +23,6 @@ public abstract class ApiController {
         }
         return list.get();
     }
-
 
     @ApiOperation(value = "Given the username of a user, return the user or an exception", response = User.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
