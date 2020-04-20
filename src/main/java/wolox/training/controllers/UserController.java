@@ -156,7 +156,7 @@ public class UserController extends ApiController {
 
 
     @ApiOperation(value = "Given the username of a user, return the user logged", response = User.class)
-    @GetMapping("/login")
+    @GetMapping("/user")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Successfully login user"),
         @ApiResponse(code = 404, message = "User not found"),

@@ -1,6 +1,8 @@
 package wolox.training.models;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.google.common.base.Preconditions;
 import io.swagger.annotations.ApiModelProperty;
@@ -52,6 +54,7 @@ public class User {
 
     @ApiModelProperty(notes = "password", required = true)
     @Column(nullable = false)
+    @JsonProperty(access = Access.WRITE_ONLY)
     private String password;
 
     @ApiModelProperty(notes = "This Field is generated automatically, but this are the permissions of the user")
