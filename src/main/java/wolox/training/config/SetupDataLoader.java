@@ -48,11 +48,8 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
   public void onApplicationEvent(ContextRefreshedEvent event) {
     if (alreadySetup)
       return;
-    Privilege readPrivilege
-        = createPrivilegeIfNotFound("READ_PRIVILEGE");
-    Privilege writePrivilege
-        = createPrivilegeIfNotFound("WRITE_PRIVILEGE");
-
+    Privilege readPrivilege = createPrivilegeIfNotFound("READ_PRIVILEGE");
+    Privilege writePrivilege = createPrivilegeIfNotFound("WRITE_PRIVILEGE");
     Collection<Privilege> adminPrivileges = new ArrayList<>();
     adminPrivileges.add(readPrivilege);
     adminPrivileges.add(writePrivilege);
@@ -60,11 +57,8 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
     userPrivileges.add(readPrivilege);
     createRoleIfNotFound("ROLE_ADMIN", adminPrivileges);
     createRoleIfNotFound("ROLE_USER", userPrivileges);
-
     Role adminRole = roleRepository.findByName("ROLE_ADMIN").get();
-    User user = new User("Test", "Test",
-        LocalDate
-            .of(1994, 10, 25), "123456");
+    User user = new User("Test", "Test", LocalDate.of(1994, 10, 25), "123456");
     user.setRoles(adminRole);
     userRepository.save(user);
 
@@ -73,7 +67,6 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
 
   @Transactional
   private Privilege createPrivilegeIfNotFound(String name) {
-
     Optional<Privilege> privilege = privilegeRepository.findByName(name);
     if (privilege.isEmpty()) {
       Privilege newPrivilege = new Privilege(name);
@@ -84,9 +77,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
   }
 
   @Transactional
-  private Role createRoleIfNotFound(
-      String name, Collection<Privilege> privileges) {
-
+  private Role createRoleIfNotFound(String name, Collection<Privilege> privileges) {
     Optional<Role> role = roleRepository.findByName(name);
     if (role.isEmpty()) {
       Role newRole = new Role(name);

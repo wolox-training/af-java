@@ -2,15 +2,12 @@ package wolox.training.utils;
 
 import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.HttpClientErrorException.NotFound;
 import wolox.training.errors.user.UserHttpErrors;
 import wolox.training.models.User;
 import wolox.training.repositories.UserRepository;
@@ -31,7 +28,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     User user = userRepository.findByUsername(username).orElseThrow(()->new UserHttpErrors("User not found"));
 
     if (!passwordEncoder.matches(password,user.getPassword())) {
-      new UserHttpErrors("User or Password incorrect").userNotLogued();
+      new UserHttpErrors("User or Password incorrect").userNotLogged();
     }
     return new UsernamePasswordAuthenticationToken(username, password, new ArrayList<>());
   }

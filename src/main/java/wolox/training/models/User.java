@@ -61,10 +61,6 @@ public class User {
     @ManyToMany(cascade = {CascadeType.REFRESH, CascadeType.MERGE})
     private List<Role> roles = new ArrayList<>();
 
-    @Autowired
-    @Transient
-    private PasswordEncoder passwordEncoder = this.passwordEncoder();
-
     @Bean
     public PasswordEncoder passwordEncoder() {
       return new BCryptPasswordEncoder();
@@ -85,6 +81,11 @@ public class User {
     }
 
     public void setPassword(String password){
+      Preconditions
+          .checkNotNull(password,
+              String.format(ErrorConstants.NOT_NULL,"password"));
+      Preconditions
+          .checkArgument(password.length() >= 6, String.format(ErrorConstants.NOT_GRADER_THAN, "0"));
       this.password = new BCryptPasswordEncoder().encode(password);
     }
 
