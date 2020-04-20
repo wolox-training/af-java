@@ -12,4 +12,8 @@ public class BookHttpErrors extends Exception {
     public void bookNotFound () {
         throw new ResponseStatusException(HttpStatus.NOT_FOUND, this.getMessage());
     }
+
+    public void bookOrderFail() {
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, this.getMessage());
+    }
 }

@@ -6,6 +6,8 @@ import io.swagger.annotations.ApiResponses;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -106,7 +108,7 @@ public class BookController extends ApiController {
         @ApiResponse(code = 500, message = "Internal Server Error")
     })
     @ResponseStatus(HttpStatus.OK)
-    public List<Book> getAll(@RequestParam(name="editor", required=false) String editor,
+    public Page<Book> getAll(@RequestParam(name="editor", required=false) String editor,
         @RequestParam(name="author", required=false) String author,
         @RequestParam(name="genre", required=false) String genre,
         @RequestParam(name="year", required=false) String year,
@@ -114,9 +116,13 @@ public class BookController extends ApiController {
         @RequestParam(name="title", required=false) String title,
         @RequestParam(name="subtitle", required=false) String subtitle,
         @RequestParam(name="page", required=false) String page,
-        @RequestParam(name="isbn", required=false) String isbn
+        @RequestParam(name="isbn", required=false) String isbn,
+        @RequestParam(name="orderByField", required=false, defaultValue = "isbn") String orderByField,
+        @RequestParam(name="order", required=false, defaultValue = "ASC") String orderBy,
+        @RequestParam(name="offset", required=false, defaultValue = "0") String offset,
+        @RequestParam(name="limit") String limit
     ) {
-        return bookService.getAllBooks(editor, author, genre, year, image, title, subtitle, page, isbn, bookRepository);
+        return bookService.getAllBooks(editor, author, genre, year, image, title, subtitle, page, isbn, orderByField, orderBy,offset, limit,bookRepository);
     }
 
     @GetMapping("/{isbn}")
