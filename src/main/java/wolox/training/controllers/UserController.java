@@ -3,7 +3,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import io.swagger.models.Model;
+import java.time.LocalDate;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +16,7 @@ import wolox.training.models.Book;
 import wolox.training.models.User;
 import wolox.training.repositories.BookRepository;
 import wolox.training.repositories.UserRepository;
+import wolox.training.services.UserService;
 import wolox.training.utils.AuthProviderUser;
 
 @RestController
@@ -31,6 +32,8 @@ public class UserController extends ApiController {
     private AuthProviderUser authenticateProvider;
     @Autowired
     private SecurityController securityController;
+    @Autowired
+    private UserService userService;
 
     @PostMapping
     @ApiResponses(value = {
@@ -170,5 +173,37 @@ public class UserController extends ApiController {
         ((UsernamePasswordAuthenticationToken) auth).setDetails(user.getUsername());
         sc.setAuthentication(auth);
         return foundUser(user.getUsername(), userRepository);
+    }
+
+    @ApiOperation(value = "Given two dates, filter users by birthday and return a list to user", response = User.class)
+    @GetMapping("/filterByDates")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Successfully login user"),
+        @ApiResponse(code = 404, message = "User not found"),
+        @ApiResponse(code = 405, message = "Method Not Allowed"),
+        @ApiResponse(code = 401, message = "Access unauthorized."),
+        @ApiResponse(code = 403, message = "Access unauthorized."),
+        @ApiResponse(code = 500, message = "Internal Server Error")
+    })
+    @ResponseStatus(HttpStatus.OK)
+    public List<User> filterByDates(@RequestParam (name="startDate", required=true) String date1,
+                                @RequestParam (name="endDate", required=true) String date2) {
+        return userService.foundUserByBetweenBirthday(
+            LocalDate.parse(date1), LocalDate.parse(date2), userRepository);
+    }
+
+    @ApiOperation(value = "Given a sequence of chars, filter users by name and return a list to user", response = User.class)
+    @GetMapping("/filterBySequence")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Successfully login user"),
+        @ApiResponse(code = 404, message = "User not found"),
+        @ApiResponse(code = 405, message = "Method Not Allowed"),
+        @ApiResponse(code = 401, message = "Access unauthorized."),
+        @ApiResponse(code = 403, message = "Access unauthorized."),
+        @ApiResponse(code = 500, message = "Internal Server Error")
+    })
+    @ResponseStatus(HttpStatus.OK)
+    public List<User> filterBySequence(@RequestParam (name="sequence", required=true) String sequence) {
+        return userService.foundUserByContainsName(sequence, userRepository);
     }
 }

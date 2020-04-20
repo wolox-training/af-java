@@ -3,6 +3,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import wolox.training.errors.book.BookHttpErrors;
 import wolox.training.external.services.OpenLibraryService;
 import wolox.training.models.Book;
 import wolox.training.repositories.BookRepository;
@@ -90,6 +93,24 @@ public class BookController extends ApiController {
     @ResponseStatus(HttpStatus.OK)
     public void delete(@RequestParam(name="isbn", required=true) String isbn) {
         bookRepository.delete(foundBook(isbn, bookRepository));
+    }
+
+    @GetMapping("/getall")
+    @ApiOperation(value = "Given a filter type and a param for filter, return the book asked", response = Book.class)
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Successfully founded book"),
+        @ApiResponse(code = 404, message = "Book not found"),
+        @ApiResponse(code = 405, message = "Method Not Allowed"),
+        @ApiResponse(code = 401, message = "Access unauthorized."),
+        @ApiResponse(code = 403, message = "Access unauthorized."),
+        @ApiResponse(code = 500, message = "Internal Server Error")
+    })
+    @ResponseStatus(HttpStatus.OK)
+    public List<Book> getAll(@RequestParam(name="editor", required=false) String editor,
+        @RequestParam(name="genre", required=false) String genre,
+        @RequestParam(name="year", required=false) String year
+    ) {
+        return bookService.getAllBooks(editor, genre, year, bookRepository);
     }
 
     @GetMapping("/{isbn}")
