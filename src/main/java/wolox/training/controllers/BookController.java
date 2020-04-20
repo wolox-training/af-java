@@ -107,10 +107,16 @@ public class BookController extends ApiController {
     })
     @ResponseStatus(HttpStatus.OK)
     public List<Book> getAll(@RequestParam(name="editor", required=false) String editor,
+        @RequestParam(name="author", required=false) String author,
         @RequestParam(name="genre", required=false) String genre,
-        @RequestParam(name="year", required=false) String year
+        @RequestParam(name="year", required=false) String year,
+        @RequestParam(name="image", required=false) String image,
+        @RequestParam(name="title", required=false) String title,
+        @RequestParam(name="subtitle", required=false) String subtitle,
+        @RequestParam(name="page", required=false) String page,
+        @RequestParam(name="isbn", required=false) String isbn
     ) {
-        return bookService.getAllBooks(editor, genre, year, bookRepository);
+        return bookService.getAllBooks(editor, author, genre, year, image, title, subtitle, page, isbn, bookRepository);
     }
 
     @GetMapping("/{isbn}")

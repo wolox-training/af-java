@@ -25,13 +25,14 @@ public class BookService {
       return list.get();
     }
 
-  @ApiOperation(value = "Given the filter for book, return the books or an exception", response = User.class)
-  @ResponseStatus(HttpStatus.NOT_FOUND)
-  public List<Book> getAllBooks(String editor, String genre, String year, BookRepository bookRepository) {
-    List<Book> list = bookRepository.getAllBook(editor, genre, year);
-    if (list.isEmpty()){
-      new BookHttpErrors("Book Not Found").bookNotFound();
+    @ApiOperation(value = "Given the filter for book, return the books or an exception", response = User.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public List<Book> getAllBooks(String editor, String author, String genre, String year, String image,
+        String title, String subtitle, String page, String isbn, BookRepository bookRepository) {
+      List<Book> list = bookRepository.getAllBook(editor, author, genre, year, image, title, subtitle, page, isbn);
+      if (list.isEmpty()){
+        new BookHttpErrors("Book Not Found").bookNotFound();
+      }
+      return list;
     }
-    return list;
-  }
 }

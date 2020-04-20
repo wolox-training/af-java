@@ -23,7 +23,7 @@ public abstract class ApiController {
         }
         return list.get();
     }
-
+    
     @ApiOperation(value = "Given the username of a user, return the user or an exception", response = User.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     protected User foundUser(String username, UserRepository userRepository){
