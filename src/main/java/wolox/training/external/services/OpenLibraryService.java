@@ -25,7 +25,7 @@ public class OpenLibraryService {
   @Autowired
   private BookAdapter bookAdapter;
 
-  @Value("https://openlibrary.org/api/books?bibkeys=ISBN:")
+  @Value("${openLibrary.baseUrl}")
   private String urlWithoutIsbn;
 
   @Value("&format=json&jscmd=data")
