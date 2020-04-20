@@ -95,7 +95,7 @@ public class BookController extends ApiController {
         bookRepository.delete(foundBook(isbn, bookRepository));
     }
 
-    @GetMapping("/filter")
+    @GetMapping("/getall")
     @ApiOperation(value = "Given a filter type and a param for filter, return the book asked", response = Book.class)
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Successfully founded book"),
@@ -106,18 +106,11 @@ public class BookController extends ApiController {
         @ApiResponse(code = 500, message = "Internal Server Error")
     })
     @ResponseStatus(HttpStatus.OK)
-    public List<Book> filter(@RequestParam(name="operation", required=true) String operation,
-                       @RequestParam(name="param", required=true) String param) {
-        switch (operation){
-            case "editor":
-                return bookService.foundBookForPublisher(param, bookRepository);
-            case "gender":
-                return bookService.foundBookForGenre(param, bookRepository);
-            case "year":
-                return bookService.foundBookForYear(param, bookRepository);
-        }
-        new BookHttpErrors("Book Not Found").bookNotFound();
-        return null;
+    public List<Book> getAll(@RequestParam(name="editor", required=false) String editor,
+        @RequestParam(name="genre", required=false) String genre,
+        @RequestParam(name="year", required=false) String year
+    ) {
+        return bookService.getAllBooks(editor, genre, year, bookRepository);
     }
 
     @GetMapping("/{isbn}")

@@ -25,33 +25,13 @@ public class BookService {
       return list.get();
     }
 
-    @ApiOperation(value = "Given the editor of the book, return the books or an exception", response = User.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public List<Book> foundBookForPublisher(String editor, BookRepository bookRepository){
-      List<Book> list = bookRepository.findByPublisher(editor);
-      if (list.isEmpty()){
-        new BookHttpErrors("Book Not Found").bookNotFound();
-      }
-      return list;
+  @ApiOperation(value = "Given the filter for book, return the books or an exception", response = User.class)
+  @ResponseStatus(HttpStatus.NOT_FOUND)
+  public List<Book> getAllBooks(String editor, String genre, String year, BookRepository bookRepository) {
+    List<Book> list = bookRepository.getAllBook(editor, genre, year);
+    if (list.isEmpty()){
+      new BookHttpErrors("Book Not Found").bookNotFound();
     }
-
-    @ApiOperation(value = "Given the year of the book, return the books or an exception", response = User.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public List<Book> foundBookForYear(String year, BookRepository bookRepository){
-      List<Book> list = bookRepository.findByYear(year);
-      if (list.isEmpty()){
-        new BookHttpErrors("Book Not Found").bookNotFound();
-      }
-      return list;
-    }
-
-    @ApiOperation(value = "Given the genre of the book, return the books or an exception", response = User.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public List<Book> foundBookForGenre(String editor, BookRepository bookRepository){
-      List<Book> list = bookRepository.findByGenre(editor);
-      if (list.isEmpty()){
-        new BookHttpErrors("Book Not Found").bookNotFound();
-      }
-      return list;
-    }
+    return list;
+  }
 }
