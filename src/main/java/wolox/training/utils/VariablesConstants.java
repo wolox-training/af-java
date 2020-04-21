@@ -9,4 +9,7 @@ public class VariablesConstants {
   //VARIABLES ON USERS TEST
   public static String BOOK_URL = "/api/books/";
 
+  public static String ASC = "ASC";
+  public static String DESC = "DES";
+
 }

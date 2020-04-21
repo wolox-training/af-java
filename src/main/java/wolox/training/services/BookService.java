@@ -15,6 +15,7 @@ import wolox.training.external.services.OpenLibraryService;
 import wolox.training.models.Book;
 import wolox.training.models.User;
 import wolox.training.repositories.BookRepository;
+import wolox.training.utils.VariablesConstants;
 
 @Service
 public class BookService {
@@ -45,14 +46,12 @@ public class BookService {
   private Page<Book> executeQuery(String editor, String author, String genre, String year, String image,
       String title, String subtitle, String page, String isbn, String orderByField, String orderBy,
       String offset, String limit,BookRepository bookRepository) {
-    if (orderBy.equals("ASC")) {
+    if (orderBy.equals(VariablesConstants.ASC)) {
       return bookRepository.getAllBook(editor, author, genre, year, image, title, subtitle, page, isbn, PageRequest
           .of(Integer.parseInt(offset), Integer.parseInt(limit), Sort.by(Direction.ASC, orderByField)));
-    } else {
-      if (!orderBy.equals("DES")) {
+    } else if (!orderBy.equals(VariablesConstants.DESC)) {
         new BookHttpErrors("type of wrong ordering. This should be: asc or desc").bookOrderFail();
       }
-    }
     return bookRepository.getAllBook(editor, author, genre, year, image, title, subtitle, page, isbn, PageRequest
         .of(Integer.parseInt(offset), Integer.parseInt(limit), Sort.by(Direction.DESC, orderByField)));
   }
