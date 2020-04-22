@@ -10,6 +10,6 @@ public class VariablesConstants {
   public static String BOOK_URL = "/api/books/";
 
   public static String ASC = "ASC";
-  public static String DESC = "DES";
+  public static String DESC = "DESC";
 
 }
