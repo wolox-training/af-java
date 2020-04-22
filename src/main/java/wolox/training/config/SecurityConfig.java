@@ -36,7 +36,7 @@ public class SecurityConfig extends
     http.httpBasic().and()
         .authorizeRequests()
         .antMatchers(HttpMethod.POST, "/api/users/**").permitAll()
-        .antMatchers(HttpMethod.GET, "/api/users/login" ).permitAll()
+        .antMatchers(HttpMethod.GET, "/api/users/user" ).permitAll()
         .antMatchers(HttpMethod.DELETE, "/api/users").hasRole("ADMIN")
         .antMatchers(HttpMethod.PUT, "/api/users").hasRole("ADMIN")
         .antMatchers(HttpMethod.POST, "/api/books/**").permitAll()

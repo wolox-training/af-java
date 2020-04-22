@@ -5,6 +5,7 @@ import java.security.Principal;
 import javax.persistence.Transient;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
@@ -14,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import wolox.training.errors.book.BookHttpErrors;
 import wolox.training.errors.user.UserHttpErrors;
 import wolox.training.models.User;
 import wolox.training.repositories.UserRepository;
@@ -27,15 +29,11 @@ public class SecurityController extends ApiController {
   private UserRepository userRepository;
 
   @GetMapping
-  public User currentUserName(
-      Principal principal) {
-    Authentication authentication = SecurityContextHolder
-         .getContext()
-        .getAuthentication();
+  public User currentUserName(Principal principal) throws UserHttpErrors {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     if (authentication instanceof AnonymousAuthenticationToken) {
-    new UserHttpErrors("User not logged").userNotFound();
+      throw new UserHttpErrors("User not logged", HttpStatus.NOT_FOUND);
     }
-    User user = foundUser(authentication.getDetails().toString(), userRepository);
-    return user;
+    return foundUser(authentication.getDetails().toString(), userRepository);
   }
 }

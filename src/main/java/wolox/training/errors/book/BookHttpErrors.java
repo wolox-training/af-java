@@ -5,11 +5,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 public class BookHttpErrors extends Exception {
 
-    public BookHttpErrors(String message) {
+    public BookHttpErrors(String message, HttpStatus error) {
         super(message);
-    }
-
-    public void bookNotFound () {
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND, this.getMessage());
+        throw new ResponseStatusException(error, this.getMessage());
     }
 }
