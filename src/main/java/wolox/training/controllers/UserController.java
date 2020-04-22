@@ -12,6 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import wolox.training.errors.book.BookHttpErrors;
 import wolox.training.models.Book;
 import wolox.training.models.User;
 import wolox.training.repositories.BookRepository;
@@ -129,7 +130,7 @@ public class UserController extends ApiController {
     })
     @ResponseStatus(HttpStatus.OK)
     public User add_book(@RequestParam(name="username", required=true) String username,
-                         @RequestParam(name="isbn", required=true) String isbn) {
+                         @RequestParam(name="isbn", required=true) String isbn) throws BookHttpErrors {
         User userFounded = foundUser(username, userRepository);
         userFounded.addBookToUser(foundBook(isbn, bookRepository));
         userRepository.save(userFounded);
@@ -166,7 +167,7 @@ public class UserController extends ApiController {
         @ApiResponse(code = 500, message = "Internal Server Error")
     })
     @ResponseStatus(HttpStatus.OK)
-    public User login(@RequestBody AuthProviderUser user) {
+    public User user(@RequestBody AuthProviderUser user) {
         UsernamePasswordAuthenticationToken authReq = new UsernamePasswordAuthenticationToken(user, user.getPassword());
         Authentication auth = authenticateProvider.authenticate(authReq);
         SecurityContext sc = SecurityContextHolder.getContext();

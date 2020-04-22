@@ -19,6 +19,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import wolox.training.errors.user.UserHttpErrors;
@@ -142,7 +143,7 @@ public class User {
         if (!this.getBooks().contains(book)) {
             this.books.add(book);
         }else {
-            new UserHttpErrors("The book already exists").BookAlreadyOwnedException();
+            throw new UserHttpErrors("The book already exists", HttpStatus.CONFLICT);
         }
     }
 

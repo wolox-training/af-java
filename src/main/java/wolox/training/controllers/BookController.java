@@ -7,7 +7,10 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -25,6 +28,7 @@ import wolox.training.external.services.OpenLibraryService;
 import wolox.training.models.Book;
 import wolox.training.repositories.BookRepository;
 import wolox.training.services.BookService;
+import wolox.training.utils.VariablesConstants;
 
 @RestController
 @Api
@@ -75,7 +79,7 @@ public class BookController extends ApiController {
         @ApiResponse(code = 500, message = "Internal Server Error")
     })
     @ResponseStatus(HttpStatus.OK)
-    public Book update(@RequestBody Book book) {
+    public Book update(@RequestBody Book book) throws BookHttpErrors {
         Book bookFounded = foundBook(book.getIsbn(), bookRepository);
         bookFounded.update(book.getGenre(), book.getAuthor(), book.getImage(), book.getTitle(),
             book.getSubtitle(), book.getPublisher(), book.getYear(), book.getPage());
@@ -93,7 +97,7 @@ public class BookController extends ApiController {
         @ApiResponse(code = 500, message = "Internal Server Error")
     })
     @ResponseStatus(HttpStatus.OK)
-    public void delete(@RequestParam(name="isbn", required=true) String isbn) {
+    public void delete(@RequestParam(name="isbn", required=true) String isbn) throws BookHttpErrors {
         bookRepository.delete(foundBook(isbn, bookRepository));
     }
 
@@ -118,11 +122,18 @@ public class BookController extends ApiController {
         @RequestParam(name="page", required=false) String page,
         @RequestParam(name="isbn", required=false) String isbn,
         @RequestParam(name="orderByField", required=false, defaultValue = "isbn") String orderByField,
-        @RequestParam(name="order", required=false, defaultValue = "ASC") String orderBy,
+        @RequestParam(name="orderBy", required=false, defaultValue = "ASC") String orderBy,
         @RequestParam(name="offset", required=false, defaultValue = "0") String offset,
         @RequestParam(name="limit") String limit
-    ) {
-        return bookService.getAllBooks(editor, author, genre, year, image, title, subtitle, page, isbn, orderByField, orderBy,offset, limit,bookRepository);
+    ) throws BookHttpErrors {
+        Pageable pageable = null;
+        if (!orderBy.equals(VariablesConstants.ASC) || !orderBy.equals(VariablesConstants.DESC)) {
+            throw new BookHttpErrors("Type of wrong ordering. This should be: asc or desc", HttpStatus.BAD_REQUEST);
+        } else {
+            pageable = PageRequest.of(Integer.parseInt(offset), Integer.parseInt(limit),
+                orderBy.equals(VariablesConstants.ASC) ? Sort.by(Direction.ASC,orderByField) : Sort.by(Direction.DESC, orderByField));
+        }
+        return bookService.getAllBooks(editor, author, genre, year, image, title, subtitle, page, isbn, pageable, bookRepository);
     }
 
     @GetMapping("/{isbn}")

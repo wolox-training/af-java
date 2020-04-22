@@ -19,7 +19,7 @@ public class UserService {
         LocalDate date1, LocalDate date2, UserRepository userRepository){
       List<User> list = userRepository.findByBirthdayBetween(date1, date2);
       if (list.isEmpty()){
-        new UserHttpErrors("Users not found").userNotFound();
+        new UserHttpErrors("Users not found", HttpStatus.NOT_FOUND);
       }
       return list;
     }
@@ -29,7 +29,7 @@ public class UserService {
     public List<User> foundUserByContainsName(String sequence, UserRepository userRepository){
       List<User> list = userRepository.findByNameContaining(sequence);
       if (list.isEmpty()){
-        new UserHttpErrors("Users not found").userNotFound();
+        new UserHttpErrors("Users not found", HttpStatus.NOT_FOUND);
       }
       return list;
     }
